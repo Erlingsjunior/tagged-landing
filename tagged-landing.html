@@ -1,0 +1,3774 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tagged — A Primeira RealTech do Mundo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #050505;
+    --deep: #0a0a0f;
+    --surface: #0f0f18;
+    --border: rgba(255,255,255,0.07);
+    --border-strong: rgba(255,255,255,0.14);
+    --text: #e8e8e0;
+    --text-dim: rgba(232,232,224,0.5);
+    --text-faint: rgba(232,232,224,0.25);
+    --accent: #ff4c1f;
+    --accent-glow: rgba(255,76,31,0.15);
+    --accent2: #ff8c42;
+    --gold: #d4a853;
+    --gold-dim: rgba(212,168,83,0.12);
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  .cursor {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transition: transform 0.15s ease, opacity 0.15s;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255,76,31,0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.35s ease, width 0.2s, height 0.2s, opacity 0.15s;
+    transform: translate(-50%, -50%);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s, background 0.4s, backdrop-filter 0.4s;
+  }
+  nav.scrolled {
+    border-color: var(--border);
+    background: rgba(5,5,5,0.85);
+    backdrop-filter: blur(20px);
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.15em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+    align-items: center;
+  }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: var(--accent) !important;
+    color: var(--white) !important;
+    padding: 10px 24px;
+    border-radius: 2px;
+    font-weight: 700 !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: #e03800 !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 120px 48px 80px;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 60%, rgba(255,76,31,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 20%, rgba(212,168,83,0.04) 0%, transparent 60%);
+  }
+
+  /* Animated grid */
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .hero-overline {
+    font-family: 'Space Mono', monospace;
+    font-size: 15px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .hero-overline::before, .hero-overline::after {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(52px, 8vw, 120px);
+    line-height: 0.95;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.4s;
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-title .line-dim {
+    color: var(--text-dim);
+  }
+
+  .hero-subtitle {
+    margin-top: 32px;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    text-align: center;
+    color: var(--text-dim);
+    max-width: 580px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.7s;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-actions {
+    margin-top: 56px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1s;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 16px 40px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary:hover {
+    background: #e03800;
+    box-shadow: 0 0 40px rgba(255,76,31,0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-dim);
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    padding: 16px 32px;
+    border: 1px solid var(--border-strong);
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .btn-ghost:hover {
+    color: var(--text);
+    border-color: rgba(255,255,255,0.25);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 48px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 1.5s;
+  }
+  .hero-scroll span {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .hero-scroll-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  /* ── PHILOSOPHY QUOTE STRIP ── */
+  .quote-strip {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 48px;
+    overflow: hidden;
+    position: relative;
+  }
+  .quote-strip-inner {
+    display: flex;
+    gap: 80px;
+    animation: marquee 30s linear infinite;
+    white-space: nowrap;
+  }
+  .quote-strip-item {
+    font-family: 'Space Mono', monospace;
+    font-size: 15px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-shrink: 0;
+  }
+  .quote-strip-item .dot {
+    width: 4px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  /* ── SECTION FRAMEWORK ── */
+  section {
+    padding: 120px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 1.05;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    max-width: 800px;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+  .section-body {
+    font-family: 'Space Mono', monospace;
+    font-size: 17px;
+    line-height: 2;
+    color: var(--text-dim);
+    max-width: 600px;
+    margin-top: 32px;
+  }
+
+  /* ── DESCARTES SECTION ── */
+  .descartes-section {
+    padding: 120px 48px;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+  }
+  .descartes-section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .descartes-quote-block {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .quote-card {
+    padding: 40px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .quote-card:hover { border-color: var(--border-strong); }
+  .quote-card::before {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    left: 24px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 120px;
+    color: var(--border);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .quote-card.accent-card {
+    border-color: rgba(255,76,31,0.2);
+    background: linear-gradient(135deg, rgba(255,76,31,0.03), transparent);
+  }
+  .quote-card.accent-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+  .quote-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  .quote-attr {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .quote-attr span { color: var(--accent); }
+  .arrow-between {
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    color: var(--text-faint);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+  }
+  .arrow-between::before, .arrow-between::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── LOGIC CHAIN ── */
+  .logic-chain {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .logic-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.2s;
+    position: relative;
+  }
+  .logic-step:last-child { border-bottom: none; }
+  .logic-step:hover .logic-line { background: var(--accent); }
+  .logic-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--text-faint);
+    min-width: 32px;
+    padding-top: 2px;
+  }
+  .logic-line {
+    width: 2px;
+    background: var(--border-strong);
+    align-self: stretch;
+    min-height: 40px;
+    transition: background 0.3s;
+    flex-shrink: 0;
+  }
+  .logic-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text-dim);
+    line-height: 1.4;
+    transition: color 0.2s;
+  }
+  .logic-step:hover .logic-text { color: var(--white); }
+  .logic-step.highlight .logic-text { color: var(--accent); }
+  .logic-step.highlight .logic-line { background: var(--accent); }
+  .logic-step.highlight .logic-num { color: var(--accent); }
+
+  /* ── PROBLEM SECTION ── */
+  .problem-section {
+    padding: 0 48px 120px;
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+  .problem-section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 120px;
+  }
+  .mechanisms-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin-top: 64px;
+  }
+  .mechanism-card {
+    background: var(--black);
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .mechanism-card:hover { background: rgba(255,76,31,0.03); }
+  .mechanism-card::before {
+    content: attr(data-num);
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--border);
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  .mechanism-card:hover::before { color: rgba(255,76,31,0.1); }
+  .mechanism-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+  .mechanism-desc {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text-dim);
+  }
+  .mechanism-accent {
+    width: 32px;
+    height: 2px;
+    background: var(--accent);
+    margin-bottom: 20px;
+    transition: width 0.3s;
+  }
+  .mechanism-card:hover .mechanism-accent { width: 48px; }
+
+  /* ── SOLUTION SECTION ── */
+  .solution-section {
+    padding: 120px 48px;
+    border-top: 1px solid var(--border);
+    background: linear-gradient(to bottom, transparent, var(--surface) 30%, var(--surface) 70%, transparent);
+  }
+  .solution-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .solution-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 80px;
+  }
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .pillar-card {
+    padding: 40px 32px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .pillar-card:hover {
+    border-color: rgba(255,76,31,0.3);
+    transform: translateY(-4px);
+  }
+  .pillar-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .pillar-card:hover::after { transform: scaleX(1); }
+  .pillar-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    border: 1px solid rgba(255,76,31,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  .pillar-icon svg { width: 20px; height: 20px; }
+  .pillar-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .pillar-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .pillar-desc {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text-dim);
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-section {
+    padding: 120px 48px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .how-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .how-steps {
+    margin-top: 72px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  .how-steps::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: calc(12.5% + 4px);
+    right: calc(12.5% + 4px);
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), rgba(255,76,31,0.2));
+  }
+  .how-step {
+    padding: 0 24px;
+    text-align: center;
+  }
+  .how-step-num {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--black);
+    border: 1px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 32px;
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    position: relative;
+    z-index: 1;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  .how-step:hover .how-step-num {
+    background: var(--accent);
+    color: var(--white);
+    box-shadow: 0 0 30px rgba(255,76,31,0.4);
+  }
+  .how-step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .how-step-desc {
+    font-family: 'Space Mono', monospace;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-dim);
+  }
+
+  /* ── REALTECH SECTION ── */
+  .realtech-section {
+    padding: 120px 48px;
+    border-top: 1px solid var(--border);
+    background: var(--deep);
+    position: relative;
+    overflow: hidden;
+  }
+  .realtech-section::before {
+    content: 'REALTECH';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(80px, 15vw, 220px);
+    font-style: italic;
+    color: rgba(255,255,255,0.02);
+    letter-spacing: 0.1em;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .realtech-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .realtech-comparison {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .tech-category {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .tech-item {
+    padding: 20px 24px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-family: 'Space Mono', monospace;
+    transition: all 0.2s;
+  }
+  .tech-item:hover { border-color: var(--border-strong); }
+  .tech-item-label {
+    font-size: 14px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+  }
+  .tech-item-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dim);
+  }
+  .realtech-highlight {
+    padding: 48px;
+    background: linear-gradient(135deg, rgba(255,76,31,0.08), rgba(255,76,31,0.02));
+    border: 1px solid rgba(255,76,31,0.2);
+    border-radius: 4px;
+    text-align: center;
+  }
+  .realtech-highlight .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .realtech-highlight .value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.3;
+  }
+  .vs-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    color: var(--text-faint);
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+  }
+  .vs-divider::before, .vs-divider::after {
+    content: '';
+    width: 1px;
+    height: 40px;
+    background: var(--border);
+  }
+
+  /* ── MANIFESTO STRIP ── */
+  .manifesto-section {
+    padding: 160px 48px;
+    text-align: center;
+    position: relative;
+    border-top: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .manifesto-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(255,76,31,0.05), transparent 70%);
+  }
+  .manifesto-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 4.5vw, 64px);
+    line-height: 1.3;
+    color: var(--white);
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .manifesto-text em { font-style: italic; color: var(--accent); }
+  .manifesto-text .dim { color: var(--text-dim); }
+
+  .manifesto-chain {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    position: relative;
+    z-index: 1;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .chain-item {
+    width: 100%;
+    padding: 16px 32px;
+    border-left: 2px solid var(--border);
+    text-align: left;
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text-dim);
+    transition: color 0.2s, border-color 0.2s;
+    cursor: default;
+  }
+  .chain-item:hover { color: var(--white); border-color: var(--accent); }
+  .chain-item.active { color: var(--accent); border-color: var(--accent); }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    padding: 160px 48px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,76,31,0.08), transparent 70%);
+    pointer-events: none;
+  }
+  .cta-section-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(40px, 6vw, 80px);
+    line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+  .cta-title em { font-style: italic; color: var(--accent); }
+  .cta-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--text-dim);
+    margin-bottom: 56px;
+  }
+  .cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .app-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px;
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 15px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .app-badge:hover {
+    border-color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.03);
+    color: var(--white);
+  }
+  .app-badge svg { width: 24px; height: 24px; opacity: 0.7; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 64px 48px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .footer-logo {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-motto {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--text-faint);
+  }
+  .footer-legal {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--text-faint);
+    text-align: right;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+
+  /* ── CODE TERMINAL ── */
+  .terminal-section {
+    padding: 0 48px 120px;
+    border-top: 1px solid var(--border);
+  }
+  .terminal-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .terminal {
+    background: #0d0d14;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: 'Space Mono', monospace;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  }
+  .terminal-bar {
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .terminal-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .terminal-dot:nth-child(1) { background: #ff5f57; }
+  .terminal-dot:nth-child(2) { background: #ffbd2e; }
+  .terminal-dot:nth-child(3) { background: #28c940; }
+  .terminal-title {
+    margin-left: auto;
+    font-size: 15px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+  }
+  .terminal-body {
+    padding: 32px;
+    font-size: 16px;
+    line-height: 2;
+  }
+  .t-comment { color: rgba(255,255,255,0.2); }
+  .t-keyword { color: #ff7b72; }
+  .t-string { color: #79c0ff; }
+  .t-func { color: #d2a8ff; }
+  .t-var { color: #ffa657; }
+  .t-num { color: #f0e68c; }
+  .t-type { color: #79c0ff; }
+  .t-accent { color: var(--accent); }
+  .t-line { display: block; }
+  .t-indent { padding-left: 24px; }
+  .t-indent2 { padding-left: 48px; }
+
+  /* ── STAT CARDS ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin-top: 64px;
+  }
+  .stat-card {
+    background: var(--black);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease;
+  }
+  .stat-card:hover::after { transform: scaleX(1); }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .stat-num span { color: var(--accent); }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .descartes-section, .problem-section, .how-section, .realtech-section, .manifesto-section, .cta-section { padding-left: 24px; padding-right: 24px; }
+    #parcerias { padding-left: 24px !important; padding-right: 24px !important; }
+    #parcerias > div > div:first-child { grid-template-columns: 1fr !important; gap: 48px !important; }
+    .descartes-section-inner { grid-template-columns: 1fr; gap: 48px; }
+    .mechanisms-grid { grid-template-columns: 1fr; }
+    .pillars-grid { grid-template-columns: 1fr; }
+    .how-steps { grid-template-columns: repeat(2, 1fr); }
+    .how-steps::before { display: none; }
+    .solution-header { grid-template-columns: 1fr; gap: 48px; }
+    .realtech-comparison { grid-template-columns: 1fr; }
+    .vs-divider { flex-direction: row; }
+    .stats-row { grid-template-columns: 1fr; }
+    .terminal-inner { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-legal { text-align: center; }
+  }
+
+  /* ── VIEW SYSTEM ── */
+  #view-landing { display: block; }
+
+  #view-manifesto {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 8000;
+    background: #050505;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  #view-manifesto.active {
+    display: block;
+  }
+
+  /* ── MANIFESTO-SPECIFIC STYLES ── */
+
+  :root {
+    --black: #050505;
+    --deep: #0a0a0f;
+    --surface: #0f0f18;
+    --border: rgba(255,255,255,0.07);
+    --border-strong: rgba(255,255,255,0.14);
+    --text: #e8e8e0;
+    --text-dim: rgba(232,232,224,0.6);
+    --text-faint: rgba(232,232,224,0.25);
+    --accent: #ff4c1f;
+    --accent-glow: rgba(255,76,31,0.12);
+    --gold: #d4a853;
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* noise */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* cursor */
+  .cursor { position: fixed; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 10000; transform: translate(-50%,-50%); transition: transform 0.1s; }
+  .cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(255,76,31,0.35); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width 0.2s, height 0.2s; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s;
+  }
+  nav.scrolled {
+    border-color: var(--border);
+    background: rgba(5,5,5,0.9);
+    backdrop-filter: blur(20px);
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .nav-back {
+    font-family: 'Space Mono', monospace;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-back:hover { color: var(--text); }
+  .nav-back::before { content: '←'; }
+  .nav-progress {
+    width: 120px;
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .nav-progress-bar {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.1s linear;
+    border-radius: 2px;
+  }
+
+  /* ── HERO ── */
+  .manifesto-hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .manifesto-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 70%, rgba(255,76,31,0.05), transparent 70%);
+  }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
+  }
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+  .hero-tag::before, .hero-tag::after {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(40px, 7vw, 100px);
+    line-height: 0.95;
+    text-align: center;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.4s;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-subtitle {
+    margin-top: 32px;
+    font-family: 'Space Mono', monospace;
+    font-size: 17px;
+    line-height: 1.9;
+    text-align: center;
+    color: var(--text-dim);
+    max-width: 560px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.7s;
+  }
+  .hero-meta {
+    margin-top: 56px;
+    display: flex;
+    gap: 48px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1s;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .meta-item {
+    text-align: center;
+  }
+  .meta-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 6px;
+  }
+  .meta-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--text-dim);
+  }
+  .hero-scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 1.5s;
+  }
+  .hero-scroll-indicator span {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  /* ── TOC ── */
+  .toc-section {
+    padding: 80px 48px;
+    border-bottom: 1px solid var(--border);
+    background: var(--deep);
+  }
+  .toc-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .toc-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 40px;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+  .toc-item {
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .toc-item:nth-child(even) { border-right: none; }
+  .toc-item:nth-last-child(-n+2) { border-bottom: none; }
+  .toc-item:hover { background: rgba(255,76,31,0.04); }
+  .toc-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    min-width: 24px;
+  }
+  .toc-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dim);
+    line-height: 1.4;
+    transition: color 0.2s;
+  }
+  .toc-item:hover .toc-title { color: var(--text); }
+
+  /* ── MAIN CONTENT ── */
+  .manifesto-content {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  /* ── PART HEADERS ── */
+  .part-header {
+    padding: 120px 0 80px;
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+  .part-header:first-child { border-top: none; }
+  .part-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .part-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 120px;
+  }
+  .part-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 5vw, 64px);
+    line-height: 1.05;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+  .part-title em { font-style: italic; color: var(--accent); }
+  .part-subtitle {
+    margin-top: 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION WITHIN PART ── */
+  .msection {
+    margin-bottom: 72px;
+  }
+  .msection-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.01em;
+  }
+  .msection-subtitle {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    font-style: italic;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+    margin-top: -8px;
+  }
+
+  /* ── BODY TEXT ── */
+  .mbody {
+    font-family: 'Space Mono', monospace;
+    font-size: 17px;
+    line-height: 2.1;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+  .mbody strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+  .mbody em { font-style: italic; color: var(--text); }
+
+  /* ── BLOCKQUOTE ── */
+  .mquote {
+    margin: 32px 0;
+    padding: 32px 40px;
+    border-left: 3px solid var(--accent);
+    background: linear-gradient(90deg, rgba(255,76,31,0.04), transparent);
+    position: relative;
+  }
+  .mquote p {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--white);
+  }
+  .mquote-attr {
+    margin-top: 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .mquote-attr span { color: var(--accent); }
+
+  /* ── DUAL QUOTE ── */
+  .dual-quote {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 32px 0;
+  }
+  .dual-quote-card {
+    padding: 32px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .dual-quote-card:hover { border-color: var(--border-strong); }
+  .dual-quote-card.primary {
+    border-color: rgba(255,76,31,0.2);
+    background: rgba(255,76,31,0.02);
+  }
+  .dual-quote-card.primary::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+  .dual-quote-card p {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+  .dual-quote-card .attr {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .dual-quote-card .attr span { color: var(--accent); }
+
+  /* ── LIST STYLED ── */
+  .mlist {
+    list-style: none;
+    margin: 20px 0 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .mlist li {
+    font-family: 'Space Mono', monospace;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text-dim);
+    padding-left: 24px;
+    position: relative;
+  }
+  .mlist li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 16px;
+  }
+  .mlist li strong { color: var(--text); }
+
+  /* ── CHECKMARK LIST ── */
+  .mlist-check li::before { content: '✅'; font-size: 15px; }
+  .mlist-x li::before { content: '❌'; font-size: 15px; }
+
+  /* ── NUMBERED LIST STYLED ── */
+  .mlist-num {
+    list-style: none;
+    margin: 20px 0 28px;
+    counter-reset: item;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+  .mlist-num li {
+    counter-increment: item;
+    padding: 16px 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 20px;
+    align-items: baseline;
+    transition: background 0.2s;
+  }
+  .mlist-num li:last-child { border-bottom: none; }
+  .mlist-num li:hover { background: rgba(255,76,31,0.03); }
+  .mlist-num li::before {
+    content: counter(item, decimal-leading-zero);
+    color: var(--accent);
+    font-size: 15px;
+    min-width: 28px;
+    flex-shrink: 0;
+  }
+  .mlist-num li strong { color: var(--text); }
+
+  /* ── PHASE BLOCK ── */
+  .phase-block {
+    margin: 32px 0;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .phase-item {
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    transition: background 0.2s;
+  }
+  .phase-item:last-child { border-bottom: none; }
+  .phase-item:hover { background: rgba(255,76,31,0.03); }
+  .phase-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .phase-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+  .phase-text strong { color: var(--text); }
+
+  /* ── VOCAB BLOCK ── */
+  .vocab-block {
+    margin: 32px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+  .vocab-item {
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 24px;
+    align-items: center;
+    transition: background 0.2s;
+  }
+  .vocab-item:last-child { border-bottom: none; }
+  .vocab-item:hover { background: rgba(255,76,31,0.03); }
+  .vocab-old {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    color: var(--text-faint);
+    text-decoration: line-through;
+  }
+  .vocab-arrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    color: var(--accent);
+    text-align: center;
+  }
+  .vocab-new {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    margin: 32px 0;
+    padding: 40px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .highlight-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+  }
+  .highlight-box p {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(18px, 2.5vw, 28px);
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--white);
+    text-align: center;
+  }
+
+  /* ── LOGIC CHAIN MANIFESTO ── */
+  .logic-manifesto {
+    margin: 40px 0;
+    padding: 40px;
+    background: var(--deep);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+  .logic-manifesto-item {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-style: italic;
+  }
+  .logic-manifesto-item:last-child {
+    border-bottom: none;
+    color: var(--accent);
+    font-size: 20px;
+  }
+  .logic-manifesto-item .lm-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    min-width: 28px;
+    font-style: normal;
+  }
+  .logic-manifesto-item .lm-text { color: var(--text-dim); }
+  .logic-manifesto-item:last-child .lm-text { color: var(--accent); }
+
+  /* ── SEPARATOR ── */
+  .mseparator {
+    margin: 64px 0;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .mseparator::before, .mseparator::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .mseparator span {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+  }
+
+  /* ── COMPARE TABLE ── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 32px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+  }
+  .compare-table th {
+    padding: 12px 20px;
+    text-align: left;
+    font-size: 14px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    background: var(--deep);
+  }
+  .compare-table td {
+    padding: 14px 20px;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+    line-height: 1.6;
+    transition: background 0.2s;
+  }
+  .compare-table tr:hover td { background: rgba(255,76,31,0.03); }
+  .compare-table td:first-child { color: var(--text-faint); }
+  .compare-table td:last-child { color: var(--text); font-weight: 700; }
+
+  /* ── FINAL DECLARATION ── */
+  .final-declaration {
+    padding: 120px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .final-declaration .big-quote {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(24px, 4vw, 52px);
+    line-height: 1.3;
+    color: var(--white);
+    margin-bottom: 48px;
+  }
+  .final-declaration .big-quote em { font-style: italic; color: var(--accent); }
+  .final-declaration .declaration-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 48px 0;
+  }
+  .declaration-line {
+    font-family: 'Space Mono', monospace;
+    font-size: 17px;
+    color: var(--text-dim);
+    line-height: 1.8;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .declaration-line:hover { color: var(--text); border-color: var(--border-strong); }
+  .declaration-line:last-child { border-bottom: none; }
+  .final-signature {
+    margin-top: 64px;
+    padding: 48px;
+    border: 1px solid var(--border);
+    background: var(--deep);
+    display: inline-block;
+    text-align: left;
+    min-width: 320px;
+  }
+  .sig-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    font-style: italic;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .sig-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 15px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .sig-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+    line-height: 1.8;
+  }
+  .final-motto {
+    margin-top: 64px;
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(20px, 3vw, 36px);
+    font-style: italic;
+    color: var(--text-dim);
+  }
+  .final-motto em { color: var(--accent); }
+
+  /* ── CTA AT BOTTOM ── */
+  .manifesto-cta {
+    padding: 80px 48px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+  }
+  .manifesto-cta-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 4vw, 52px);
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+  .manifesto-cta-title em { font-style: italic; color: var(--accent); }
+  .manifesto-cta-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    color: var(--text-dim);
+    line-height: 1.8;
+    margin-bottom: 40px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 16px 40px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    background: #e03800;
+    box-shadow: 0 0 40px rgba(255,76,31,0.35);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 48px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 100%;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .footer-logo {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-motto {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--text-faint);
+  }
+  .footer-legal {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--text-faint);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  /* scroll reveal */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .manifesto-hero, .toc-section, .manifesto-cta { padding-left: 24px; padding-right: 24px; }
+    .manifesto-content { padding: 0 24px; }
+    .dual-quote { grid-template-columns: 1fr; }
+    .toc-grid { grid-template-columns: 1fr; }
+    .toc-item { border-right: none !important; }
+    .toc-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+    .toc-item:last-child { border-bottom: none; }
+    .phase-item { grid-template-columns: 1fr; gap: 8px; }
+    .vocab-item { grid-template-columns: 1fr auto 1fr; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-legal { text-align: center; }
+    .nav-right { gap: 16px; }
+    .nav-progress { width: 80px; }
+  }
+
+  /* ── USE TAGGED MESH BACKGROUND ── */
+  .tagged-mesh {
+    position: relative;
+    overflow: hidden;
+  }
+  .tagged-mesh::before {
+    content: '';
+    position: absolute;
+    inset: -120%;
+    width: 340%;
+    height: 340%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='280'%3E%3Ctext x='0' y='65' font-family='Arial Black,sans-serif' font-weight='900' font-size='62' fill='rgba(255,76,31,0.045)' letter-spacing='6'%3EUSE TAGGED%3C/text%3E%3Ctext x='420' y='65' font-family='Arial Black,sans-serif' font-weight='900' font-size='62' fill='rgba(255,76,31,0.045)' letter-spacing='6'%3EUSE TAGGED%3C/text%3E%3Ctext x='60' y='135' font-family='Arial,sans-serif' font-weight='400' font-size='15' fill='rgba(255,76,31,0.028)' letter-spacing='16'%3EUSE TAGGED%3C/text%3E%3Ctext x='460' y='135' font-family='Arial,sans-serif' font-weight='400' font-size='15' fill='rgba(255,76,31,0.028)' letter-spacing='16'%3EUSE TAGGED%3C/text%3E%3Ctext x='200' y='200' font-family='Arial Black,sans-serif' font-weight='900' font-size='42' fill='rgba(255,76,31,0.038)' letter-spacing='4'%3EUSE TAGGED%3C/text%3E%3Ctext x='620' y='200' font-family='Arial Black,sans-serif' font-weight='900' font-size='42' fill='rgba(255,76,31,0.038)' letter-spacing='4'%3EUSE TAGGED%3C/text%3E%3Ctext x='0' y='200' font-family='Arial Black,sans-serif' font-weight='900' font-size='42' fill='rgba(255,76,31,0.038)' letter-spacing='4'%3EUSE TAGGED%3C/text%3E%3Ctext x='110' y='265' font-family='Arial,sans-serif' font-weight='700' font-size='22' fill='rgba(255,76,31,0.03)' letter-spacing='10'%3EUSE TAGGED%3C/text%3E%3Ctext x='530' y='265' font-family='Arial,sans-serif' font-weight='700' font-size='22' fill='rgba(255,76,31,0.03)' letter-spacing='10'%3EUSE TAGGED%3C/text%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 800px 280px;
+    transform: rotate(-32deg);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .tagged-mesh > * { position: relative; z-index: 1; }
+
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+
+<div id="view-landing">
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Nav -->
+<nav id="nav">
+  <a href="#" class="nav-logo">TAG<span>GED</span></a>
+  <ul class="nav-links">
+    <li><a href="#filosofia">Filosofia</a></li>
+    <li><a href="#problema">Problema</a></li>
+    <li><a href="#solucao">Solução</a></li>
+    <li><a href="#realtech">RealTech</a></li>
+    <li><a href="#parcerias">Parcerias</a></li>
+    <li><a href="#baixar" class="nav-cta">Baixar App</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-overline">A Primeira RealTech do Mundo</div>
+  <h1 class="hero-title">
+    Existir <em>somente</em><br>
+    <span class="line-dim">não é suficiente.</span>
+  </h1>
+  <p class="hero-subtitle">
+    Em 1637, Descartes provou que você existe.<br>
+    Em 2025, o Tagged prova que você <strong style="color:var(--text)">importa</strong>.
+  </p>
+  <div class="hero-actions">
+    <a href="#baixar" class="btn-primary">Baixar o App</a>
+    <a href="#manifesto-preview" onclick="document.getElementById('manifesto-preview').scrollIntoView({behavior:'smooth'}); return false;" class="btn-ghost">Ler o Manifesto</a>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- Quote Strip -->
+<div class="quote-strip">
+  <div class="quote-strip-inner">
+    <div class="quote-strip-item"><span class="dot"></span><span>Existência Real</span></div>
+    <div class="quote-strip-item"><span class="dot"></span><span>Cogito, testimonium, ago — ergo liber sum</span></div>
+    <div class="quote-strip-item"><span class="dot"></span><span>Registro Permanente</span></div>
+    <div class="quote-strip-item"><span class="dot"></span><span>Pressão Coletiva</span></div>
+    <div class="quote-strip-item"><span class="dot"></span><span>Accountability Verificável</span></div>
+    <div class="quote-strip-item"><span class="dot"></span><span>Existência com Peso</span></div>
+    <div class="quote-strip-item"><span class="dot"></span><span>Memória Pública Imutável</span></div>
+    <!-- duplicate for infinite loop -->
+    <div class="quote-strip-item"><span class="dot"></span><span>Existência Real</span></div>
+    <div class="quote-strip-item"><span class="dot"></span><span>Cogito, testimonium, ago — ergo liber sum</span></div>
+    <div class="quote-strip-item"><span class="dot"></span><span>Registro Permanente</span></div>
+    <div class="quote-strip-item"><span class="dot"></span><span>Pressão Coletiva</span></div>
+    <div class="quote-strip-item"><span class="dot"></span><span>Accountability Verificável</span></div>
+    <div class="quote-strip-item"><span class="dot"></span><span>Existência com Peso</span></div>
+    <div class="quote-strip-item"><span class="dot"></span><span>Memória Pública Imutável</span></div>
+  </div>
+</div>
+
+<!-- Philosophy Section -->
+<div id="filosofia" class="descartes-section">
+  <div class="descartes-section-inner">
+    <div class="descartes-quote-block reveal">
+      <div class="section-label">Fundação Filosófica</div>
+      <div class="quote-card">
+        <p class="quote-text">"Cogito, ergo sum."</p>
+        <p class="quote-attr">René Descartes — <span>1637</span> — Penso, logo existo</p>
+      </div>
+      <div class="arrow-between">INCOMPLETO. FALTAVA A SEGUNDA METADE.</div>
+      <div class="quote-card accent-card">
+        <p class="quote-text">"Cogito, testimonium, ago — ergo liber sum."</p>
+        <p class="quote-attr">Tagged — <span>2025</span> — Penso, testemunho, ajo — logo sou livre</p>
+      </div>
+    </div>
+    <div class="logic-chain reveal reveal-delay-2">
+      <div class="section-label">A Cadeia Completa da Existência</div>
+      <div class="logic-step">
+        <span class="logic-num">01</span>
+        <div class="logic-line"></div>
+        <span class="logic-text">Penso, logo existo</span>
+      </div>
+      <div class="logic-step">
+        <span class="logic-num">02</span>
+        <div class="logic-line"></div>
+        <span class="logic-text">Existo, logo percebo</span>
+      </div>
+      <div class="logic-step">
+        <span class="logic-num">03</span>
+        <div class="logic-line"></div>
+        <span class="logic-text">Percebo, logo testemunho</span>
+      </div>
+      <div class="logic-step">
+        <span class="logic-num">04</span>
+        <div class="logic-line"></div>
+        <span class="logic-text">Testemunho, logo registro</span>
+      </div>
+      <div class="logic-step">
+        <span class="logic-num">05</span>
+        <div class="logic-line"></div>
+        <span class="logic-text">Registro, logo acumulo peso</span>
+      </div>
+      <div class="logic-step">
+        <span class="logic-num">06</span>
+        <div class="logic-line"></div>
+        <span class="logic-text">Peso, logo pressiono a realidade</span>
+      </div>
+      <div class="logic-step highlight">
+        <span class="logic-num">07</span>
+        <div class="logic-line"></div>
+        <span class="logic-text">Pressiono, logo sou livre.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats -->
+<div style="border-top: 1px solid var(--border);">
+  <div class="stats-row" style="max-width: 1200px; margin: 0 auto;">
+    <div class="stat-card reveal">
+      <div class="stat-num">8<span>B</span></div>
+      <div class="stat-label">pessoas vivem conscientes<br>de sua própria irrelevância</div>
+    </div>
+    <div class="stat-card reveal reveal-delay-2">
+      <div class="stat-num">0<span>%</span></div>
+      <div class="stat-label">das redes sociais transformam<br>percepção em peso legal verificável</div>
+    </div>
+    <div class="stat-card reveal reveal-delay-3">
+      <div class="stat-num">1<span>ª</span></div>
+      <div class="stat-label">ferramenta que materializa<br>o direito à existência com peso</div>
+    </div>
+  </div>
+</div>
+
+<!-- Problem Section -->
+<div id="problema" class="problem-section">
+  <div class="problem-section-inner">
+    <div class="section-label reveal">O Diagnóstico</div>
+    <h2 class="section-title reveal reveal-delay-1">O poder descobriu<br>como <em>apagar</em><br>sem silenciar.</h2>
+    <p class="section-body reveal reveal-delay-2">Não é preciso prender. Não é preciso censurar. Basta tornar sua voz irrelevante. A modernidade criou cinco mecanismos sofisticados de apagamento da agência humana.</p>
+    <div class="mechanisms-grid reveal reveal-delay-3">
+      <div class="mechanism-card" data-num="01">
+        <div class="mechanism-accent"></div>
+        <div class="mechanism-title">Fragmentação</div>
+        <div class="mechanism-desc">Cada um grita em sua bolha. Ninguém acumula força. A indignação coletiva é dividida em nichos isolados.</div>
+      </div>
+      <div class="mechanism-card" data-num="02">
+        <div class="mechanism-accent"></div>
+        <div class="mechanism-title">Efemeridade</div>
+        <div class="mechanism-desc">Hoje é trending. Amanhã esquecido. O ciclo acelerado de atenção impede que qualquer coisa gere consequência duradoura.</div>
+      </div>
+      <div class="mechanism-card" data-num="03">
+        <div class="mechanism-accent"></div>
+        <div class="mechanism-title">Espetacularização</div>
+        <div class="mechanism-desc">O problema vira viral. Mas não vira ação. A consciência é anestesiada pelo próprio ato de assistir.</div>
+      </div>
+      <div class="mechanism-card" data-num="04">
+        <div class="mechanism-accent"></div>
+        <div class="mechanism-title">Pseudo-Participação</div>
+        <div class="mechanism-desc">Você pode curtir. Comentar. Compartilhar. A ilusão de agência sem deixar nenhuma marca real no mundo.</div>
+      </div>
+      <div class="mechanism-card" data-num="05">
+        <div class="mechanism-accent"></div>
+        <div class="mechanism-title">Exaustão Emocional</div>
+        <div class="mechanism-desc">Bombardeio de problemas insolúveis até a desistência. A impotência aprendida vira proteção psicológica.</div>
+      </div>
+      <div class="mechanism-card" data-num="06">
+        <div class="mechanism-accent"></div>
+        <div class="mechanism-title">O Resultado</div>
+        <div class="mechanism-desc">Bilhões de pessoas conscientes, informadas, conectadas — e completamente impotentes. Existência fantasma.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Solution -->
+<div id="solucao" class="solution-section">
+  <div class="solution-inner">
+    <div class="solution-header">
+      <div>
+        <div class="section-label reveal">A Solução</div>
+        <h2 class="section-title reveal reveal-delay-1">Três pilares.<br>Uma <em>existência</em><br>real.</h2>
+      </div>
+      <p class="section-body reveal reveal-delay-2">O Tagged não é uma rede social de denúncias. É uma nova forma de existir. A denúncia é apenas uma das ferramentas de um processo maior: o processo de existir com peso.</p>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar-card reveal">
+        <div class="pillar-icon">
+          <svg fill="none" stroke="var(--accent)" stroke-width="1.5" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/>
+          </svg>
+        </div>
+        <div class="pillar-subtitle">Pilar I — Descartes</div>
+        <div class="pillar-title">Consciência</div>
+        <div class="pillar-desc">Você pensa. Logo você é real. A base irredutível que nenhum sistema pode contestar.</div>
+      </div>
+      <div class="pillar-card reveal reveal-delay-2">
+        <div class="pillar-icon">
+          <svg fill="none" stroke="var(--accent)" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        <div class="pillar-subtitle">Pilar II — Tagged</div>
+        <div class="pillar-title">Agência</div>
+        <div class="pillar-desc">Você age. Logo você tem peso. O registro coletivo verificável que ninguém pode ignorar.</div>
+      </div>
+      <div class="pillar-card reveal reveal-delay-3">
+        <div class="pillar-icon">
+          <svg fill="none" stroke="var(--accent)" stroke-width="1.5" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3m-3.4-6.6-2.1 2.1M7.5 16.5l-2.1 2.1m0-14.2 2.1 2.1m9 9 2.1 2.1"/>
+          </svg>
+        </div>
+        <div class="pillar-subtitle">Pilar III — Nova Fundação</div>
+        <div class="pillar-title">Consequência</div>
+        <div class="pillar-desc">Você move a realidade. Logo você é livre. O impacto mensurável que transforma percepção em pressão.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS — IMMERSIVE -->
+<div class="how-section" id="how-immersive">
+
+  <!-- BG image layers — direto, sem wrapper extra -->
+  <img id="how-img-a" src="" alt="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center right;opacity:0;transition:opacity 1.2s ease;z-index:0;display:block;">
+  <img id="how-img-b" src="" alt="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center right;opacity:0;transition:opacity 1.2s ease;z-index:0;display:block;">
+  <!-- Gradiente suave — deixa imagem bem visível à direita -->
+  <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,5,1) 0%,rgba(5,5,5,0.9) 25%,rgba(5,5,5,0.4) 55%,rgba(5,5,5,0.0) 100%);z-index:1;pointer-events:none;"></div>
+  <!-- Bordas top/bottom finas apenas -->
+  <div style="position:absolute;top:0;left:0;right:0;height:40px;background:linear-gradient(to bottom,rgba(5,5,5,1),transparent);z-index:1;pointer-events:none;"></div>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(to top,rgba(5,5,5,1),transparent);z-index:1;pointer-events:none;"></div>
+
+  <div class="how-inner" style="position:relative;z-index:2;">
+
+    <!-- Header -->
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:32px; margin-bottom: 80px;">
+      <div>
+        <div class="section-label reveal">Como Funciona</div>
+        <h2 class="section-title reveal reveal-delay-1">Quatro ações.<br>Peso <em>real</em>.</h2>
+      </div>
+      <p class="section-body reveal reveal-delay-2" style="margin-top:0;max-width:400px;font-size: 16px;">Cada interação no Tagged não é um like. É uma assinatura com peso. Um registro permanente no tecido da realidade.</p>
+    </div>
+
+    <!-- Steps -->
+    <div class="how-steps" id="howSteps">
+
+      <!-- STEP 01 -->
+      <div class="how-step-v2" data-step="0"
+           onmouseenter="hwHover(0)"
+           onmouseleave="hwLeave()"
+           onclick="hwClick(0)">
+        <div class="how-step-num-v2" id="hw-num-0">01</div>
+        <div class="how-connector" id="hw-conn-0"><div class="how-connector-fill" id="hw-fill-0"></div></div>
+        <div class="how-step-title" style="margin-top:28px;">Você percebe</div>
+        <div class="how-step-desc">Uma injustiça, um abuso, um problema. Sua percepção é válida e real.</div>
+      </div>
+
+      <!-- STEP 02 -->
+      <div class="how-step-v2" data-step="1"
+           onmouseenter="hwHover(1)"
+           onmouseleave="hwLeave()"
+           onclick="hwClick(1)">
+        <div class="how-step-num-v2" id="hw-num-1">02</div>
+        <div class="how-connector" id="hw-conn-1"><div class="how-connector-fill" id="hw-fill-1"></div></div>
+        <div class="how-step-title" style="margin-top:28px;">Você registra</div>
+        <div class="how-step-desc">Não um post efêmero. Um registro permanente, verificável e com dados geolocalizados.</div>
+      </div>
+
+      <!-- STEP 03 -->
+      <div class="how-step-v2" data-step="2"
+           onmouseenter="hwHover(2)"
+           onmouseleave="hwLeave()"
+           onclick="hwClick(2)">
+        <div class="how-step-num-v2" id="hw-num-2">03</div>
+        <div class="how-connector" id="hw-conn-2"><div class="how-connector-fill" id="hw-fill-2"></div></div>
+        <div class="how-step-title" style="margin-top:28px;">Outros marcam</div>
+        <div class="how-step-desc">Cada marca é uma assinatura coletiva. Acúmulo verificável de peso social e jurídico.</div>
+      </div>
+
+      <!-- STEP 04 -->
+      <div class="how-step-v2" data-step="3"
+           onmouseenter="hwHover(3)"
+           onmouseleave="hwLeave()"
+           onclick="hwClick(3)">
+        <div class="how-step-num-v2" id="hw-num-3">04</div>
+        <div style="width:0;flex:0"></div><!-- no connector on last -->
+        <div class="how-step-title" style="margin-top:28px;">A realidade se move</div>
+        <div class="how-step-desc">O Tagged torna impossível ignorar. Não pune. Não julga. Torna inegável.</div>
+      </div>
+
+    </div>
+
+    <!-- Active step label -->
+    <div id="hw-active-label" style="
+      margin-top: 48px;
+      text-align: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 15px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0;
+      transition: opacity 0.4s;
+      height: 20px;
+    "></div>
+
+  </div>
+</div>
+
+<style>
+/* Override how-section to be relative for bg positioning */
+#how-immersive {
+  position: relative;
+  overflow: hidden;
+  background: var(--black);
+  isolation: isolate;
+}
+
+.how-step-v2 {
+  padding: 0 24px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.how-step-num-v2 {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--black);
+  border: 1px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+  position: relative;
+  z-index: 2;
+  transition: background 0.3s, box-shadow 0.3s, border-color 0.3s, color 0.3s, transform 0.3s;
+  flex-shrink: 0;
+}
+
+.how-step-v2.active .how-step-num-v2,
+.how-step-v2:hover .how-step-num-v2 {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 40px rgba(255,76,31,0.6), 0 0 80px rgba(255,76,31,0.2);
+  transform: scale(1.1);
+}
+
+/* connector line sits between circles */
+.how-connector {
+  position: absolute;
+  top: 36px; /* half of 72px circle */
+  left: calc(50% + 36px);
+  right: calc(-50% + 36px);
+  height: 1px;
+  background: rgba(255,76,31,0.2);
+  overflow: hidden;
+  z-index: 1;
+}
+.how-step-v2:last-child .how-connector { display: none; }
+
+.how-connector-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), #ff8c42);
+  box-shadow: 0 0 8px var(--accent);
+  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+.how-connector-fill.lit { width: 100%; }
+
+/* Remove old ::before connector */
+.how-steps::before { display: none !important; }
+</style>
+
+<script>
+(function() {
+  // Images per step — embedded SVG scenes (zero external deps)
+  // ── IMAGE DATA (SVG base64 — zero external deps) ──
+  const stepData = [
+    {
+      label: 'VOCÊ PERCEBE A INJUSTIÇA',
+      images: [
+        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNDAwJyBoZWlnaHQ9JzgwMCcgdmlld0JveD0nMCAwIDE0MDAgODAwJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2cwJyBjeD0nNjAlJyBjeT0nNTAlJyByPSc2MCUnPjxzdG9wIG9mZnNldD0nMCUnIHN0b3AtY29sb3I9JyMyYTFhMGEnLz48c3RvcCBvZmZzZXQ9JzEwMCUnIHN0b3AtY29sb3I9JyMwNTA1MDUnLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0nMTQwMCcgaGVpZ2h0PSc4MDAnIGZpbGw9J3VybCgjZzApJy8+PHJlY3QgeD0nNzUwJyB5PScxMDAnIHdpZHRoPSc4JyBoZWlnaHQ9JzM1MCcgZmlsbD0nIzFhMWExYScvPjxlbGxpcHNlIGN4PSc3NTQnIGN5PScxMDAnIHJ4PSc0MCcgcnk9JzgnIGZpbGw9JyMxYTFhMWEnLz48ZWxsaXBzZSBjeD0nNzU0JyBjeT0nMTAwJyByeD0nMjAnIHJ5PSc0JyBmaWxsPScjZmY4YzQyJyBvcGFjaXR5PScwLjMnLz48cmVjdCB4PScxMDUwJyB5PScxNTAnIHdpZHRoPSc2JyBoZWlnaHQ9JzMwMCcgZmlsbD0nIzFhMWExYScvPjxlbGxpcHNlIGN4PSc5NTAnIGN5PSc2NTAnIHJ4PSc4MCcgcnk9JzMwJyBmaWxsPScjMGEwYTBhJyBzdHJva2U9JyMzMzMnIHN0cm9rZS13aWR0aD0nMicvPjxlbGxpcHNlIGN4PSc5NTAnIGN5PSc2NTAnIHJ4PSc2MCcgcnk9JzIwJyBmaWxsPScjMTExJy8+PHBhdGggZD0nTTkwMCA0MDAgTDk1MCA1MDAgTDk4MCA0ODAgTDkyMCAzNjAgWicgZmlsbD0nbm9uZScgc3Ryb2tlPScjZmY0YzFmJyBzdHJva2Utd2lkdGg9JzInIG9wYWNpdHk9JzAuMzUnLz48cGF0aCBkPSdNODAwIDYwMCBRODUwIDU1MCA5MDAgNTgwIFE5NTAgNjEwIDEwMDAgNTYwJyBmaWxsPSdub25lJyBzdHJva2U9JyNmZjRjMWYnIHN0cm9rZS13aWR0aD0nMS41JyBvcGFjaXR5PScwLjI1Jy8+PGVsbGlwc2UgY3g9JzcwMCcgY3k9JzcwMCcgcng9JzEyJyByeT0nMzAnIGZpbGw9JyMxYTFhMWEnIG9wYWNpdHk9JzAuOCcvPjxjaXJjbGUgY3g9JzcwMCcgY3k9JzY2MCcgcj0nMTAnIGZpbGw9JyMxYTFhMWEnIG9wYWNpdHk9JzAuOCcvPjxlbGxpcHNlIGN4PSc3NDAnIGN5PSc3MTAnIHJ4PScxMCcgcnk9JzI1JyBmaWxsPScjMWExYTFhJyBvcGFjaXR5PScwLjYnLz48Y2lyY2xlIGN4PSc3NDAnIGN5PSc2NzgnIHI9JzgnIGZpbGw9JyMxYTFhMWEnIG9wYWNpdHk9JzAuNicvPjxyZWN0IHg9JzgyMCcgeT0nNzQwJyB3aWR0aD0nMjAnIGhlaWdodD0nMTInIHJ4PScyJyBmaWxsPScjMWExMjA4JyBvcGFjaXR5PScwLjYnLz48Y2lyY2xlIGN4PSc5NTAnIGN5PSczMDAnIHI9JzInIGZpbGw9JyNmZjRjMWYnIG9wYWNpdHk9JzAuMicvPjxjaXJjbGUgY3g9JzExMDAnIGN5PScyNTAnIHI9JzEuNScgZmlsbD0nI2ZmNGMxZicgb3BhY2l0eT0nMC4xNScvPjwvc3ZnPg==',
+        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNDAwJyBoZWlnaHQ9JzgwMCcgdmlld0JveD0nMCAwIDE0MDAgODAwJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2cxJyBjeD0nNzAlJyBjeT0nNDAlJyByPSc3MCUnPjxzdG9wIG9mZnNldD0nMCUnIHN0b3AtY29sb3I9JyMxYTBhMGEnLz48c3RvcCBvZmZzZXQ9JzEwMCUnIHN0b3AtY29sb3I9JyMwNTA1MDUnLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0nMTQwMCcgaGVpZ2h0PSc4MDAnIGZpbGw9J3VybCgjZzEpJy8+PHJlY3QgeD0nNjUwJyB5PSc1MDAnIHdpZHRoPSc1MDAnIGhlaWdodD0nMzAwJyBmaWxsPScjMGQwZDBkJy8+PGNpcmNsZSBjeD0nNjgwJyBjeT0nNTAwJyByPScxOCcgZmlsbD0nIzFhMWExYScvPjxjaXJjbGUgY3g9JzcyMCcgY3k9JzQ5NScgcj0nMjAnIGZpbGw9JyMxNTE1MTUnLz48Y2lyY2xlIGN4PSc3NjAnIGN5PSc1MDUnIHI9JzE2JyBmaWxsPScjMWExYTFhJy8+PGNpcmNsZSBjeD0nODAwJyBjeT0nNDkwJyByPScyMicgZmlsbD0nIzExMScvPjxjaXJjbGUgY3g9Jzg0NScgY3k9JzQ5OCcgcj0nMTgnIGZpbGw9JyMxYTFhMWEnLz48Y2lyY2xlIGN4PSc4ODUnIGN5PSc0OTInIHI9JzIwJyBmaWxsPScjMTUxNTE1Jy8+PGNpcmNsZSBjeD0nOTI1JyBjeT0nNTAwJyByPScxNycgZmlsbD0nIzFhMWExYScvPjxjaXJjbGUgY3g9Jzk2NScgY3k9JzQ4OCcgcj0nMjEnIGZpbGw9JyMxMTEnLz48Y2lyY2xlIGN4PScxMDA1JyBjeT0nNDk3JyByPScxOCcgZmlsbD0nIzFhMWExYScvPjxjaXJjbGUgY3g9JzEwNDUnIGN5PSc1MDMnIHI9JzE5JyBmaWxsPScjMTUxNTE1Jy8+PGNpcmNsZSBjeD0nMTA4NScgY3k9JzQ5Micgcj0nMTcnIGZpbGw9JyMxYTFhMWEnLz48Y2lyY2xlIGN4PScxMTI1JyBjeT0nNDk4JyByPScyMCcgZmlsbD0nIzExMScvPjxyZWN0IHg9Jzc4MCcgeT0nMzgwJyB3aWR0aD0nNjAnIGhlaWdodD0nOTAnIGZpbGw9JyMxYTBhMDAnIHN0cm9rZT0nI2ZmNGMxZicgc3Ryb2tlLXdpZHRoPScxLjUnIG9wYWNpdHk9JzAuOCcvPjxyZWN0IHg9JzkwMCcgeT0nMzYwJyB3aWR0aD0nNzAnIGhlaWdodD0nMTAwJyBmaWxsPScjMWEwYTAwJyBzdHJva2U9JyNmZjRjMWYnIHN0cm9rZS13aWR0aD0nMS41JyBvcGFjaXR5PScwLjcnLz48cmVjdCB4PScxMDIwJyB5PSczNzUnIHdpZHRoPSc1NScgaGVpZ2h0PSc4NScgZmlsbD0nIzFhMGEwMCcgc3Ryb2tlPScjZmY0YzFmJyBzdHJva2Utd2lkdGg9JzEnIG9wYWNpdHk9JzAuNicvPjxyZWN0IHg9JzcwMCcgeT0nNDUwJyB3aWR0aD0nMTInIGhlaWdodD0nNDAnIGZpbGw9JyMyYTFhMGEnIG9wYWNpdHk9JzAuNycvPjxyZWN0IHg9JzY5NycgeT0nNDQwJyB3aWR0aD0nMTgnIGhlaWdodD0nMTYnIHJ4PSczJyBmaWxsPScjMmExYTBhJyBvcGFjaXR5PScwLjcnLz48cmVjdCB4PSc5NjAnIHk9JzQ0MCcgd2lkdGg9JzEyJyBoZWlnaHQ9JzQ1JyBmaWxsPScjMmExYTBhJyBvcGFjaXR5PScwLjYnLz48ZWxsaXBzZSBjeD0nODgwJyBjeT0nNDkwJyByeD0nMjUwJyByeT0nODAnIGZpbGw9JyNmZjRjMWYnIG9wYWNpdHk9JzAuMDQnLz48L3N2Zz4=',
+        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNDAwJyBoZWlnaHQ9JzgwMCcgdmlld0JveD0nMCAwIDE0MDAgODAwJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2cyJyBjeD0nNjUlJyBjeT0nNTAlJyByPSc1NSUnPjxzdG9wIG9mZnNldD0nMCUnIHN0b3AtY29sb3I9JyMxYTBhMDUnLz48c3RvcCBvZmZzZXQ9JzEwMCUnIHN0b3AtY29sb3I9JyMwNTA1MDUnLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0nMTQwMCcgaGVpZ2h0PSc4MDAnIGZpbGw9J3VybCgjZzIpJy8+PHJlY3QgeD0nNzAwJyB5PSczMDAnIHdpZHRoPSc0MDAnIGhlaWdodD0nMjgwJyByeD0nNCcgZmlsbD0nIzBmMGYxMCcgc3Ryb2tlPScjMWExYTFhJyBzdHJva2Utd2lkdGg9JzInIHRyYW5zZm9ybT0ncm90YXRlKC01IDkwMCA0NDApJy8+PHJlY3QgeD0nNzIwJyB5PSczMjAnIHdpZHRoPSczNjAnIGhlaWdodD0nNDUnIHJ4PScyJyBmaWxsPScjMWExYTFhJyB0cmFuc2Zvcm09J3JvdGF0ZSgtNSA5MDAgMzQyKScvPjx0ZXh0IHg9JzkwMCcgeT0nMzUwJyBmb250LWZhbWlseT0nc2VyaWYnIGZvbnQtd2VpZ2h0PSdib2xkJyBmb250LXNpemU9JzIwJyBmaWxsPScjZThlOGUwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBvcGFjaXR5PScwLjgnIHRyYW5zZm9ybT0ncm90YXRlKC01IDkwMCAzNTApJz5DT1JSVVDDh8ODTyBFWFBPU1RBPC90ZXh0PjxyZWN0IHg9JzcyMCcgeT0nMzc2JyB3aWR0aD0nMzYwJyBoZWlnaHQ9JzIwJyByeD0nMicgZmlsbD0nIzFhMGEwMCcgdHJhbnNmb3JtPSdyb3RhdGUoLTUgOTAwIDM4NiknLz48dGV4dCB4PSc5MDAnIHk9JzM5MCcgZm9udC1mYW1pbHk9J3NhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nMTEnIGZpbGw9JyNmZjRjMWYnIHRleHQtYW5jaG9yPSdtaWRkbGUnIG9wYWNpdHk9JzAuOScgdHJhbnNmb3JtPSdyb3RhdGUoLTUgOTAwIDM5MCknPkRPQ1VNRU5UT1MgUkVWRUxBTSBERVNWSU8gREUgVkVSQkFTPC90ZXh0PjxyZWN0IHg9JzcxOCcgeT0nMzE2JyB3aWR0aD0nNCcgaGVpZ2h0PSc1NCcgcng9JzInIGZpbGw9JyNmZjRjMWYnIHRyYW5zZm9ybT0ncm90YXRlKC01IDcyMCAzNDMpJy8+PGVsbGlwc2UgY3g9JzkwMCcgY3k9JzQ0MCcgcng9JzIyMCcgcnk9JzE2MCcgZmlsbD0nI2ZmNGMxZicgb3BhY2l0eT0nMC4wMjUnLz48L3N2Zz4=',
+      ]
+    },
+    {
+      label: 'VOCÊ DOCUMENTA O FATO',
+      images: [
+        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNDAwJyBoZWlnaHQ9JzgwMCcgdmlld0JveD0nMCAwIDE0MDAgODAwJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2czJyBjeD0nNjUlJyBjeT0nNTAlJyByPSc1NSUnPjxzdG9wIG9mZnNldD0nMCUnIHN0b3AtY29sb3I9JyMwYTE1MjAnLz48c3RvcCBvZmZzZXQ9JzEwMCUnIHN0b3AtY29sb3I9JyMwNTA1MDUnLz48L3JhZGlhbEdyYWRpZW50PjxyYWRpYWxHcmFkaWVudCBpZD0nc2NyJyBjeD0nNTAlJyBjeT0nNTAlJyByPSc1MCUnPjxzdG9wIG9mZnNldD0nMCUnIHN0b3AtY29sb3I9JyMxYTNhNWMnLz48c3RvcCBvZmZzZXQ9JzEwMCUnIHN0b3AtY29sb3I9JyMwYTFhMmMnLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0nMTQwMCcgaGVpZ2h0PSc4MDAnIGZpbGw9J3VybCgjZzMpJy8+PHJlY3QgeD0nODIwJyB5PScyMjAnIHdpZHRoPScyMDAnIGhlaWdodD0nMzYwJyByeD0nMjQnIGZpbGw9JyMxMTEnIHN0cm9rZT0nIzMzMycgc3Ryb2tlLXdpZHRoPSczJy8+PHJlY3QgeD0nODMwJyB5PScyMzUnIHdpZHRoPScxODAnIGhlaWdodD0nMzMwJyByeD0nMTYnIGZpbGw9J3VybCgjc2NyKScvPjxyZWN0IHg9Jzg0NScgeT0nMjUwJyB3aWR0aD0nMTUwJyBoZWlnaHQ9JzExMCcgcng9JzQnIGZpbGw9J25vbmUnIHN0cm9rZT0nI2ZmNGMxZicgc3Ryb2tlLXdpZHRoPScxLjUnIHN0cm9rZS1kYXNoYXJyYXk9JzgsNCcvPjxsaW5lIHgxPSc5MjAnIHkxPScyNzAnIHgyPSc5MjAnIHkyPSczNDAnIHN0cm9rZT0nI2ZmNGMxZicgc3Ryb2tlLXdpZHRoPScxJyBvcGFjaXR5PScwLjYnLz48bGluZSB4MT0nODY1JyB5MT0nMzA1JyB4Mj0nOTc1JyB5Mj0nMzA1JyBzdHJva2U9JyNmZjRjMWYnIHN0cm9rZS13aWR0aD0nMScgb3BhY2l0eT0nMC42Jy8+PGNpcmNsZSBjeD0nOTIwJyBjeT0nMzA1JyByPScxMicgZmlsbD0nbm9uZScgc3Ryb2tlPScjZmY0YzFmJyBzdHJva2Utd2lkdGg9JzEuNScgb3BhY2l0eT0nMC44Jy8+PHJlY3QgeD0nODYwJyB5PSczNzAnIHdpZHRoPScxNDAnIGhlaWdodD0nMTgwJyByeD0nNCcgZmlsbD0nIzBkMWEyYScgb3BhY2l0eT0nMC44Jy8+PGNpcmNsZSBjeD0nOTc1JyBjeT0nMjUwJyByPSc4JyBmaWxsPScjZmYwMDAwJyBvcGFjaXR5PScwLjknLz48Y2lyY2xlIGN4PSc5NzUnIGN5PScyNTAnIHI9JzE0JyBmaWxsPScjZmYwMDAwJyBvcGFjaXR5PScwLjInLz48dGV4dCB4PSc5NTgnIHk9JzI1NCcgZm9udC1mYW1pbHk9J3NhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nOScgZmlsbD0nd2hpdGUnIGZvbnQtd2VpZ2h0PSdib2xkJz5SRUM8L3RleHQ+PGVsbGlwc2UgY3g9JzkyMCcgY3k9JzQwMCcgcng9JzEyMCcgcnk9JzIwMCcgZmlsbD0nIzFhNmFiNScgb3BhY2l0eT0nMC4wNCcvPjwvc3ZnPg==',
+        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNDAwJyBoZWlnaHQ9JzgwMCcgdmlld0JveD0nMCAwIDE0MDAgODAwJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2c0JyBjeD0nNjAlJyBjeT0nNDUlJyByPSc2MCUnPjxzdG9wIG9mZnNldD0nMCUnIHN0b3AtY29sb3I9JyMwZjBmMGYnLz48c3RvcCBvZmZzZXQ9JzEwMCUnIHN0b3AtY29sb3I9JyMwNTA1MDUnLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0nMTQwMCcgaGVpZ2h0PSc4MDAnIGZpbGw9J3VybCgjZzQpJy8+PHJlY3QgeD0nNzUwJyB5PSczMDAnIHdpZHRoPScyNjAnIGhlaWdodD0nMTYwJyByeD0nOCcgZmlsbD0nIzFhMWExYScgc3Ryb2tlPScjMmEyYTJhJyBzdHJva2Utd2lkdGg9JzInLz48Y2lyY2xlIGN4PSc3NzAnIGN5PSczODAnIHI9JzU1JyBmaWxsPScjMTExJyBzdHJva2U9JyMzMzMnIHN0cm9rZS13aWR0aD0nMycvPjxjaXJjbGUgY3g9Jzc3MCcgY3k9JzM4MCcgcj0nNDAnIGZpbGw9JyMwYTBhMTQnLz48Y2lyY2xlIGN4PSc3NzAnIGN5PSczODAnIHI9JzI4JyBmaWxsPScjMDUwNTEwJy8+PGNpcmNsZSBjeD0nNzU4JyBjeT0nMzY4JyByPSc4JyBmaWxsPScjMWExYTJhJyBvcGFjaXR5PScwLjgnLz48cmVjdCB4PSc4NzAnIHk9JzI4NScgd2lkdGg9JzgwJyBoZWlnaHQ9JzMwJyByeD0nNCcgZmlsbD0nIzIyMicgc3Ryb2tlPScjMzMzJyBzdHJva2Utd2lkdGg9JzEnLz48cmVjdCB4PSc5NTAnIHk9JzMxMCcgd2lkdGg9JzYwJyBoZWlnaHQ9JzQwJyByeD0nNCcgZmlsbD0nIzFhMWExYScgc3Ryb2tlPScjMmEyYTJhJyBzdHJva2Utd2lkdGg9JzEuNScvPjxyZWN0IHg9Jzk1OCcgeT0nMzE3JyB3aWR0aD0nNDQnIGhlaWdodD0nMjYnIHJ4PScyJyBmaWxsPScjMGExYTBhJy8+PHBhdGggZD0nTTc3MCAzMDAgUTcwMCAyMDAgNjUwIDIyMCcgZmlsbD0nbm9uZScgc3Ryb2tlPScjMmEyYTJhJyBzdHJva2Utd2lkdGg9JzgnIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcvPjxjaXJjbGUgY3g9JzEwMDAnIGN5PSczMzAnIHI9JzQnIGZpbGw9JyMwMGZmNDQnIG9wYWNpdHk9JzAuNicvPjxjaXJjbGUgY3g9JzEwMTUnIGN5PSczMzAnIHI9JzQnIGZpbGw9JyNmZjRjMWYnIG9wYWNpdHk9JzAuOCcvPjwvc3ZnPg==',
+        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNDAwJyBoZWlnaHQ9JzgwMCcgdmlld0JveD0nMCAwIDE0MDAgODAwJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2c1JyBjeD0nNjAlJyBjeT0nNTAlJyByPSc1NSUnPjxzdG9wIG9mZnNldD0nMCUnIHN0b3AtY29sb3I9JyMwZjEyMTgnLz48c3RvcCBvZmZzZXQ9JzEwMCUnIHN0b3AtY29sb3I9JyMwNTA1MDUnLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0nMTQwMCcgaGVpZ2h0PSc4MDAnIGZpbGw9J3VybCgjZzUpJy8+PHJlY3QgeD0nODQwJyB5PScyNTAnIHdpZHRoPScxNDAnIGhlaWdodD0nMjYwJyByeD0nMTgnIGZpbGw9JyMwYTBhMGEnIHN0cm9rZT0nIzIyMicgc3Ryb2tlLXdpZHRoPScyJy8+PHJlY3QgeD0nODUyJyB5PScyNjUnIHdpZHRoPScxMTYnIGhlaWdodD0nMjMwJyByeD0nMTInIGZpbGw9JyMwZDE1MjAnLz48Y2lyY2xlIGN4PSc5MTAnIGN5PSczODAnIHI9JzQ1JyBmaWxsPSdub25lJyBzdHJva2U9JyNmZjRjMWYnIHN0cm9rZS13aWR0aD0nMicgb3BhY2l0eT0nMC42Jy8+PGNpcmNsZSBjeD0nOTEwJyBjeT0nMzgwJyByPScyOCcgZmlsbD0nbm9uZScgc3Ryb2tlPScjZmY0YzFmJyBzdHJva2Utd2lkdGg9JzEuNScgb3BhY2l0eT0nMC40Jy8+PGNpcmNsZSBjeD0nOTEwJyBjeT0nMzgwJyByPScxMCcgZmlsbD0nI2ZmNGMxZicgb3BhY2l0eT0nMC4zJy8+PGNpcmNsZSBjeD0nOTEwJyBjeT0nNDkwJyByPScxOCcgZmlsbD0nIzFhMWExYScgc3Ryb2tlPScjMzMzJyBzdHJva2Utd2lkdGg9JzInLz48Y2lyY2xlIGN4PSc5MTAnIGN5PSc0OTAnIHI9JzEyJyBmaWxsPScjMjIyJy8+PGVsbGlwc2UgY3g9JzkxMCcgY3k9JzMwMCcgcng9JzQwJyByeT0nMjAnIGZpbGw9JyNmZmZmZmYnIG9wYWNpdHk9JzAuMDgnLz48ZWxsaXBzZSBjeD0nOTEwJyBjeT0nMzgwJyByeD0nMTAwJyByeT0nMTUwJyBmaWxsPScjMWE2YWI1JyBvcGFjaXR5PScwLjA0Jy8+PC9zdmc+',
+      ]
+    },
+    {
+      label: 'O PESO COLETIVO SE ACUMULA',
+      images: [
+        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNDAwJyBoZWlnaHQ9JzgwMCcgdmlld0JveD0nMCAwIDE0MDAgODAwJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2c2JyBjeD0nNjAlJyBjeT0nNTAlJyByPSc2NSUnPjxzdG9wIG9mZnNldD0nMCUnIHN0b3AtY29sb3I9JyMwZjBhMTUnLz48c3RvcCBvZmZzZXQ9JzEwMCUnIHN0b3AtY29sb3I9JyMwNTA1MDUnLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0nMTQwMCcgaGVpZ2h0PSc4MDAnIGZpbGw9J3VybCgjZzYpJy8+PHJlY3QgeD0nNzkwJyB5PScxNTAnIHdpZHRoPScyNDAnIGhlaWdodD0nNDYwJyByeD0nMjgnIGZpbGw9JyMwZjBmMTgnIHN0cm9rZT0nIzIyMicgc3Ryb2tlLXdpZHRoPSczJy8+PHJlY3QgeD0nODAzJyB5PScxNjgnIHdpZHRoPScyMTQnIGhlaWdodD0nNDI0JyByeD0nMjAnIGZpbGw9JyMwYTBhMTInLz48cmVjdCB4PSc4NjAnIHk9JzIwNScgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMDAnIHJ4PScxOCcgZmlsbD0nIzFhMGEwMCcvPjxyZWN0IHg9Jzg2MicgeT0nMjA3JyB3aWR0aD0nOTYnIGhlaWdodD0nOTYnIHJ4PScxNicgZmlsbD0nI2ZmNGMxZicgb3BhY2l0eT0nMC4xMicvPjx0ZXh0IHg9JzkxMCcgeT0nMjY4JyBmb250LWZhbWlseT0nc2Fucy1zZXJpZicgZm9udC13ZWlnaHQ9J2JvbGQnIGZvbnQtc2l6ZT0nNDYnIGZpbGw9JyNmZjRjMWYnIHRleHQtYW5jaG9yPSdtaWRkbGUnIG9wYWNpdHk9JzAuODUnPlQ8L3RleHQ+PGNpcmNsZSBjeD0nOTU3JyBjeT0nMjEwJyByPScyNicgZmlsbD0nI2ZmNGMxZicvPjx0ZXh0IHg9Jzk1NycgeT0nMjE5JyBmb250LWZhbWlseT0nc2Fucy1zZXJpZicgZm9udC13ZWlnaHQ9J2JvbGQnIGZvbnQtc2l6ZT0nMjAnIGZpbGw9J3doaXRlJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJz45OSs8L3RleHQ+PHJlY3QgeD0nODE4JyB5PSczMjgnIHdpZHRoPScxODQnIGhlaWdodD0nNDInIHJ4PSc3JyBmaWxsPScjMTUxNTIwJy8+PHRleHQgeD0nODI4JyB5PSczNDYnIGZvbnQtZmFtaWx5PSdzYW5zLXNlcmlmJyBmb250LXNpemU9JzExJyBmaWxsPScjZmY0YzFmJyBvcGFjaXR5PScwLjg1Jz4rMS4yNDcgYWJyYWNvczwvdGV4dD48dGV4dCB4PSc4MjgnIHk9JzM2MicgZm9udC1mYW1pbHk9J3NhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nMTAnIGZpbGw9JyM1NTUnPmFnb3JhIG1lc21vPC90ZXh0PjxyZWN0IHg9JzgxOCcgeT0nMzc4JyB3aWR0aD0nMTg0JyBoZWlnaHQ9JzQyJyByeD0nNycgZmlsbD0nIzE1MTUyMCcvPjx0ZXh0IHg9JzgyOCcgeT0nMzk2JyBmb250LWZhbWlseT0nc2Fucy1zZXJpZicgZm9udC1zaXplPScxMScgZmlsbD0nI2ZmOGM0Micgb3BhY2l0eT0nMC44NSc+KzMuODkxIHJlZ2lzdHJvczwvdGV4dD48dGV4dCB4PSc4MjgnIHk9JzQxMicgZm9udC1mYW1pbHk9J3NhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nMTAnIGZpbGw9JyM1NTUnPnVsdGltYSBob3JhPC90ZXh0PjxyZWN0IHg9JzgxOCcgeT0nNDI4JyB3aWR0aD0nMTg0JyBoZWlnaHQ9JzQyJyByeD0nNycgZmlsbD0nIzE1MTUyMCcvPjx0ZXh0IHg9JzgyOCcgeT0nNDQ2JyBmb250LWZhbWlseT0nc2Fucy1zZXJpZicgZm9udC1zaXplPScxMScgZmlsbD0nI2ZmNGMxZicgb3BhY2l0eT0nMC43Jz4rMTIuNDQwIGFzc2luYXR1cmFzPC90ZXh0Pjx0ZXh0IHg9JzgyOCcgeT0nNDYyJyBmb250LWZhbWlseT0nc2Fucy1zZXJpZicgZm9udC1zaXplPScxMCcgZmlsbD0nIzU1NSc+aG9qZTwvdGV4dD48ZWxsaXBzZSBjeD0nOTEwJyBjeT0nMzkwJyByeD0nMTQwJyByeT0nMjMwJyBmaWxsPScjZmY0YzFmJyBvcGFjaXR5PScwLjAzJy8+PC9zdmc+',
+        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNDAwJyBoZWlnaHQ9JzgwMCcgdmlld0JveD0nMCAwIDE0MDAgODAwJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2c3JyBjeD0nNjUlJyBjeT0nNTAlJyByPSc2MCUnPjxzdG9wIG9mZnNldD0nMCUnIHN0b3AtY29sb3I9JyMwYTE1MGEnLz48c3RvcCBvZmZzZXQ9JzEwMCUnIHN0b3AtY29sb3I9JyMwNTA1MDUnLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0nMTQwMCcgaGVpZ2h0PSc4MDAnIGZpbGw9J3VybCgjZzcpJy8+PGVsbGlwc2UgY3g9JzcwMCcgY3k9JzYyMCcgcng9JzIyJyByeT0nMzUnIGZpbGw9JyMxMTEnIG9wYWNpdHk9JzAuNicvPjxjaXJjbGUgY3g9JzcwMCcgY3k9JzU3OCcgcj0nMTYnIGZpbGw9JyMxMTEnIG9wYWNpdHk9JzAuNicvPjxlbGxpcHNlIGN4PSc3NTUnIGN5PSc2MTAnIHJ4PScyMicgcnk9JzQwJyBmaWxsPScjMTQxNDE0JyBvcGFjaXR5PScwLjcnLz48Y2lyY2xlIGN4PSc3NTUnIGN5PSc1NjMnIHI9JzE4JyBmaWxsPScjMTQxNDE0JyBvcGFjaXR5PScwLjcnLz48ZWxsaXBzZSBjeD0nODEzJyBjeT0nNjI1JyByeD0nMjAnIHJ5PSczOCcgZmlsbD0nIzExMScgb3BhY2l0eT0nMC42NScvPjxjaXJjbGUgY3g9JzgxMycgY3k9JzU4MCcgcj0nMTYnIGZpbGw9JyMxMTEnIG9wYWNpdHk9JzAuNjUnLz48ZWxsaXBzZSBjeD0nODcwJyBjeT0nNjE1JyByeD0nMjInIHJ5PSc0MCcgZmlsbD0nIzE1MTUxNScgb3BhY2l0eT0nMC43Jy8+PGNpcmNsZSBjeD0nODcwJyBjeT0nNTY4JyByPScxOCcgZmlsbD0nIzE1MTUxNScgb3BhY2l0eT0nMC43Jy8+PGVsbGlwc2UgY3g9JzkyNycgY3k9JzYyMCcgcng9JzIwJyByeT0nMzgnIGZpbGw9JyMxMTEnIG9wYWNpdHk9JzAuNjUnLz48Y2lyY2xlIGN4PSc5MjcnIGN5PSc1NzUnIHI9JzE2JyBmaWxsPScjMTExJyBvcGFjaXR5PScwLjY1Jy8+PGVsbGlwc2UgY3g9Jzk4NCcgY3k9JzYxMCcgcng9JzIyJyByeT0nNDAnIGZpbGw9JyMxNDE0MTQnIG9wYWNpdHk9JzAuNycvPjxjaXJjbGUgY3g9Jzk4NCcgY3k9JzU2Mycgcj0nMTgnIGZpbGw9JyMxNDE0MTQnIG9wYWNpdHk9JzAuNycvPjxlbGxpcHNlIGN4PScxMDQwJyBjeT0nNjE4JyByeD0nMjAnIHJ5PSczNScgZmlsbD0nIzExMScgb3BhY2l0eT0nMC42Jy8+PGNpcmNsZSBjeD0nMTA0MCcgY3k9JzU3Nicgcj0nMTYnIGZpbGw9JyMxMTEnIG9wYWNpdHk9JzAuNicvPjxyZWN0IHg9Jzc0OCcgeT0nNDkwJyB3aWR0aD0nMTQnIGhlaWdodD0nMjQnIHJ4PSczJyBmaWxsPScjMWEzYTVjJyBzdHJva2U9JyMyYTZhYjUnIHN0cm9rZS13aWR0aD0nMScvPjxlbGxpcHNlIGN4PSc3NTUnIGN5PSc0OTAnIHJ4PSc4JyByeT0nMycgZmlsbD0nIzRhOWFlMCcgb3BhY2l0eT0nMC40Jy8+PHJlY3QgeD0nODYzJyB5PSc0ODAnIHdpZHRoPScxNCcgaGVpZ2h0PScyNCcgcng9JzMnIGZpbGw9JyMxYTNhNWMnIHN0cm9rZT0nIzJhNmFiNScgc3Ryb2tlLXdpZHRoPScxJy8+PGVsbGlwc2UgY3g9Jzg3MCcgY3k9JzQ4MCcgcng9JzgnIHJ5PSczJyBmaWxsPScjNGE5YWUwJyBvcGFjaXR5PScwLjQnLz48cmVjdCB4PSc5NzcnIHk9JzQ4OCcgd2lkdGg9JzE0JyBoZWlnaHQ9JzI0JyByeD0nMycgZmlsbD0nIzFhM2E1Yycgc3Ryb2tlPScjMmE2YWI1JyBzdHJva2Utd2lkdGg9JzEnLz48ZWxsaXBzZSBjeD0nOTg0JyBjeT0nNDg4JyByeD0nOCcgcnk9JzMnIGZpbGw9JyM0YTlhZTAnIG9wYWNpdHk9JzAuMzUnLz48dGV4dCB4PSc4NzAnIHk9JzQzMCcgZm9udC1mYW1pbHk9J3NhbnMtc2VyaWYnIGZvbnQtd2VpZ2h0PSdib2xkJyBmb250LXNpemU9JzQ0JyBmaWxsPScjZmY0YzFmJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBvcGFjaXR5PScwLjY1Jz40Ny4yOTE8L3RleHQ+PHRleHQgeD0nODcwJyB5PSc0NTgnIGZvbnQtZmFtaWx5PSdzYW5zLXNlcmlmJyBmb250LXNpemU9JzEzJyBmaWxsPScjZmY4YzQyJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBvcGFjaXR5PScwLjUnPmFicmFjb3MgZSBjb250YW5kby4uLjwvdGV4dD48ZWxsaXBzZSBjeD0nODcwJyBjeT0nNjQwJyByeD0nMjgwJyByeT0nNjAnIGZpbGw9JyNmZjRjMWYnIG9wYWNpdHk9JzAuMDQnLz48L3N2Zz4=',
+        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNDAwJyBoZWlnaHQ9JzgwMCcgdmlld0JveD0nMCAwIDE0MDAgODAwJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2c4JyBjeD0nNjAlJyBjeT0nNTAlJyByPSc2MCUnPjxzdG9wIG9mZnNldD0nMCUnIHN0b3AtY29sb3I9JyMxMDBhMTgnLz48c3RvcCBvZmZzZXQ9JzEwMCUnIHN0b3AtY29sb3I9JyMwNTA1MDUnLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0nMTQwMCcgaGVpZ2h0PSc4MDAnIGZpbGw9J3VybCgjZzgpJy8+PHRleHQgeD0nODcwJyB5PSczMjAnIGZvbnQtZmFtaWx5PSdzYW5zLXNlcmlmJyBmb250LXdlaWdodD0nYm9sZCcgZm9udC1zaXplPSc3OCcgZmlsbD0nI2ZmNGMxZicgdGV4dC1hbmNob3I9J21pZGRsZScgb3BhY2l0eT0nMC43NSc+MTI4LjQ5MjwvdGV4dD48dGV4dCB4PSc4NzAnIHk9JzM1OCcgZm9udC1mYW1pbHk9J3NhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nMTQnIGZpbGw9JyNmZjhjNDInIHRleHQtYW5jaG9yPSdtaWRkbGUnIG9wYWNpdHk9JzAuNTUnIGxldHRlci1zcGFjaW5nPSczJz5BU1NJTkFUVVJBUyBBQ1VNVUxBREFTPC90ZXh0PjxyZWN0IHg9JzcyMCcgeT0nMzk1JyB3aWR0aD0nMzAwJyBoZWlnaHQ9JzgnIHJ4PSc0JyBmaWxsPScjMWExYTFhJy8+PHJlY3QgeD0nNzIwJyB5PSczOTUnIHdpZHRoPScyNDAnIGhlaWdodD0nOCcgcng9JzQnIGZpbGw9JyNmZjRjMWYnIG9wYWNpdHk9JzAuOCcvPjx0ZXh0IHg9Jzg3MCcgeT0nNDI4JyBmb250LWZhbWlseT0nc2Fucy1zZXJpZicgZm9udC1zaXplPScxMScgZmlsbD0nIzU1NScgdGV4dC1hbmNob3I9J21pZGRsZSc+ODAlIGRvIG9iamV0aXZvPC90ZXh0PjxjaXJjbGUgY3g9Jzc5MCcgY3k9JzQ4NScgcj0nMjgnIGZpbGw9JyMxYTFhMWEnIHN0cm9rZT0nIzJhMmEyYScgc3Ryb2tlLXdpZHRoPScxLjUnLz48dGV4dCB4PSc3OTAnIHk9JzQ5MycgZm9udC1mYW1pbHk9J3NhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nMTgnIGZpbGw9JyNmZjRjMWYnIHRleHQtYW5jaG9yPSdtaWRkbGUnIG9wYWNpdHk9JzAuNyc+JiM5ODI5OzwvdGV4dD48Y2lyY2xlIGN4PSc4NzAnIGN5PSc0ODUnIHI9JzI4JyBmaWxsPScjMWExYTFhJyBzdHJva2U9JyMyYTJhMmEnIHN0cm9rZS13aWR0aD0nMS41Jy8+PHRleHQgeD0nODcwJyB5PSc0OTMnIGZvbnQtZmFtaWx5PSdzYW5zLXNlcmlmJyBmb250LXNpemU9JzE2JyBmaWxsPScjZmY4YzQyJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBvcGFjaXR5PScwLjcnPiYjODU5Mzs8L3RleHQ+PGNpcmNsZSBjeD0nOTUwJyBjeT0nNDg1JyByPScyOCcgZmlsbD0nIzFhMWExYScgc3Ryb2tlPScjMmEyYTJhJyBzdHJva2Utd2lkdGg9JzEuNScvPjx0ZXh0IHg9Jzk1MCcgeT0nNDkzJyBmb250LWZhbWlseT0nc2Fucy1zZXJpZicgZm9udC1zaXplPScxNCcgZmlsbD0nI2ZmNGMxZicgdGV4dC1hbmNob3I9J21pZGRsZScgb3BhY2l0eT0nMC43Jz4mIzEwMDAzOzwvdGV4dD48ZWxsaXBzZSBjeD0nODcwJyBjeT0nNDUwJyByeD0nMjUwJyByeT0nMjAwJyBmaWxsPScjZmY0YzFmJyBvcGFjaXR5PScwLjAyNScvPjwvc3ZnPg==',
+      ]
+    },
+    {
+      label: 'A REALIDADE SE MOVE',
+      images: [
+        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNDAwJyBoZWlnaHQ9JzgwMCcgdmlld0JveD0nMCAwIDE0MDAgODAwJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2c5JyBjeD0nNjAlJyBjeT0nNDAlJyByPSc2MCUnPjxzdG9wIG9mZnNldD0nMCUnIHN0b3AtY29sb3I9JyMxNTEwMGEnLz48c3RvcCBvZmZzZXQ9JzEwMCUnIHN0b3AtY29sb3I9JyMwNTA1MDUnLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0nMTQwMCcgaGVpZ2h0PSc4MDAnIGZpbGw9J3VybCgjZzkpJy8+PGxpbmUgeDE9Jzg3MCcgeTE9JzE4MCcgeDI9Jzg3MCcgeTI9JzU2MCcgc3Ryb2tlPScjM2EyYTEwJyBzdHJva2Utd2lkdGg9JzQnLz48bGluZSB4MT0nNzIwJyB5MT0nMjgwJyB4Mj0nMTAyMCcgeTI9JzI4MCcgc3Ryb2tlPScjM2EyYTEwJyBzdHJva2Utd2lkdGg9JzMnLz48bGluZSB4MT0nNzIwJyB5MT0nMjgwJyB4Mj0nNjkwJyB5Mj0nMzgwJyBzdHJva2U9JyMyYTFhMDgnIHN0cm9rZS13aWR0aD0nMicvPjxsaW5lIHgxPSc3MjAnIHkxPScyODAnIHgyPSc3NTAnIHkyPSczODAnIHN0cm9rZT0nIzJhMWEwOCcgc3Ryb2tlLXdpZHRoPScyJy8+PGVsbGlwc2UgY3g9JzcyMCcgY3k9JzM4NScgcng9JzUwJyByeT0nMTInIGZpbGw9JyMxYTEwMDgnIHN0cm9rZT0nIzJhMWEwOCcgc3Ryb2tlLXdpZHRoPScxLjUnLz48bGluZSB4MT0nMTAyMCcgeTE9JzI4MCcgeDI9Jzk5MCcgeTI9JzQyMCcgc3Ryb2tlPScjMmExYTA4JyBzdHJva2Utd2lkdGg9JzInLz48bGluZSB4MT0nMTAyMCcgeTE9JzI4MCcgeDI9JzEwNTAnIHkyPSc0MjAnIHN0cm9rZT0nIzJhMWEwOCcgc3Ryb2tlLXdpZHRoPScyJy8+PGVsbGlwc2UgY3g9JzEwMjAnIGN5PSc0MjUnIHJ4PSc1MCcgcnk9JzEyJyBmaWxsPScjMWExMDA4JyBzdHJva2U9JyMyYTFhMDgnIHN0cm9rZS13aWR0aD0nMS41Jy8+PHJlY3QgeD0nOTkwJyB5PSc0MDUnIHdpZHRoPSczMCcgaGVpZ2h0PScyMCcgcng9JzInIGZpbGw9JyMxYTFhMDgnIHN0cm9rZT0nIzJhMWEwOCcgc3Ryb2tlLXdpZHRoPScxJyB0cmFuc2Zvcm09J3JvdGF0ZSgtNSAxMDA1IDQxNSknLz48cmVjdCB4PScxMDAwJyB5PSc0MDAnIHdpZHRoPSczMCcgaGVpZ2h0PScyMCcgcng9JzInIGZpbGw9JyMxYTFhMDgnIHN0cm9rZT0nIzJhMWEwOCcgc3Ryb2tlLXdpZHRoPScxJyB0cmFuc2Zvcm09J3JvdGF0ZSg1IDEwMTUgNDEwKScvPjxjaXJjbGUgY3g9Jzg3MCcgY3k9JzE4MCcgcj0nMTInIGZpbGw9JyMyYTFhMDgnIHN0cm9rZT0nIzRhMzAxMCcgc3Ryb2tlLXdpZHRoPScyJy8+PGVsbGlwc2UgY3g9Jzg3MCcgY3k9JzU2MCcgcng9JzEyMCcgcnk9JzQwJyBmaWxsPScjZDRhODUzJyBvcGFjaXR5PScwLjEnLz48cmVjdCB4PSc4MDAnIHk9JzQ1MCcgd2lkdGg9JzE2MCcgaGVpZ2h0PSc1NScgcng9JzEwJyBmaWxsPScjMmExYTA4JyBzdHJva2U9JyM0YTMwMTAnIHN0cm9rZS13aWR0aD0nMicgdHJhbnNmb3JtPSdyb3RhdGUoLTMwIDg4MCA0NzcpJy8+PHJlY3QgeD0nODcwJyB5PSczODAnIHdpZHRoPScyMicgaGVpZ2h0PScxNjAnIHJ4PSc1JyBmaWxsPScjMWExMDA4JyBzdHJva2U9JyMzYTIwMTAnIHN0cm9rZS13aWR0aD0nMScgdHJhbnNmb3JtPSdyb3RhdGUoLTMwIDg4MSA0NjApJy8+PC9zdmc+',
+        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNDAwJyBoZWlnaHQ9JzgwMCcgdmlld0JveD0nMCAwIDE0MDAgODAwJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2dhJyBjeD0nNjAlJyBjeT0nNDAlJyByPSc2NSUnPjxzdG9wIG9mZnNldD0nMCUnIHN0b3AtY29sb3I9JyMwYTBmMTUnLz48c3RvcCBvZmZzZXQ9JzEwMCUnIHN0b3AtY29sb3I9JyMwNTA1MDUnLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0nMTQwMCcgaGVpZ2h0PSc4MDAnIGZpbGw9J3VybCgjZ2EpJy8+PHJlY3QgeD0nNzIwJyB5PScyMDAnIHdpZHRoPSczNjAnIGhlaWdodD0nNDUwJyByeD0nNCcgZmlsbD0nIzBmMGYxMCcgc3Ryb2tlPScjMjIyJyBzdHJva2Utd2lkdGg9JzInIHRyYW5zZm9ybT0ncm90YXRlKC0zIDkwMCA0MjUpJy8+PHJlY3QgeD0nNzM4JyB5PScyMjUnIHdpZHRoPSczMjQnIGhlaWdodD0nNTAnIHJ4PScyJyBmaWxsPScjMWExYTFhJyB0cmFuc2Zvcm09J3JvdGF0ZSgtMyA5MDAgMjUwKScvPjx0ZXh0IHg9JzkwMCcgeT0nMjU4JyBmb250LWZhbWlseT0nc2VyaWYnIGZvbnQtd2VpZ2h0PSdib2xkJyBmb250LXNpemU9JzIwJyBmaWxsPScjZThlOGUwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBvcGFjaXR5PScwLjg1JyB0cmFuc2Zvcm09J3JvdGF0ZSgtMyA5MDAgMjU4KSc+REVOVU5DSUEgRk9SQ0EgSU5WRVNUSUdBQ0FPPC90ZXh0PjxyZWN0IHg9JzczOCcgeT0nMjgyJyB3aWR0aD0nMzI0JyBoZWlnaHQ9JzI2JyByeD0nMicgZmlsbD0nIzFhMGEwMCcgdHJhbnNmb3JtPSdyb3RhdGUoLTMgOTAwIDI5NSknLz48dGV4dCB4PSc5MDAnIHk9JzMwMCcgZm9udC1mYW1pbHk9J3NlcmlmJyBmb250LXNpemU9JzEzJyBmaWxsPScjZmY0YzFmJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBvcGFjaXR5PScwLjknIHRyYW5zZm9ybT0ncm90YXRlKC0zIDkwMCAzMDApJz5JTlZFU1RJR0FDQU8gQUJFUlRBPC90ZXh0PjxyZWN0IHg9JzczNicgeT0nMjIxJyB3aWR0aD0nNCcgaGVpZ2h0PSc2MCcgcng9JzInIGZpbGw9JyNmZjRjMWYnIHRyYW5zZm9ybT0ncm90YXRlKC0zIDczOCAyNTEpJy8+PHJlY3QgeD0nNzM4JyB5PSczMTgnIHdpZHRoPScxNDgnIGhlaWdodD0nNycgcng9JzInIGZpbGw9JyMyMjInLz48cmVjdCB4PSc3MzgnIHk9JzMzMicgd2lkdGg9JzEzOCcgaGVpZ2h0PSc3JyByeD0nMicgZmlsbD0nIzFlMWUxZScvPjxyZWN0IHg9JzczOCcgeT0nMzQ2JyB3aWR0aD0nMTQ0JyBoZWlnaHQ9JzcnIHJ4PScyJyBmaWxsPScjMjIyJy8+PGVsbGlwc2UgY3g9JzkwMCcgY3k9JzQyNScgcng9JzIyMCcgcnk9JzE2MCcgZmlsbD0nI2ZmNGMxZicgb3BhY2l0eT0nMC4wMjUnLz48L3N2Zz4=',
+        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNDAwJyBoZWlnaHQ9JzgwMCcgdmlld0JveD0nMCAwIDE0MDAgODAwJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2diJyBjeD0nNjAlJyBjeT0nNDAlJyByPSc2MCUnPjxzdG9wIG9mZnNldD0nMCUnIHN0b3AtY29sb3I9JyMwYTEwMGEnLz48c3RvcCBvZmZzZXQ9JzEwMCUnIHN0b3AtY29sb3I9JyMwNTA1MDUnLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0nMTQwMCcgaGVpZ2h0PSc4MDAnIGZpbGw9J3VybCgjZ2IpJy8+PHJlY3QgeD0nNzIwJyB5PScyNTAnIHdpZHRoPSczNjAnIGhlaWdodD0nNDAwJyBmaWxsPScjMGYwZjBmJyBzdHJva2U9JyMxYTFhMWEnIHN0cm9rZS13aWR0aD0nMicvPjxyZWN0IHg9Jzc0MCcgeT0nMjgwJyB3aWR0aD0nMzAnIGhlaWdodD0nMzcwJyBmaWxsPScjMTQxNDE0Jy8+PHJlY3QgeD0nODEwJyB5PScyODAnIHdpZHRoPSczMCcgaGVpZ2h0PSczNzAnIGZpbGw9JyMxNDE0MTQnLz48cmVjdCB4PSc4ODAnIHk9JzI4MCcgd2lkdGg9JzMwJyBoZWlnaHQ9JzM3MCcgZmlsbD0nIzE0MTQxNCcvPjxyZWN0IHg9Jzk1MCcgeT0nMjgwJyB3aWR0aD0nMzAnIGhlaWdodD0nMzcwJyBmaWxsPScjMTQxNDE0Jy8+PHJlY3QgeD0nMTAyMCcgeT0nMjgwJyB3aWR0aD0nMzAnIGhlaWdodD0nMzcwJyBmaWxsPScjMTQxNDE0Jy8+PHBvbHlnb24gcG9pbnRzPSc3MDAsMjU1IDkwMCwxODAgMTEwMCwyNTUnIGZpbGw9JyMxMTEnIHN0cm9rZT0nIzFhMWExYScgc3Ryb2tlLXdpZHRoPScyJy8+PHJlY3QgeD0nNzAwJyB5PSc2NDUnIHdpZHRoPSc0MDAnIGhlaWdodD0nMjAnIGZpbGw9JyMxMTEnIHN0cm9rZT0nIzFhMWExYScgc3Ryb2tlLXdpZHRoPScxJy8+PHJlY3QgeD0nNjkwJyB5PSc2NjAnIHdpZHRoPSc0MjAnIGhlaWdodD0nMjAnIGZpbGw9JyMwZjBmMGYnIHN0cm9rZT0nIzFhMWExYScgc3Ryb2tlLXdpZHRoPScxJy8+PHJlY3QgeD0nODIwJyB5PScyMTAnIHdpZHRoPScxNjAnIGhlaWdodD0nMzAnIHJ4PScyJyBmaWxsPScjMWExMDA4Jy8+PHRleHQgeD0nOTAwJyB5PScyMzAnIGZvbnQtZmFtaWx5PSdzZXJpZicgZm9udC1zaXplPScxMScgZmlsbD0nI2Q0YTg1MycgdGV4dC1hbmNob3I9J21pZGRsZScgb3BhY2l0eT0nMC43JyBsZXR0ZXItc3BhY2luZz0nMyc+VFJJQlVOQUw8L3RleHQ+PHJlY3QgeD0nODIwJyB5PSczNzAnIHdpZHRoPSc1MCcgaGVpZ2h0PSc3MCcgcng9JzInIGZpbGw9JyMxYTFhMDgnIG9wYWNpdHk9JzAuNCcvPjxyZWN0IHg9JzkzMCcgeT0nMzcwJyB3aWR0aD0nNTAnIGhlaWdodD0nNzAnIHJ4PScyJyBmaWxsPScjMWExYTA4JyBvcGFjaXR5PScwLjMnLz48ZWxsaXBzZSBjeD0nOTAwJyBjeT0nNDAwJyByeD0nMjAwJyByeT0nMTUwJyBmaWxsPScjZDRhODUzJyBvcGFjaXR5PScwLjAzJy8+PC9zdmc+',
+      ]
+    },
+  ];
+
+  // ── STATE ──
+  let currentStep = -1;   // -1 = nenhum selecionado
+  let slideInterval = null;
+  let slideIndexes = [0, 0, 0, 0];
+  let activeSlot = 'a';
+
+  const imgA   = document.getElementById('how-img-a');
+  const imgB   = document.getElementById('how-img-b');
+  const label  = document.getElementById('hw-active-label');
+
+  // ── IMAGE CROSSFADE — funciona com base64 e URLs externas ──
+  function showImage(url) {
+    if (activeSlot === 'a') {
+      imgB.src = url;
+      // onload pode não disparar em base64 já cacheado — força com timeout
+      const doSwap = () => { imgB.style.opacity = '1'; imgA.style.opacity = '0'; };
+      imgB.onload = doSwap;
+      setTimeout(doSwap, 80); // fallback
+      activeSlot = 'b';
+    } else {
+      imgA.src = url;
+      const doSwap = () => { imgA.style.opacity = '1'; imgB.style.opacity = '0'; };
+      imgA.onload = doSwap;
+      setTimeout(doSwap, 80);
+      activeSlot = 'a';
+    }
+  }
+
+  function hideImages() {
+    imgA.style.opacity = '0';
+    imgB.style.opacity = '0';
+  }
+
+  // ── SLIDESHOW ──
+  function startSlideshow(stepIdx) {
+    stopSlideshow();
+    const imgs = stepData[stepIdx].images;
+    showImage(imgs[slideIndexes[stepIdx]]);
+    slideInterval = setInterval(() => {
+      slideIndexes[stepIdx] = (slideIndexes[stepIdx] + 1) % imgs.length;
+      showImage(imgs[slideIndexes[stepIdx]]);
+    }, 2200);
+  }
+
+  function stopSlideshow() {
+    if (slideInterval) { clearInterval(slideInterval); slideInterval = null; }
+  }
+
+  // ── VISUAL STATE ──
+  function setCircleActive(idx, on) {
+    const step = document.querySelector(`.how-step-v2[data-step="${idx}"]`);
+    if (step) { on ? step.classList.add('active') : step.classList.remove('active'); }
+  }
+
+  function setConnectorLit(idx, on) {
+    const fill = document.getElementById('hw-fill-' + idx);
+    if (fill) { on ? fill.classList.add('lit') : fill.classList.remove('lit'); }
+  }
+
+  function applySelectedState(idx) {
+    // Circles: acende todos até idx
+    for (let i = 0; i < 4; i++) setCircleActive(i, i <= idx);
+    // Connectors: acende todos antes de idx
+    for (let i = 0; i < 3; i++) setConnectorLit(i, i < idx);
+    // Connector animado do passo atual → próximo
+    if (idx < 3) setConnectorLit(idx, true);
+    // Label
+    label.style.opacity = '1';
+    label.textContent = stepData[idx].label;
+  }
+
+  function clearAllState() {
+    for (let i = 0; i < 4; i++) setCircleActive(i, false);
+    for (let i = 0; i < 3; i++) setConnectorLit(i, false);
+    label.style.opacity = '0';
+    label.textContent = '';
+    stopSlideshow();
+    hideImages();
+  }
+
+  // ── HANDLERS ──
+
+  // Hover: acende só o círculo hovered + mostra imagens (sem alterar currentStep)
+  window.hwHover = function(idx) {
+    setCircleActive(idx, true);
+    label.style.opacity = '1';
+    label.textContent = stepData[idx].label;
+    startSlideshow(idx);
+  };
+
+  // Mouse sai: restaura para o estado do currentStep (ou zera tudo)
+  window.hwLeave = function() {
+    if (currentStep >= 0) {
+      // Volta pro estado selecionado
+      for (let i = 0; i < 4; i++) setCircleActive(i, i <= currentStep);
+      label.textContent = stepData[currentStep].label;
+      startSlideshow(currentStep);
+    } else {
+      clearAllState();
+    }
+  };
+
+  // Click: toggle — se clicar no mesmo que está selecionado, deseleciona
+  window.hwClick = function(idx) {
+    if (currentStep === idx) {
+      // DESELECIONAR
+      currentStep = -1;
+      clearAllState();
+    } else {
+      // SELECIONAR
+      currentStep = idx;
+      applySelectedState(idx);
+      startSlideshow(idx);
+    }
+  };
+})();
+</script>
+
+</div><!-- end how-inner -->
+</div><!-- end how-section #how-immersive -->
+
+<!-- Terminal / Technical -->
+<div class="terminal-section">
+  <div class="terminal-inner">
+    <div class="reveal">
+      <div class="section-label">Arquitetura</div>
+      <h2 class="section-title" style="font-size: clamp(28px,3.5vw,52px);">Construído para<br><em>permanência</em>.<br>Não para viralidade.</h2>
+      <p class="section-body" style="margin-top: 24px;">Cada registro no Tagged é imutável, carimbado no tempo e tecnicamente irrefutável. Projetado para produzir documentos com força jurídica, não métricas de engajamento.</p>
+    </div>
+    <div class="terminal reveal reveal-delay-2">
+      <div class="terminal-bar">
+        <div class="terminal-dot"></div>
+        <div class="terminal-dot"></div>
+        <div class="terminal-dot"></div>
+        <span class="terminal-title">tagged-core / existencia.ts</span>
+      </div>
+      <div class="terminal-body">
+        <span class="t-line t-comment">// O protocolo da existência real</span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-keyword">interface</span> <span class="t-type">Registro</span> {</span>
+        <span class="t-line t-indent"><span class="t-var">id</span>: <span class="t-type">UUID</span>;</span>
+        <span class="t-line t-indent"><span class="t-var">timestamp</span>: <span class="t-type">ImmutableDate</span>;</span>
+        <span class="t-line t-indent"><span class="t-var">percepcao</span>: <span class="t-type">string</span>;</span>
+        <span class="t-line t-indent"><span class="t-var">peso</span>: <span class="t-type">number</span>; <span class="t-comment">// cresce com abraços</span></span>
+        <span class="t-line t-indent"><span class="t-var">documentoJuridico</span>: <span class="t-type">PDF</span>;</span>
+        <span class="t-line t-indent"><span class="t-var">assinaturas</span>: <span class="t-type">Marca[]</span>;</span>
+        <span class="t-line">}</span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-keyword">async function</span> <span class="t-func">existirComPeso</span>(</span>
+        <span class="t-line t-indent"><span class="t-var">percepcao</span>: <span class="t-type">string</span></span>
+        <span class="t-line">): <span class="t-keyword">Promise</span>&lt;<span class="t-accent">ExistênciaReal</span>&gt; {</span>
+        <span class="t-line t-indent"><span class="t-keyword">const</span> <span class="t-var">registro</span> = <span class="t-keyword">await</span> <span class="t-func">registrar</span>(percepcao);</span>
+        <span class="t-line t-indent"><span class="t-keyword">const</span> <span class="t-var">peso</span> = <span class="t-keyword">await</span> <span class="t-func">acumularMarcas</span>(registro);</span>
+        <span class="t-line t-indent"><span class="t-keyword">const</span> <span class="t-var">doc</span> = <span class="t-func">gerarDocumento</span>(peso);</span>
+        <span class="t-line t-indent"><span class="t-keyword">return</span> { <span class="t-var">peso</span>, <span class="t-var">doc</span>, <span class="t-var">liberdade</span>: <span class="t-num">true</span> };</span>
+        <span class="t-line">}</span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line t-comment">// O Tagged não promete revolução.</span>
+        <span class="t-line t-comment">// Devolve a ferramenta para você</span>
+        <span class="t-line t-comment">// ser agente da sua própria.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RealTech -->
+<div id="realtech" class="realtech-section tagged-mesh">
+  <div class="realtech-inner">
+    <div class="section-label reveal">Nova Categoria</div>
+    <h2 class="section-title reveal reveal-delay-1">O Tagged não é<br>mais uma tech.<br>É uma <em>RealTech</em>.</h2>
+    <div class="realtech-comparison reveal reveal-delay-2">
+      <div class="tech-category">
+        <div class="tech-item">
+          <div class="tech-item-label">FinTech</div>
+          <div class="tech-item-value">Move dinheiro</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-item-label">HealthTech</div>
+          <div class="tech-item-value">Melhora saúde</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-item-label">EdTech</div>
+          <div class="tech-item-value">Facilita educação</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-item-label">SocialTech</div>
+          <div class="tech-item-value">Cria engajamento</div>
+        </div>
+      </div>
+      <div class="vs-divider">vs</div>
+      <div class="realtech-highlight">
+        <div class="label">RealTech — Categoria Inédita</div>
+        <div class="value">Transforma percepção<br>em pressão sobre<br>a realidade.</div>
+        <div style="margin-top: 24px; font-family: 'Space Mono', monospace; font-size: 15px; color: var(--text-faint); line-height: 1.8;">
+          Não move dinheiro.<br>
+          Não vende dados.<br>
+          Não cria dependência.<br>
+          <strong style="color: var(--accent);">Devolve poder ao cidadão.</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Manifesto -->
+<div id="manifesto-preview" class="manifesto-section tagged-mesh">
+  <p class="manifesto-text reveal">
+    <em>Não é apenas</em> sobre denúncia.<br>
+    <span class="dim">É sobre o direito de que</span><br>
+    sua percepção<br>
+    <span class="dim">tenha</span> <em>peso mensurável.</em>
+  </p>
+  <div class="manifesto-chain">
+    <div class="chain-item active">Registro, não postagem.</div>
+    <div class="chain-item">Você <strong>MARCA</strong>, não dá like.</div>
+    <div class="chain-item">Peso, não viralização.</div>
+    <div class="chain-item">Consequência, não promessa.</div>
+    <div class="chain-item" style="color: var(--white); font-size: 20px; border-color: rgba(255,76,31,0.3);">O Tagged não pune.<br>Ele torna impossível ignorar.</div>
+  </div>
+</div>
+
+<!-- Manifesto Button -->
+<div style="text-align: center; padding: 64px 48px; border-bottom: 1px solid var(--border); background: var(--black);">
+  <a href="#" onclick="showView('manifesto'); return false;" class="btn-primary" style="font-size: 14px; padding: 16px 48px;">Ler o Manifesto Completo</a>
+  <p style="margin-top: 16px; font-family: 'Space Mono', monospace; font-size: 15px; color: var(--text-faint); letter-spacing: 0.1em;">IX Partes · Tratado Filosófico Fundacional · Janeiro de 2025</p>
+</div>
+
+<!-- Parcerias -->
+<div id="parcerias" class="tagged-mesh" style="padding: 120px 48px; border-top: 1px solid var(--border); background: var(--deep);">
+  <div style="max-width: 1200px; margin: 0 auto;">
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;">
+
+      <!-- Left -->
+      <div class="reveal">
+        <div class="section-label">Parcerias & Contato</div>
+        <h2 class="section-title">Construa o futuro<br>conosco.<br><em>Juntos.</em></h2>
+        <p class="section-body">O Tagged está aberto para parcerias que acreditem no mesmo propósito: devolver poder às pessoas. Se você quer investir, cobrir, amplificar ou construir junto — fala com a gente.</p>
+        <a href="/cdn-cgi/l/email-protection#1d786f7174737a6e77687374726f5d7a707c7471337e7270" style="display: inline-flex; align-items: center; gap: 12px; margin-top: 40px; font-family: 'Space Mono', monospace; font-size: 17px; font-weight: 700; letter-spacing: 0.08em; color: var(--white); text-decoration: none; padding: 16px 32px; border: 1px solid var(--border-strong); border-radius: 2px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border-strong)';this.style.color='var(--white)'">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          <span class="__cf_email__" data-cfemail="3f5a4d535651584c554a5156504d7f58525e5653115c5052">[email&#160;protected]</span>
+        </a>
+      </div>
+
+      <!-- Right: cards -->
+      <div class="reveal reveal-delay-2" style="display: flex; flex-direction: column; gap: 1px; background: var(--border);">
+
+        <div style="background: var(--black); padding: 28px 32px; display: flex; gap: 24px; align-items: flex-start; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,76,31,0.04)'" onmouseout="this.style.background='var(--black)'">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--accent-glow); border: 1px solid rgba(255,76,31,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="16" height="16" fill="none" stroke="var(--accent)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="9"/></svg>
+          </div>
+          <div>
+            <div style="font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 6px;">Investidores</div>
+            <div style="font-family: 'Space Mono', monospace; font-size: 16px; line-height: 1.8; color: var(--text-dim);">VCs, angels e fundos que acreditam em tecnologia cívica, impacto social e nova categoria de mercado.</div>
+          </div>
+        </div>
+
+        <div style="background: var(--black); padding: 28px 32px; display: flex; gap: 24px; align-items: flex-start; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,76,31,0.04)'" onmouseout="this.style.background='var(--black)'">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--accent-glow); border: 1px solid rgba(255,76,31,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="16" height="16" fill="none" stroke="var(--accent)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 20l4-4m0 0 8-8a2.83 2.83 0 0 0-4-4l-8 8 4 4zm0 0 2.5 1.5L10 22"/></svg>
+          </div>
+          <div>
+            <div style="font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 6px;">Imprensa & Jornalistas</div>
+            <div style="font-family: 'Space Mono', monospace; font-size: 16px; line-height: 1.8; color: var(--text-dim);">Matérias, entrevistas, reportagens e análises sobre a RealTech e o movimento da existência real.</div>
+          </div>
+        </div>
+
+        <div style="background: var(--black); padding: 28px 32px; display: flex; gap: 24px; align-items: flex-start; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,76,31,0.04)'" onmouseout="this.style.background='var(--black)'">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--accent-glow); border: 1px solid rgba(255,76,31,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="16" height="16" fill="none" stroke="var(--accent)" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+          </div>
+          <div>
+            <div style="font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 6px;">Criadores & Influenciadores</div>
+            <div style="font-family: 'Space Mono', monospace; font-size: 16px; line-height: 1.8; color: var(--text-dim);">Programas, colaborações e campanhas de divulgação com quem já tem audiência e propósito alinhado.</div>
+          </div>
+        </div>
+
+        <div style="background: var(--black); padding: 28px 32px; display: flex; gap: 24px; align-items: flex-start; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,76,31,0.04)'" onmouseout="this.style.background='var(--black)'">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--accent-glow); border: 1px solid rgba(255,76,31,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="16" height="16" fill="none" stroke="var(--accent)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <div style="font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 6px;">Institucional & ONGs</div>
+            <div style="font-family: 'Space Mono', monospace; font-size: 16px; line-height: 1.8; color: var(--text-dim);">Organizações, coletivos e movimentos que querem usar o Tagged como ferramenta de mobilização real.</div>
+          </div>
+        </div>
+
+        <div style="background: var(--black); padding: 28px 32px; display: flex; gap: 24px; align-items: flex-start; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,76,31,0.04)'" onmouseout="this.style.background='var(--black)'">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--accent-glow); border: 1px solid rgba(255,76,31,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="16" height="16" fill="none" stroke="var(--accent)" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div>
+            <div style="font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 6px;">Desenvolvedores</div>
+            <div style="font-family: 'Space Mono', monospace; font-size: 16px; line-height: 1.8; color: var(--text-dim);">Contribuições técnicas, integrações e construção conjunta da infraestrutura da existência real.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Email CTA centralizado -->
+    <div class="reveal" style="margin-top: 80px; padding: 48px; border: 1px solid var(--border); background: linear-gradient(135deg, rgba(255,76,31,0.04), transparent); text-align: center; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent);"></div>
+      <div style="font-family: 'Space Mono', monospace; font-size: 14px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px;">Contato direto</div>
+      <p style="font-family: 'DM Serif Display', serif; font-size: clamp(20px, 3vw, 36px); font-style: italic; color: var(--white); margin-bottom: 8px;">Toda grande parceria começa<br>com um e-mail.</p>
+      <p style="font-family: 'Space Mono', monospace; font-size: 16px; color: var(--text-dim); margin-bottom: 32px; line-height: 1.8;">Investimento · Imprensa · Conteúdo · Jurídico · Tecnologia · Institucional</p>
+      <a href="/cdn-cgi/l/email-protection#5134233d383f36223b243f383e2311363c30383d7f323e3c" class="btn-primary" style="font-size: 14px; padding: 16px 48px;">
+        <span class="__cf_email__" data-cfemail="3154435d585f56425b445f585e4371565c50585d1f525e5c">[email&#160;protected]</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- CTA -->
+<div id="baixar" class="cta-section tagged-mesh">
+  <div class="cta-section-inner">
+    <div class="reveal">
+      <div class="section-label" style="text-align:center; margin-bottom: 20px;">Bem-vindo à Existência Real</div>
+      <h2 class="cta-title">Pare de ser<br><em>fantasma.</em></h2>
+      <p class="cta-sub">
+        Sua percepção não vai morrer em você.<br>
+        Sua voz não vai evaporar no vazio.<br>
+        Sua ação vai ter peso mensurável.<br>
+        <strong style="color: var(--text);">E assim, mudando o mundo, passamos a existir de verdade.</strong>
+      </p>
+      <div class="cta-buttons">
+        <a href="https://firebasestorage.googleapis.com/v0/b/taggedapp-12645.firebasestorage.app/o/apk%2Ftagged-latest.apk?alt=media&token=912d450a-40aa-4dc1-aebb-fd523ed4d38c" class="btn-primary" style="font-size: 15px; padding: 18px 48px;" download="tagged-latest.apk" onclick="showDownloadModal(event, this.href)">Baixar para Android</a>
+        <a href="#" class="app-badge">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          App Store (Em breve)
+        </a>
+      </div>
+    </div>
+    <p style="margin-top:64px; font-family:'DM Serif Display',serif; font-size: clamp(22px,3vw,38px); font-style:italic; color:var(--text); text-align:center; letter-spacing:-0.01em;">
+      Faça algo. <span style="color:var(--accent);font-style:normal;font-weight:800;font-family:'Syne',sans-serif;letter-spacing:0.08em;">USE TAGGED.</span>
+    </p>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">TAG<span>GED</span></div>
+  <div class="footer-motto">"Cogito, testimonium, ago — ergo liber sum."</div>
+  <div class="footer-legal">A Primeira RealTech do Mundo<br>© 2025 Tagged. Planet Earth, Era Digital.</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '56px';
+      ring.style.height = '56px';
+      ring.style.borderColor = 'rgba(255,76,31,0.6)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '32px';
+      ring.style.height = '32px';
+      ring.style.borderColor = 'rgba(255,76,31,0.4)';
+    });
+  });
+
+  // Sticky nav
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Chain animation
+  const chainItems = document.querySelectorAll('.chain-item');
+  let chainIdx = 0;
+  setInterval(() => {
+    chainItems.forEach((item, i) => {
+      item.classList.toggle('active', i === chainIdx);
+    });
+    chainIdx = (chainIdx + 1) % chainItems.length;
+  }, 1600);
+  // Smooth scroll for nav links — NÃO intercepta botões de manifesto
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const href = a.getAttribute('href');
+      // Ignora se tem onclick com showView
+      if (a.getAttribute('onclick') && a.getAttribute('onclick').includes('showView')) return;
+      if (href && href.length > 1) {
+        e.preventDefault();
+        document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+
+</div><!-- end #view-landing -->
+
+<!-- ── VIEW CONTROLLER ── -->
+<script>
+  window.showView = function(name) {
+    var manifesto = document.getElementById('view-manifesto');
+    if (name === 'manifesto') {
+      manifesto.classList.add('active');
+      manifesto.scrollTop = 0;
+      // Reveal animations
+      setTimeout(function() {
+        var obs = new IntersectionObserver(function(entries) {
+          entries.forEach(function(e) {
+            if (e.isIntersecting) e.target.classList.add('visible');
+          });
+        }, { threshold: 0.08, root: manifesto });
+        manifesto.querySelectorAll('.reveal').forEach(function(el) {
+          el.classList.remove('visible');
+          obs.observe(el);
+        });
+      }, 80);
+      // Progress bar — usa scroll do container, não do window
+      manifesto.addEventListener('scroll', function() {
+        var bar = document.getElementById('mProgressBar');
+        var total = manifesto.scrollHeight - manifesto.clientHeight;
+        if (bar && total > 0) bar.style.width = (manifesto.scrollTop / total * 100) + '%';
+      });
+    } else {
+      manifesto.classList.remove('active');
+      manifesto.scrollTop = 0;
+    }
+  };
+</script>
+
+<!-- ── DOWNLOAD MODAL ── -->
+<div id="download-modal" style="
+  display:none;
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(5,5,5,0.88);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  align-items:center;justify-content:center;
+  padding:24px;
+">
+  <div style="
+    background:#0f0f0f;
+    border:1px solid #2a2a2a;
+    border-radius:20px;
+    max-width:520px;width:100%;
+    padding:48px 40px;
+    position:relative;
+    box-shadow:0 40px 100px rgba(0,0,0,0.8);
+    animation: modalIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+  ">
+    <!-- Close -->
+    <button onclick="closeDownloadModal()" style="
+      position:absolute;top:20px;right:20px;
+      background:none;border:none;cursor:pointer;
+      color:#555;font-size:22px;line-height:1;padding:4px 8px;
+      transition:color 0.2s;
+    " onmouseover="this.style.color='#e8e8e0'" onmouseout="this.style.color='#555'">✕</button>
+
+    <!-- Icon -->
+    <div style="font-size:48px;margin-bottom:20px;">📲</div>
+
+    <!-- Title -->
+    <h3 style="font-family:'DM Serif Display',serif;font-size:28px;color:#e8e8e0;margin:0 0 8px;line-height:1.2;">
+      Seu download<br>vai começar <em style="color:#ff4c1f;font-style:italic;">agora.</em>
+    </h3>
+    <p style="font-family:'Space Mono',monospace;font-size:14px;color:#555;margin:0 0 6px;line-height:1.6;">
+      tagged-latest.apk · Android 8+
+    </p>
+    <p id="dm-device-badge" style="font-family:'Space Mono',monospace;font-size:12px;margin:0 0 32px;font-weight:700;"></p>
+
+    <!-- Steps -->
+    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:36px;">
+
+      <div style="display:flex;align-items:flex-start;gap:16px;">
+        <div style="min-width:32px;height:32px;border-radius:50%;background:#1a0a00;border:1px solid #ff4c1f;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:12px;color:#ff4c1f;font-weight:700;">01</div>
+        <div>
+          <div id="dm-step1-title" style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#e8e8e0;margin-bottom:2px;"></div>
+          <div id="dm-step1-desc" style="font-family:'Space Mono',monospace;font-size:13px;color:#555;line-height:1.5;"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;gap:16px;">
+        <div style="min-width:32px;height:32px;border-radius:50%;background:#1a0a00;border:1px solid #ff4c1f;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:12px;color:#ff4c1f;font-weight:700;">02</div>
+        <div>
+          <div id="dm-step2-title" style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#e8e8e0;margin-bottom:2px;"></div>
+          <div id="dm-step2-desc" style="font-family:'Space Mono',monospace;font-size:13px;color:#555;line-height:1.5;"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;gap:16px;">
+        <div style="min-width:32px;height:32px;border-radius:50%;background:#1a0a00;border:1px solid #ff4c1f;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:12px;color:#ff4c1f;font-weight:700;">03</div>
+        <div>
+          <div id="dm-step3-title" style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#e8e8e0;margin-bottom:2px;"></div>
+          <div id="dm-step3-desc" style="font-family:'Space Mono',monospace;font-size:13px;color:#555;line-height:1.5;"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA confirm -->
+    <a id="modal-download-btn" href="#" download="tagged-latest.apk" style="
+      display:block;text-align:center;
+      background:#ff4c1f;color:#fff;
+      font-family:'Syne',sans-serif;font-weight:800;font-size:15px;letter-spacing:0.08em;
+      padding:16px 32px;border-radius:8px;text-decoration:none;
+      transition:background 0.2s,transform 0.15s;
+    "
+    onmouseover="this.style.background='#ff6a3d';this.style.transform='translateY(-2px)'"
+    onmouseout="this.style.background='#ff4c1f';this.style.transform='translateY(0)'"
+    onclick="closeDownloadModal()">
+      ⬇ Confirmar Download
+    </a>
+
+    <!-- Fine print -->
+    <p style="font-family:'Space Mono',monospace;font-size:12px;color:#333;text-align:center;margin:16px 0 0;line-height:1.6;">
+      Versão MVP 2 · Gratuito · Sem rastreamento
+    </p>
+  </div>
+</div>
+
+<style>
+@keyframes modalIn {
+  from { opacity:0; transform: scale(0.88) translateY(20px); }
+  to   { opacity:1; transform: scale(1)    translateY(0);    }
+}
+</style>
+
+<script>
+function showDownloadModal(e, url) {
+  e.preventDefault();
+  document.getElementById('modal-download-btn').href = url;
+
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  // Atualiza instruções conforme dispositivo
+  document.getElementById('dm-step1-title').textContent = isMobile
+    ? 'Aguarde o download terminar'
+    : 'Baixe o APK aqui no computador';
+  document.getElementById('dm-step1-desc').innerHTML = isMobile
+    ? 'O arquivo APK será salvo na pasta <span style="color:#ff8c42;">Downloads</span> do seu celular.'
+    : 'O arquivo <span style="color:#ff8c42;">tagged-latest.apk</span> será salvo na sua pasta Downloads.';
+
+  document.getElementById('dm-step2-title').textContent = isMobile
+    ? 'Permita instalar apps externos'
+    : 'Envie o APK para o seu celular';
+  document.getElementById('dm-step2-desc').innerHTML = isMobile
+    ? 'Vá em <span style="color:#ff8c42;">Configurações → Segurança → Fontes desconhecidas</span> e ative a permissão.'
+    : 'Abra o <span style="color:#ff8c42;">WhatsApp</span> no computador, vá em <span style="color:#ff8c42;">Salvo para Mim</span> e envie o arquivo para você mesmo. Ou use cabo USB, Google Drive, Telegram — qualquer um serve.';
+
+  document.getElementById('dm-step3-title').textContent = isMobile
+    ? 'Abra o arquivo e instale'
+    : 'No celular: permita e instale';
+  document.getElementById('dm-step3-desc').innerHTML = isMobile
+    ? 'Toque no APK em <span style="color:#ff8c42;">Downloads</span>, confirme a instalação e pronto — você é Tagged.'
+    : 'Abra o APK no celular. Se pedir permissão, vá em <span style="color:#ff8c42;">Configurações → Segurança → Fontes desconhecidas</span> e ative. Depois volte e instale.';
+
+  // Badge de contexto
+  document.getElementById('dm-device-badge').textContent = isMobile ? '📱 Android detectado' : '💻 Você está no computador';
+  document.getElementById('dm-device-badge').style.color = isMobile ? '#4caf50' : '#ff8c42';
+
+  const modal = document.getElementById('download-modal');
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeDownloadModal() {
+  document.getElementById('download-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+// Fechar clicando fora
+document.getElementById('download-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeDownloadModal();
+});
+// Fechar com ESC
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeDownloadModal();
+});
+</script>
+
+<div id="view-manifesto">
+  <!-- Manifesto Nav -->
+  <nav id="nav-manifesto" class="scrolled" style="position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(5,5,5,0.9);backdrop-filter:blur(20px);">
+    <a href="#" onclick="showView('landing'); return false;" class="nav-logo">TAG<span>GED</span></a>
+    <div style="display:flex;align-items:center;gap:32px;">
+      <a href="#" onclick="showView('landing'); return false;" style="font-family:'Space Mono',monospace;font-size: 15px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;display:flex;align-items:center;gap:8px;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-dim)'">← Voltar</a>
+      <div style="width:120px;height:2px;background:var(--border);border-radius:2px;overflow:hidden;"><div id="mProgressBar" style="height:100%;background:var(--accent);width:0%;transition:width 0.1s linear;border-radius:2px;"></div></div>
+    </div>
+  </nav>
+<!-- Hero -->
+<div class="manifesto-hero">
+  <div class="hero-grid"></div>
+  <div class="hero-tag">Documento Fundacional</div>
+  <h1 class="hero-title">Tratado da<br><em>Existência Real</em></h1>
+  <p class="hero-subtitle">
+    Do "Cogito" à Ação: A Resposta Filosófica<br>
+    ao Apagamento Existencial no Século XXI
+  </p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <div class="meta-label">Autor</div>
+      <div class="meta-value">ClanChief</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Data</div>
+      <div class="meta-value">Janeiro de 2025</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Categoria</div>
+      <div class="meta-value">Tratado Filosófico</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Partes</div>
+      <div class="meta-value">IX Partes + Conclusão</div>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>ler tratado</span>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc-section">
+  <div class="toc-inner">
+    <div class="toc-label">Sumário</div>
+    <div class="toc-grid">
+      <a href="#parte1" class="toc-item"><span class="toc-num">I</span><span class="toc-title">A Fundação: Descartes e a Prova da Existência</span></a>
+      <a href="#parte2" class="toc-item"><span class="toc-num">II</span><span class="toc-title">A Modernidade e o Apagamento (1800–2025)</span></a>
+      <a href="#parte3" class="toc-item"><span class="toc-num">III</span><span class="toc-title">O Diagnóstico: O Trauma Civilizacional</span></a>
+      <a href="#parte4" class="toc-item"><span class="toc-num">IV</span><span class="toc-title">A Apatia Sistêmica: A Morte em Vida</span></a>
+      <a href="#parte5" class="toc-item"><span class="toc-num">V</span><span class="toc-title">O Nascimento do Tagged: A Resposta</span></a>
+      <a href="#parte6" class="toc-item"><span class="toc-num">VI</span><span class="toc-title">A Solução Multidimensional</span></a>
+      <a href="#parte7" class="toc-item"><span class="toc-num">VII</span><span class="toc-title">O Manifesto Operacional</span></a>
+      <a href="#parte8" class="toc-item"><span class="toc-num">VIII</span><span class="toc-title">A Nova Fundação da Existência Real</span></a>
+      <a href="#parte9" class="toc-item"><span class="toc-num">IX</span><span class="toc-title">O Chamado Histórico</span></a>
+      <a href="#conclusao" class="toc-item"><span class="toc-num">✦</span><span class="toc-title">Conclusão & Declaração Final</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- Prefácio -->
+<div class="manifesto-content">
+  <div class="part-header reveal" id="prefacio">
+    <div class="part-label">Prefácio</div>
+    <h2 class="part-title">Este não é<br>um manifesto<br><em>político.</em></h2>
+  </div>
+
+  <div class="msection reveal">
+    <p class="mbody">Este não é um manifesto político. Não é um documento técnico. Não é uma declaração ideológica.</p>
+    <div class="highlight-box">
+      <p>Este é um tratado sobre o direito de existir com peso.</p>
+    </div>
+    <p class="mbody">Ele nasce da observação de um fenômeno civilizacional que nunca foi nomeado adequadamente: o apagamento sistemático da capacidade humana de pressionar a realidade.</p>
+    <p class="mbody">Durante séculos, a humanidade lutou pelo direito de existir. Agora, pela primeira vez na história, precisamos lutar pelo direito de <strong>importar</strong>.</p>
+  </div>
+
+  <!-- PARTE I -->
+  <div class="part-header reveal" id="parte1">
+    <div class="part-label">Parte I</div>
+    <h2 class="part-title">A Fundação:<br>Descartes e a<br><em>Prova da Existência</em></h2>
+    <div class="part-subtitle">1637</div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">1.1 — O Nascimento da Consciência Moderna</div>
+    <p class="mbody">Em 1637, René Descartes estabeleceu a fundação da filosofia moderna com uma única frase:</p>
+    <div class="mquote">
+      <p>"Cogito, ergo sum."</p>
+      <div class="mquote-attr">René Descartes — <span>1637</span> — Penso, logo existo</div>
+    </div>
+    <p class="mbody">Esta não foi apenas uma declaração filosófica. Foi uma <strong>prova ontológica</strong>. Descartes demonstrou que a dúvida prova o pensamento, o pensamento prova a existência, e a existência é a única certeza incontestável. <strong>Ele provou que você é real.</strong></p>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">1.2 — O Que Descartes Estabeleceu</div>
+    <p class="mbody">A consciência individual como fundamento irredutível da realidade. Se você pode pensar, você existe. Se você pode duvidar, você é real. <strong>Sua existência não depende de validação externa.</strong></p>
+    <p class="mbody">Isso libertou o ser humano de autoridades religiosas que negavam sua autonomia, estruturas sociais que negavam sua individualidade, e sistemas de poder que negavam sua consciência.</p>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">1.3 — O Problema Que Ele Não Resolveu</div>
+    <p class="mbody">Mas Descartes respondeu apenas à primeira pergunta existencial:</p>
+    <p class="mbody" style="text-align:center; color: var(--text-faint);">"Como sei que existo?"</p>
+    <p class="mbody">Ele não respondeu à segunda:</p>
+    <div class="mquote">
+      <p>"Como sei que minha existência IMPORTA?"</p>
+    </div>
+    <p class="mbody">Porque uma coisa é existir. Outra coisa é <strong>ter peso na realidade</strong>. E essa diferença nunca foi resolvida filosoficamente. <em>Até agora.</em></p>
+  </div>
+
+  <div class="mseparator"><span>Parte II</span></div>
+
+  <!-- PARTE II -->
+  <div class="part-header reveal" id="parte2">
+    <div class="part-label">Parte II</div>
+    <h2 class="part-title">A Modernidade<br>e o <em>Apagamento</em></h2>
+    <div class="part-subtitle">1800 — 2025</div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">2.1 — A Promessa da Modernidade</div>
+    <p class="mbody">A Revolução Francesa (1789) trouxe uma promessa radical: <strong>Liberdade, Igualdade, Fraternidade</strong>. A promessa era clara — cada voz contaria, cada voto teria peso, cada cidadão seria agente. <em>A democracia seria a materialização da existência com peso.</em></p>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">2.2 — O Que Realmente Aconteceu</div>
+    <p class="mbody">Mas a modernidade trouxe algo inesperado: <strong>ferramentas de apagamento em escala industrial</strong>.</p>
+    <div class="phase-block">
+      <div class="phase-item">
+        <span class="phase-label">Revolução Industrial<br>1800s</span>
+        <span class="phase-text">Concentrou poder econômico de forma inédita. O trabalhador virou número. Sua existência: <strong>irrelevante para o sistema.</strong></span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Mídia de Massa<br>1900s</span>
+        <span class="phase-text">Centralizou o controle da narrativa. O cidadão virou receptor passivo. Sua percepção: <strong>sem canal de expressão.</strong></span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Burocracia Moderna<br>1900s</span>
+        <span class="phase-text">Transformou o ser humano em processo. O indivíduo virou protocolo. Sua voz: <strong>perdida em formulários.</strong></span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Sistema Financeiro<br>1950s+</span>
+        <span class="phase-text">Abstraiu completamente a relação entre trabalho e valor. O ser humano virou métrica. Sua existência: <strong>reduzida a dados.</strong></span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Redes Sociais<br>2000s+</span>
+        <span class="phase-text">Prometeram democratizar a voz. Mas transformaram expressão em produto. Sua indignação: <strong>virou engajamento comercializável.</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">2.3 — O Resultado: Ferramentas de Poder que Calam a Existência</div>
+    <p class="mbody">Pela primeira vez na história, a humanidade tinha democracia formal, liberdade de expressão formal, igualdade jurídica formal. <strong>Mas nenhuma capacidade real de pressionar a realidade.</strong></p>
+    <p class="mbody">Você podia gritar. Mas ninguém precisava ouvir. Você podia denunciar. Mas nada precisava acontecer. Você podia votar. Mas o sistema não precisava mudar.</p>
+    <div class="highlight-box">
+      <p>A modernidade criou a condição mais cruel: a consciência sem agência.</p>
+    </div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">2.4 — A Descoberta Perversa do Poder Moderno</div>
+    <div class="mquote">
+      <p>Não é preciso matar o cidadão. Não é preciso prendê-lo. Não é preciso censurá-lo diretamente. Basta tornar sua voz irrelevante.</p>
+    </div>
+    <p class="mbody">E isso foi feito através de cinco mecanismos sofisticados:</p>
+    <ul class="mlist">
+      <li><strong>Fragmentação:</strong> Dividir a indignação coletiva em nichos isolados. Cada um grita em sua bolha. Ninguém acumula força.</li>
+      <li><strong>Efemeridade:</strong> Acelerar o ciclo de atenção ao extremo. Hoje é trending. Amanhã é esquecido. Nada gera consequência duradoura.</li>
+      <li><strong>Espetacularização:</strong> Transformar indignação em entretenimento. O problema vira viral. Mas não vira ação. A consciência é anestesiada pelo próprio ato de assistir.</li>
+      <li><strong>Pseudo-Participação:</strong> Criar a ilusão de agência sem dar poder real. Você pode compartilhar. Comentar. Curtir. Mas não pode marcar nada de verdade — porque nenhuma dessas ações deixa rastro com peso.</li>
+      <li><strong>Exaustão Emocional:</strong> Bombardear com problemas insolúveis. Até que a pessoa desista de reagir. A impotência aprendida vira proteção psicológica.</li>
+    </ul>
+  </div>
+
+  <div class="mseparator"><span>Parte III</span></div>
+
+  <!-- PARTE III -->
+  <div class="part-header reveal" id="parte3">
+    <div class="part-label">Parte III</div>
+    <h2 class="part-title">O Diagnóstico:<br>O <em>Trauma</em><br>Civilizacional</h2>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">3.1 — O Que É Trauma Civilizacional</div>
+    <p class="mbody">Trauma não é apenas individual. Ele pode ser coletivo. <strong>Trauma civilizacional é quando uma geração inteira aprende a mesma impotência.</strong></p>
+    <div class="mquote">
+      <p>"Perceber a realidade não é suficiente para mudá-la."</p>
+    </div>
+    <p class="mbody">Isso cria uma condição psicológica específica que nunca foi adequadamente nomeada: <strong>Despossessão Existencial.</strong></p>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">3.2 — Despossessão Existencial</div>
+    <p class="mbody"><strong>Despossessão não é apenas perder algo que você tinha. É descobrir que você nunca teve algo que achava que deveria ter.</strong></p>
+    <p class="mbody">No caso da modernidade: você achava que sua voz importava. <em>Descobriu que não.</em> Você achava que sua percepção tinha peso. <em>Descobriu que não.</em> Você achava que ser cidadão significava poder de ação. <em>Descobriu que não.</em></p>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">3.3 — Os Sintomas da Despossessão</div>
+    <div class="phase-block">
+      <div class="phase-item">
+        <span class="phase-label">Sintoma 1</span>
+        <span class="phase-text"><strong>Anestesia Moral Progressiva</strong> — A pessoa para de se indignar. Não porque concorda. Mas porque se indignar sem poder agir é tortura.</span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Sintoma 2</span>
+        <span class="phase-text"><strong>Cinismo Defensivo</strong> — "Todos são corruptos mesmo." Não é descrença. É autodefesa emocional.</span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Sintoma 3</span>
+        <span class="phase-text"><strong>Desconexão da Própria Agência</strong> — A pessoa deixa de se ver como agente. Ela se vê como espectadora. Sua vida? Assistida, não vivida.</span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Sintoma 4</span>
+        <span class="phase-text"><strong>Patologização da Indignação</strong> — Quem ainda reage é visto como "radical", "exagerado". A saúde mental virou aceitar a impotência.</span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Sintoma 5</span>
+        <span class="phase-text"><strong>Transferência de Responsabilidade Total</strong> — "Alguém deveria fazer algo." Nunca: "Eu vou fazer algo." Porque já se aprendeu que "eu" não tem peso.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">3.4 — A Consequência Final: Morte em Vida</div>
+    <p class="mbody">Quando você existe mas não pode agir, quando você percebe mas não pode mudar, quando você grita mas ninguém precisa ouvir — <strong>você morre existencialmente.</strong></p>
+    <p class="mbody">Não fisicamente. Você continua respirando. Mas você deixa de existir como agente da realidade. Você vira consumidor (não cidadão), espectador (não participante), métrica (não pessoa), fantasma (não ser real).</p>
+    <div class="highlight-box">
+      <p>Bilhões de pessoas conscientes de sua própria irrelevância.</p>
+    </div>
+  </div>
+
+  <div class="mseparator"><span>Parte IV</span></div>
+
+  <!-- PARTE IV -->
+  <div class="part-header reveal" id="parte4">
+    <div class="part-label">Parte IV</div>
+    <h2 class="part-title">A Apatia<br>Sistêmica:<br><em>A Morte em Vida</em></h2>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">4.1 — A Grande Mentira da Apatia</div>
+    <p class="mbody">Quando as pessoas não reagem mais, os sistemas de poder dizem: "Elas não se importam." "Elas são apáticas." "Elas são alienadas." <strong>Isso é uma mentira.</strong></p>
+    <div class="mquote">
+      <p>As pessoas não são apáticas porque não se importam. Elas são apáticas porque aprenderam que se importar dói demais quando não há saída.</p>
+    </div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">4.2 — O Ciclo da Impotência Aprendida</div>
+    <ol class="mlist-num">
+      <li><strong>Percepção:</strong> A pessoa vê algo profundamente errado.</li>
+      <li><strong>Reação:</strong> Ela tenta fazer algo. Denuncia. Reclama. Protesta.</li>
+      <li><strong>Silêncio:</strong> Nada acontece. Nenhuma consequência. Nenhuma mudança.</li>
+      <li><strong>Repetição:</strong> Ela vê outro problema. Tenta de novo. Mesmo resultado.</li>
+      <li><strong>Aprendizagem:</strong> Ela aprende: "Reagir não adianta."</li>
+      <li><strong>Anestesia:</strong> Ela para de reagir. Não por concordância. Por sobrevivência psicológica.</li>
+      <li><strong>Morte Existencial:</strong> Ela ainda está viva. Mas deixou de existir como agente.</li>
+    </ol>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">4.3 — Como Isso Se Manifesta na Vida Real</div>
+    <div class="phase-block">
+      <div class="phase-item">
+        <span class="phase-label">No trabalho</span>
+        <span class="phase-text">Você vê irregularidades. Quer denunciar. Mas aprendeu: "RH protege a empresa, não você." Resultado: <strong>Você engole. E morre um pouco.</strong></span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Na rua</span>
+        <span class="phase-text">Você vê abuso de autoridade. Quer filmar. Mas aprendeu: "Vai dar em nada mesmo." Resultado: <strong>Você passa. E morre um pouco.</strong></span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Na política</span>
+        <span class="phase-text">Você vê corrupção escancarada. Quer cobrar. Mas aprendeu: "Político não se importa com manifestação." Resultado: <strong>Você desiste. E morre um pouco.</strong></span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Na vida pessoal</span>
+        <span class="phase-text">Você sofre injustiça. Quer processar. Mas aprendeu: "Justiça é cara, lenta e improvável." Resultado: <strong>Você aceita. E morre um pouco.</strong></span>
+      </div>
+    </div>
+    <p class="mbody" style="margin-top: 24px;"><em>Cada vez que você percebe e não age, você morre um pouco. E depois de morrer muitas vezes? Você para de perceber.</em></p>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">4.4 — Por Que a Democracia Moderna Falhou</div>
+    <table class="compare-table">
+      <tr><th>A Democracia Prometeu</th><th>Mas Entregou</th></tr>
+      <tr><td>"Cada voz conta."</td><td>"Você pode falar. Mas ninguém precisa ouvir."</td></tr>
+      <tr><td>"O poder vem do povo."</td><td>"Você vota. Mas não decide nada estrutural."</td></tr>
+      <tr><td>"Você é cidadão."</td><td>"Você é consumidor de promessas."</td></tr>
+    </table>
+    <div class="highlight-box">
+      <p>A democracia formal existe. Mas a democracia real não.</p>
+    </div>
+  </div>
+
+  <div class="mseparator"><span>Parte V</span></div>
+
+  <!-- PARTE V -->
+  <div class="part-header reveal" id="parte5">
+    <div class="part-label">Parte V</div>
+    <h2 class="part-title">O Nascimento<br>do Tagged:<br><em>A Resposta</em></h2>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">5.1 — A Pergunta Que Ninguém Fez</div>
+    <p class="mbody">Durante séculos, filósofos, políticos e ativistas fizeram a mesma pergunta: <em>"Como criar uma sociedade mais justa?"</em> Essa é a pergunta errada. A pergunta certa é:</p>
+    <div class="mquote">
+      <p>"Como devolver às pessoas a capacidade de pressionar a realidade?"</p>
+    </div>
+    <p class="mbody">Porque justiça não é algo que você dá. <strong>Justiça é algo que você precisa ter poder para cobrar.</strong></p>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">5.2 — O Problema Técnico Nunca Resolvido</div>
+    <table class="compare-table">
+      <tr><th>Sistemas Anteriores Resolveram</th><th>Mas Não Resolveram</th></tr>
+      <tr><td>Redes Sociais: Como conectar pessoas?</td><td>Como transformar conexão em pressão real?</td></tr>
+      <tr><td>Petições: Como coletar assinaturas?</td><td>Como dar peso jurídico a elas?</td></tr>
+      <tr><td>Apps de Denúncia: Como reportar?</td><td>Como garantir consequência?</td></tr>
+      <tr><td>Manifestações: Como mostrar números?</td><td>Como sustentar pressão no tempo?</td></tr>
+    </table>
+    <div class="highlight-box">
+      <p>Como transformar percepção individual em poder coletivo verificável e juridicamente acionável?</p>
+    </div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">5.3 — O Nascimento da Solução</div>
+    <p class="mbody">Em 2025, pela primeira vez na história, a tecnologia alcançou o ponto onde é possível:</p>
+    <ul class="mlist mlist-check">
+      <li>Registrar fatos de forma imutável (blockchain)</li>
+      <li>Verificar autenticidade sem expor identidade (criptografia)</li>
+      <li>Acumular apoio de forma mensurável (bancos de dados distribuídos)</li>
+      <li>Gerar documentos legais automaticamente (automação jurídica)</li>
+      <li>Sustentar pressão ao longo do tempo (sistemas persistentes)</li>
+    </ul>
+    <div class="mquote">
+      <p>"Uma marca não é um 'gostei'. É uma assinatura com força jurídica."</p>
+    </div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">5.4 — O Que o Tagged Faz (Definição Técnica)</div>
+    <p class="mbody"><strong>O Tagged transforma percepção individual em pressão coletiva documentada.</strong></p>
+    <ol class="mlist-num">
+      <li><strong>Usuário registra um fato</strong> — foto, vídeo, documento com contexto verificável.</li>
+      <li><strong>Outros verificam e marcam</strong> — confirmando a veracidade da causa com o próprio nome.</li>
+      <li><strong>Sistema acumula apoio de forma imutável</strong> — peso cresce proporcionalmente.</li>
+      <li><strong>Quando atinge massa crítica, gera documento legal</strong> — com todas as assinaturas.</li>
+      <li><strong>Documento é usado</strong> — em ações judiciais, investigações, pressão institucional.</li>
+    </ol>
+    <div class="highlight-box">
+      <p>Não é rede social. É cartório digital da vontade popular.</p>
+    </div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">5.5 — A Diferença Fundamental</div>
+    <table class="compare-table">
+      <tr><th>Ferramentas Anteriores</th><th>O Tagged</th></tr>
+      <tr><td>Pediam</td><td>Registra</td></tr>
+      <tr><td>Suplicavam</td><td>Acumula</td></tr>
+      <tr><td>Esperavam boa vontade</td><td>Torna inegável</td></tr>
+      <tr><td>Súplica</td><td>Evidência</td></tr>
+      <tr><td>Protesto</td><td>Prova</td></tr>
+      <tr><td>Grito</td><td>Documento</td></tr>
+    </table>
+  </div>
+
+  <div class="mseparator"><span>Parte VI</span></div>
+
+  <!-- PARTE VI -->
+  <div class="part-header reveal" id="parte6">
+    <div class="part-label">Parte VI</div>
+    <h2 class="part-title">A Solução<br><em>Multidimensional</em></h2>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">6.1 — Resposta Filosófica</div>
+    <div class="dual-quote">
+      <div class="dual-quote-card">
+        <p>"Cogito, ergo sum."</p>
+        <div class="attr">Descartes — <span>1637</span><br>Penso, logo existo.</div>
+      </div>
+      <div class="dual-quote-card primary">
+        <p>"Cogito, testimonium, ago — ergo liber sum."</p>
+        <div class="attr">Tagged — <span>2025</span><br>Penso, testemunho, ajo — logo sou livre.</div>
+      </div>
+    </div>
+    <div class="logic-manifesto">
+      <div class="logic-manifesto-item"><span class="lm-num">01</span><span class="lm-text">Você pensa → Logo você existe (Descartes)</span></div>
+      <div class="logic-manifesto-item"><span class="lm-num">02</span><span class="lm-text">Você percebe → Logo você testemunha (extensão)</span></div>
+      <div class="logic-manifesto-item"><span class="lm-num">03</span><span class="lm-text">Você registra → Logo você tem voz (Tagged)</span></div>
+      <div class="logic-manifesto-item"><span class="lm-num">04</span><span class="lm-text">Outros confirmam → Logo você não está sozinho (Tagged)</span></div>
+      <div class="logic-manifesto-item"><span class="lm-num">05</span><span class="lm-text">Juntos, agem → Logo vocês têm peso (Tagged)</span></div>
+      <div class="logic-manifesto-item"><span class="lm-num">06</span><span class="lm-text">O peso pressiona → Logo vocês são livres (Tagged)</span></div>
+    </div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">6.2 — Resposta Material</div>
+    <p class="mbody">O Tagged não é abstrato. Ele é concretamente implementável:</p>
+    <ul class="mlist">
+      <li><strong>Blockchain</strong> para imutabilidade de registros</li>
+      <li><strong>Criptografia</strong> para proteção de identidade</li>
+      <li><strong>IA</strong> para moderação e verificação de contexto</li>
+      <li><strong>Automação jurídica</strong> para geração de documentos</li>
+      <li><strong>Sistemas distribuídos</strong> para resistir a censura</li>
+    </ul>
+    <p class="mbody">Servidores descentralizados. Backup em múltiplas jurisdições. Protocolo de resistência a shutdown. Mecanismos de continuidade mesmo sob ataque. <strong>Isso não é teoria. É engenharia real.</strong></p>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">6.3 — Resposta Política</div>
+    <p class="mbody">O Tagged não substitui a democracia. <strong>Ele a completa.</strong> Porque democracia sem mecanismo de cobrança contínua não é democracia. <em>É teatro eleitoral.</em></p>
+    <ul class="mlist">
+      <li><strong>Accountability permanente</strong> — Não apenas a cada 4 anos. A cada segundo.</li>
+      <li><strong>Pressão distribuída</strong> — Não concentrada em líderes. Distribuída em milhões.</li>
+      <li><strong>Memória pública</strong> — Que não pode ser apagada. Que não pode ser reescrita.</li>
+      <li><strong>Consequência mensurável</strong> — Não promessas. Evidência.</li>
+    </ul>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">6.4 — Resposta Tecnológica: A Primeira RealTech</div>
+    <table class="compare-table">
+      <tr><th>Categoria</th><th>O Que Faz</th></tr>
+      <tr><td>FinTech</td><td>Move dinheiro</td></tr>
+      <tr><td>HealthTech</td><td>Melhora saúde</td></tr>
+      <tr><td>EdTech</td><td>Facilita educação</td></tr>
+      <tr><td style="color: var(--accent); font-weight:700;">RealTech</td><td>Transforma percepção em pressão sobre a realidade</td></tr>
+    </table>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">6.5 — Resposta Teológica</div>
+    <p class="mbody">Todas as grandes religiões têm um princípio comum: <strong>"A verdade liberta."</strong> O Tagged materializa o princípio teológico fundamental: <em>testemunho tem peso.</em></p>
+    <ul class="mlist">
+      <li><strong>Cristianismo:</strong> "Onde dois ou três estiverem reunidos em meu nome"</li>
+      <li><strong>Islamismo:</strong> "A verdade prevalecerá sobre a falsidade"</li>
+      <li><strong>Judaísmo:</strong> "Justiça, justiça perseguirás"</li>
+      <li><strong>Budismo:</strong> "A verdade é aquilo que resiste ao teste da experiência"</li>
+    </ul>
+    <div class="mquote">
+      <p>A verdade testemunhada coletivamente não pode ser ignorada.</p>
+    </div>
+  </div>
+
+  <div class="mseparator"><span>Parte VII</span></div>
+
+  <!-- PARTE VII -->
+  <div class="part-header reveal" id="parte7">
+    <div class="part-label">Parte VII</div>
+    <h2 class="part-title">O Manifesto<br><em>Operacional</em></h2>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">7.1 — Como Funciona (Para o Cidadão)</div>
+    <ol class="mlist-num">
+      <li><strong>Você vê algo errado.</strong> Um buraco perigoso, corrupção documentada, abuso de autoridade, negligência institucional, violação de direitos.</li>
+      <li><strong>Você registra.</strong> Não "posta". Registra. Com local, data, evidência e descrição clara.</li>
+      <li><strong>Outros verificam e marcam.</strong> Marcar não é curtir. É assinar que você confirma a veracidade. Cada marca é uma assinatura virtual com peso jurídico.</li>
+      <li><strong>O sistema acumula.</strong> De forma imutável, transparente e verificável.</li>
+      <li><strong>Quando atinge massa crítica:</strong> O Tagged gera automaticamente documento legal com todas as assinaturas, linha do tempo, provas e contexto histórico.</li>
+      <li><strong>O documento é usado</strong> em ações judiciais coletivas, investigações jornalísticas, pressão institucional e memória histórica.</li>
+    </ol>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">7.2 — O Vocabulário do Tagged</div>
+    <p class="mbody">Palavras importam. O Tagged tem vocabulário próprio porque cada palavra carrega uma filosofia.</p>
+    <div class="vocab-block">
+      <div class="vocab-item"><span class="vocab-old">Post</span><span class="vocab-arrow">→</span><span class="vocab-new">Registro</span></div>
+      <div class="vocab-item"><span class="vocab-old">Like</span><span class="vocab-arrow">→</span><span class="vocab-new">Marca</span></div>
+      <div class="vocab-item"><span class="vocab-old">Feed</span><span class="vocab-arrow">→</span><span class="vocab-new">Mural</span></div>
+      <div class="vocab-item"><span class="vocab-old">Denúncia</span><span class="vocab-arrow">→</span><span class="vocab-new">Causa</span></div>
+      <div class="vocab-item"><span class="vocab-old">Viral</span><span class="vocab-arrow">→</span><span class="vocab-new">Peso acumulado</span></div>
+      <div class="vocab-item"><span class="vocab-old">Influencer</span><span class="vocab-arrow">→</span><span class="vocab-new">Testemunha</span></div>
+    </div>
+    <p class="mbody">"Post" é efêmero. "Registro" é permanente. "Like" é emocional. "Marca" é comprometimento. "Feed" é passivo. "Mural" é público e duradouro. "Denúncia" isola. "Causa" une.</p>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">7.3 — O Ciclo de Vida de Uma Causa</div>
+    <div class="phase-block">
+      <div class="phase-item">
+        <span class="phase-label">Fase 1<br>Nascimento</span>
+        <span class="phase-text">Alguém registra um fato com contexto verificável.</span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Fase 2<br>Verificação</span>
+        <span class="phase-text">Outros confirmam a veracidade. Sistema identifica testemunhas diretas vs apoiadores.</span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Fase 3<br>Acúmulo</span>
+        <span class="phase-text">Marcas se acumulam. Peso aumenta. Causa ganha visibilidade proporcional ao apoio.</span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Fase 4<br>Marco</span>
+        <span class="phase-text"><strong>100 marcas:</strong> visibilidade local / <strong>1.000:</strong> regional / <strong>10.000:</strong> nacional / <strong>100.000:</strong> impossível ignorar.</span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Fase 5<br>Resposta</span>
+        <span class="phase-text">Quando instituição responde (ou não), a resposta é registrada. Qualidade avaliada. Instituições ganham ou perdem credibilidade.</span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Fase 6<br>Memória</span>
+        <span class="phase-text">Causa entra em arquivo histórico permanente. Vira referência para casos futuros. Constrói jurisprudência social.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">7.4 — Blindagem Contra Uso Malicioso</div>
+    <p class="mbody">O Tagged não é tribunal. O Tagged não é linchamento digital. O Tagged não é arma de destruição. Por isso, tem limites estruturais:</p>
+    <ul class="mlist">
+      <li><strong>Contexto Obrigatório:</strong> Não pode apenas acusar. Tem que documentar.</li>
+      <li><strong>Verificabilidade:</strong> Fatos podem ser checados. Mentiras são identificáveis.</li>
+      <li><strong>Transparência:</strong> Tudo é rastreável. Uso malicioso é detectável.</li>
+      <li><strong>Peso Progressivo:</strong> Não é quem grita mais alto. É quem acumula mais verificação.</li>
+      <li><strong>Moderação Humana + IA:</strong> Sistema identifica padrões de abuso. Time humano decide casos limítrofes.</li>
+    </ul>
+    <div class="mquote">
+      <p>O Tagged não pune. Ele torna impossível ignorar.</p>
+    </div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">7.5 — O Que o Tagged NÃO É</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: 16px;">
+      <div style="background: var(--black); padding: 24px;">
+        <div style="font-family: 'Space Mono', monospace; font-size: 14px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 16px;">Não É</div>
+        <ul class="mlist mlist-x" style="gap: 8px;">
+          <li>Vigilantismo</li>
+          <li>Cancelamento</li>
+          <li>Tribunal popular</li>
+          <li>Arma política partidária</li>
+          <li>Rede social tradicional</li>
+          <li>Plataforma de ódio</li>
+        </ul>
+      </div>
+      <div style="background: rgba(255,76,31,0.03); padding: 24px; border-left: 1px solid rgba(255,76,31,0.15);">
+        <div style="font-family: 'Space Mono', monospace; font-size: 14px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px;">É</div>
+        <ul class="mlist mlist-check" style="gap: 8px;">
+          <li>Registro permanente</li>
+          <li>Pressão coletiva verificável</li>
+          <li>Memória pública imutável</li>
+          <li>Acúmulo de peso mensurável</li>
+          <li>Ferramenta de accountability</li>
+          <li>Resistência existencial</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="mseparator"><span>Parte VIII</span></div>
+
+  <!-- PARTE VIII -->
+  <div class="part-header reveal" id="parte8">
+    <div class="part-label">Parte VIII</div>
+    <h2 class="part-title">A Nova Fundação<br>da <em>Existência Real</em></h2>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">8.1 — A Extensão de Descartes</div>
+    <div class="logic-manifesto">
+      <div class="logic-manifesto-item"><span class="lm-num">01</span><span class="lm-text">Penso, logo existo.</span></div>
+      <div class="logic-manifesto-item"><span class="lm-num">02</span><span class="lm-text">Existo, logo percebo.</span></div>
+      <div class="logic-manifesto-item"><span class="lm-num">03</span><span class="lm-text">Percebo, logo testemunho.</span></div>
+      <div class="logic-manifesto-item"><span class="lm-num">04</span><span class="lm-text">Testemunho, logo registro.</span></div>
+      <div class="logic-manifesto-item"><span class="lm-num">05</span><span class="lm-text">Registro, logo acumulo.</span></div>
+      <div class="logic-manifesto-item"><span class="lm-num">06</span><span class="lm-text">Acumulo, logo peso.</span></div>
+      <div class="logic-manifesto-item"><span class="lm-num">07</span><span class="lm-text">Peso, logo pressiono.</span></div>
+      <div class="logic-manifesto-item"><span class="lm-num">08</span><span class="lm-text">Pressiono, logo mudo.</span></div>
+      <div class="logic-manifesto-item"><span class="lm-num">09</span><span class="lm-text">Mudo, logo sou livre.</span></div>
+      <div class="logic-manifesto-item"><span class="lm-num">10</span><span class="lm-text">Sou livre, logo existo de verdade.</span></div>
+    </div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">8.2 — Os Três Pilares da Existência Real</div>
+    <div class="phase-block">
+      <div class="phase-item">
+        <span class="phase-label">Pilar I<br>Descartes</span>
+        <span class="phase-text"><strong>Consciência</strong> — Você pensa. Logo você é real.</span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Pilar II<br>Tagged</span>
+        <span class="phase-text"><strong>Agência</strong> — Você age. Logo você tem peso.</span>
+      </div>
+      <div class="phase-item">
+        <span class="phase-label">Pilar III<br>Nova Fundação</span>
+        <span class="phase-text"><strong>Consequência</strong> — Você move a realidade. Logo você é livre.</span>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <p>Existência real = Consciência + Agência + Consequência</p>
+    </div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">8.3 — O Direito Fundamental Não Declarado</div>
+    <p class="mbody">Todas as declarações de direitos humanos falharam em declarar o direito mais fundamental:</p>
+    <div class="mquote">
+      <p>O direito de que sua percepção da realidade tenha peso mensurável.</p>
+    </div>
+    <p class="mbody">Não apenas o direito de existir (isso já temos). Não apenas o direito de falar (isso já temos formalmente). Mas o direito de pressionar a realidade. <strong>Este é o direito que faltava. E o Tagged é a primeira ferramenta que o materializa.</strong></p>
+  </div>
+
+  <div class="mseparator"><span>Parte IX</span></div>
+
+  <!-- PARTE IX -->
+  <div class="part-header reveal" id="parte9">
+    <div class="part-label">Parte IX</div>
+    <h2 class="part-title">O Chamado<br><em>Histórico</em></h2>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">9.1 — Este É Um Momento Único</div>
+    <p class="mbody">Estamos em 2025. Pela primeira vez na história humana:</p>
+    <ul class="mlist mlist-check">
+      <li>A tecnologia existe para implementar isso</li>
+      <li>A consciência coletiva está pronta</li>
+      <li>A necessidade é inegável</li>
+      <li>O trauma civilizacional atingiu massa crítica</li>
+    </ul>
+    <div class="highlight-box">
+      <p>Se não agora, quando?<br>Se não nós, quem?</p>
+    </div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">9.2 — O Que Está Em Jogo</div>
+    <p class="mbody">Não é apenas um aplicativo. Não é apenas uma ferramenta. Não é apenas um movimento. O que está em jogo é a resposta à pergunta:</p>
+    <div class="dual-quote">
+      <div class="dual-quote-card">
+        <p>"A humanidade vai aceitar viver em existência fantasma?"</p>
+      </div>
+      <div class="dual-quote-card primary">
+        <p>"A humanidade vai recuperar o direito de pressionar a realidade?"</p>
+      </div>
+    </div>
+    <p class="mbody">Esta é a pergunta do nosso tempo. <strong>E o Tagged é a resposta material.</strong></p>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">9.3 — Por Que Isso Vai Gerar Resistência</div>
+    <p class="mbody">Sim. Este projeto vai incomodar. Porque ele tira o monopólio da narrativa, desconcentra o poder, torna impossível ignorar verdades inconvenientes, cria accountability permanente, e não depende de mídia, partido ou ideologia. <strong>Só depende de fatos verificáveis + vontade coletiva.</strong></p>
+    <div class="mquote">
+      <p>Se não assustasse, seria irrelevante.</p>
+    </div>
+  </div>
+
+  <div class="msection reveal">
+    <div class="msection-title">9.4 — O Convite</div>
+    <p class="mbody">Este documento não é apenas teórico. <strong>É um chamado à ação.</strong> Se você acredita que existir com peso é direito fundamental, que pessoas merecem ferramentas reais de agência, que a democracia precisa de mecanismos de cobrança permanente, que a tecnologia pode devolver poder ao invés de concentrá-lo —</p>
+    <p class="mbody"><strong>Então você é chamado a participar.</strong></p>
+    <ul class="mlist">
+      <li>Desenvolvendo a tecnologia</li>
+      <li>Financiando a infraestrutura</li>
+      <li>Blindando juridicamente</li>
+      <li>Educando sobre o uso</li>
+      <li>Sendo testemunha ativa</li>
+      <li>Defendendo quando atacado</li>
+    </ul>
+    <p class="mbody"><em>Este é o projeto de uma geração. E você pode ser parte dele.</em></p>
+  </div>
+
+  <!-- CONCLUSÃO -->
+  <div class="final-declaration reveal" id="conclusao">
+    <div class="part-label" style="justify-content: center; margin-bottom: 40px;">Conclusão</div>
+    <div class="big-quote">
+      Da Existência Fantasma<br>à <em>Existência Real</em>
+    </div>
+
+    <p class="mbody" style="text-align: center; max-width: 560px; margin: 0 auto 48px;">Nós estabelecemos: Descartes provou que existimos. A modernidade criou ferramentas de apagamento. Isso gerou trauma civilizacional. Bilhões vivem em existência fantasma. O Tagged nasce como resposta filosófica, material, política, tecnológica e histórica.</p>
+
+    <div class="mquote" style="text-align: left; max-width: 640px; margin: 0 auto 64px;">
+      <p>"Porque existir somente não é suficiente."</p>
+      <div class="mquote-attr">A Frase Fundacional — <span>Tagged, 2025</span></div>
+    </div>
+
+    <div class="declaration-lines">
+      <div class="declaration-line">Em nome de todos que já sentiram impotência.</div>
+      <div class="declaration-line">Em nome de todos que já perceberam e não puderam agir.</div>
+      <div class="declaration-line">Em nome de todos que já gritaram e não foram ouvidos.</div>
+      <div class="declaration-line">Em nome de todos que vivem em existência fantasma.</div>
+    </div>
+
+    <div style="margin: 48px 0; font-family: 'Space Mono', monospace; font-size: 17px; color: var(--text-dim); line-height: 2.2; text-align: center;">
+      <strong style="color: var(--text);">Nós declaramos:</strong><br>
+      O direito de pressionar a realidade é inalienável.<br>
+      A tecnologia para materializá-lo agora existe.<br>
+      E nós a colocamos nas mãos de cada pessoa.<br>
+      Não prometemos revolução.<br>
+      Mas devolvemos a ferramenta para que você seja agente da sua própria.
+    </div>
+
+    <div class="final-signature">
+      <div class="sig-name">ClanChief</div>
+      <div class="sig-title">Founder & CEO — Tagged</div>
+      <div class="sig-sub">
+        Senior Frontend Developer, Delta Energia<br>
+        Author, "O Esquecido - Entre a Luz e as Sombras"<br>
+        Janeiro de 2025 — Planet Earth, Era Digital
+      </div>
+    </div>
+
+    <div class="final-motto" style="margin-top: 80px;">
+      <em>"Cogito, testimonium, ago</em><br>
+      ergo liber sum."
+    </div>
+    <div style="margin-top: 16px; font-family: 'Space Mono', monospace; font-size: 15px; color: var(--text-faint); letter-spacing: 0.12em;">
+      Penso, testemunho, ajo — logo sou livre.
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+
+  <!-- Manifesto CTA -->
+  <div class="manifesto-cta" style="padding:80px 48px;border-top:1px solid var(--border);background:var(--surface);text-align:center;">
+    <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,52px);color:var(--white);margin-bottom:24px;">Pronto para <em style="font-style:italic;color:var(--accent);">existir</em> com peso?</h2>
+    <p style="font-family:'Space Mono',monospace;font-size: 16px;color:var(--text-dim);line-height:1.8;margin-bottom:40px;">Sua percepção não vai morrer em você.<br>Sua voz não vai evaporar no vazio.<br>Baixe o Tagged agora.</p>
+    <a href="https://firebasestorage.googleapis.com/v0/b/taggedapp-12645.firebasestorage.app/o/apk%2Ftagged-latest.apk?alt=media&token=912d450a-40aa-4dc1-aebb-fd523ed4d38c" class="btn-primary" style="font-size: 15px;padding:18px 48px;" download="tagged-latest.apk" onclick="showDownloadModal(event, this.href)">Baixar para Android</a>
+  </div>
+
+  <footer style="padding:48px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24
