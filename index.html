@@ -5,6 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Tagged — Sua voz, nossa força, muda tudo</title>
 
+        <!-- Favicon -->
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png" />
+        <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+        <meta name="theme-color" content="#f4511e" />
+
         <!-- SEO -->
         <meta
             name="description"
@@ -1387,6 +1394,13 @@
             @media (prefers-reduced-motion: reduce) {
                 .pq-col-layer {
                     transition: none;
+                }
+            }
+            /* responsivo: tela larga = 5 colunas; estreita = 3 do centro */
+            @media (max-width: 980px) {
+                .pq-col:first-child,
+                .pq-col:last-child {
+                    display: none;
                 }
             }
             /* Modal do filme — formato celular */
@@ -2885,6 +2899,14 @@
                 "
             ></div>
             <div class="pq-cols" id="pqCols" aria-hidden="true">
+                <div class="pq-col" data-dir="up">
+                    <div class="pq-col-layer"></div>
+                    <div class="pq-col-layer"></div>
+                </div>
+                <div class="pq-col" data-dir="down">
+                    <div class="pq-col-layer"></div>
+                    <div class="pq-col-layer"></div>
+                </div>
                 <div class="pq-col" data-dir="up">
                     <div class="pq-col-layer"></div>
                     <div class="pq-col-layer"></div>
@@ -6716,4 +6738,242 @@
                     }
                 }
                 if (document.readyState !== "loading") init();
-                else 
+                else document.addEventListener("DOMContentLoaded", init);
+            })();
+        </script>
+
+        <script>
+            (function () {
+                var AVATARS = [
+                    "assets/avatar-631c09c569.png",
+                    "assets/avatar-b9b7102820.png",
+                    "assets/avatar-6c93c49460.png",
+                    "assets/avatar-94e04eb303.png",
+                    "assets/avatar-04dc27ddaa.png",
+                    "assets/avatar-fca8988264.png",
+                    "assets/avatar-3d3f60d363.png",
+                    "assets/avatar-dbcff295e0.png",
+                    "assets/avatar-6ff3ef5650.png",
+                    "assets/avatar-0344fc8eb8.png",
+                    "assets/avatar-2b4c60d5a0.png",
+                    "assets/avatar-81421ba030.png",
+                    "assets/avatar-2c6abc13d5.png",
+                    "assets/avatar-1831c2232d.png",
+                    "assets/avatar-cf37b2d778.png",
+                    "assets/avatar-f594379fbb.png",
+                    "assets/avatar-aa3295620e.png",
+                    "assets/avatar-897de519aa.png",
+                    "assets/avatar-d2bf0ca2b9.png",
+                    "assets/avatar-2bc93b888a.png",
+                    "assets/avatar-b1aca15c76.png",
+                    "assets/avatar-e86c372cff.png",
+                    "assets/avatar-8bb23ac3c3.png",
+                    "assets/avatar-9aedb9c37f.png",
+                    "assets/avatar-cc8c32aa38.png",
+                    "assets/avatar-f28e03ca23.png",
+                    "assets/avatar-929e97247d.png",
+                    "assets/avatar-72272ef54c.png",
+                    "assets/avatar-31b19d24be.png",
+                    "assets/avatar-d89df58348.png",
+                    "assets/avatar-31f0cccf58.png",
+                    "assets/avatar-653f7cabf4.png",
+                ];
+                function start() {
+                    var stack = document.getElementById("netgrowStack");
+                    var incoming = document.getElementById("netgrowIncoming");
+                    var plus = document.getElementById("netgrowPlus");
+                    if (!stack || !incoming) {
+                        return;
+                    }
+                    if (
+                        window.matchMedia &&
+                        window.matchMedia("(prefers-reduced-motion: reduce)")
+                            .matches
+                    ) {
+                        return;
+                    }
+                    var idx = 5,
+                        maxStack = 9;
+                    function tick() {
+                        var src =
+                            AVATARS[idx % AVATARS.length];
+                        incoming.src = src;
+                        incoming.classList.remove("fly");
+                        void incoming.offsetWidth;
+                        incoming.classList.add("fly");
+                        setTimeout(function () {
+                            var img = document.createElement("img");
+                            img.className = "av";
+                            img.src = src;
+                            img.alt = "";
+                            stack.appendChild(img);
+                            while (stack.children.length > maxStack) {
+                                stack.removeChild(stack.firstChild);
+                            }
+                            // pulsa o "+"
+                            if (plus) {
+                                plus.classList.add("pulse");
+                                setTimeout(function () {
+                                    plus.classList.remove("pulse");
+                                }, 260);
+                            }
+                        }, 650);
+                        idx++;
+                    }
+                    setTimeout(function () {
+                        tick();
+                        setInterval(tick, 1600);
+                    }, 1000);
+                }
+                if (document.readyState !== "loading") {
+                    start();
+                } else {
+                    document.addEventListener("DOMContentLoaded", start);
+                }
+            })();
+        </script>
+
+        <!-- Modal do filme (formato celular) -->
+        <div class="film-modal" id="filmModal" role="dialog" aria-modal="true" aria-label="Propaganda Tagged">
+            <button class="fm-close" id="fmClose" aria-label="Fechar">✕</button>
+            <div class="fm-phone">
+                <video
+                    id="fmVid"
+                    poster="assets/img-07-77ae0f440d.jpg"
+                    controls
+                    loop
+                    playsinline
+                    preload="none"
+                >
+                    <source
+                        src="assets/video-01-01731ca899.webm"
+                        type="video/webm"
+                    />
+                </video>
+            </div>
+        </div>
+        <script>
+            /* Modal do filme */
+            (function () {
+                var modal = document.getElementById("filmModal");
+                var mVid = document.getElementById("fmVid");
+                var btn = document.getElementById("fmClose");
+                var inline = document.getElementById("comVid");
+                var pv = document.getElementById("phoneVideo");
+                if (!modal || !pv) return;
+
+                function openModal() {
+                    modal.classList.add("open");
+                    document.body.style.overflow = "hidden";
+                    if (inline) {
+                        try {
+                            mVid.currentTime = inline.currentTime || 0;
+                        } catch (e) {}
+                        inline.pause();
+                    }
+                    mVid.muted = false;
+                    mVid.play().catch(function () {});
+                }
+                function closeModal() {
+                    modal.classList.remove("open");
+                    document.body.style.overflow = "";
+                    mVid.pause();
+                    if (inline) inline.play().catch(function () {});
+                }
+                pv.style.cursor = "pointer";
+                pv.addEventListener(
+                    "click",
+                    function (e) {
+                        e.stopPropagation(); // impede o toggle antigo de play/pause
+                        openModal();
+                    },
+                    true
+                );
+                btn.addEventListener("click", closeModal);
+                modal.addEventListener("click", function (e) {
+                    if (e.target === modal) closeModal();
+                });
+                document.addEventListener("keydown", function (e) {
+                    if (e.key === "Escape" && modal.classList.contains("open"))
+                        closeModal();
+                });
+            })();
+        </script>
+        <script>
+            /* Colunas vivas da seção Bem-vindo */
+            (function () {
+                var wrap = document.getElementById("pqCols");
+                if (!wrap) return;
+                var POOL = [
+                    "assets/col-01.jpg",
+                    "assets/col-02.jpg",
+                    "assets/col-03.jpg",
+                    "assets/col-04.jpg",
+                    "assets/col-05.jpg",
+                    "assets/col-06.jpg",
+                    "assets/col-07.jpg",
+                    "assets/col-08.jpg",
+                    "assets/col-09.jpg",
+                    "assets/col-10.jpg",
+                    "assets/col-11.jpg",
+                    "assets/col-12.jpg",
+                    "assets/col-13.jpg",
+                    "assets/col-14.jpg",
+                    "assets/col-15.jpg",
+                ];
+                var cols = wrap.querySelectorAll(".pq-col");
+                var N = cols.length; // 5 colunas
+                var idx = [0, 1, 2, 3, 4];
+                var active = [0, 0, 0, 0, 0];
+                var reduce =
+                    window.matchMedia &&
+                    window.matchMedia("(prefers-reduced-motion: reduce)")
+                        .matches;
+
+                function setBg(layer, src, cb) {
+                    var im = new Image();
+                    im.onload = function () {
+                        layer.style.backgroundImage = "url(" + src + ")";
+                        if (cb) cb();
+                    };
+                    im.src = src;
+                }
+
+                cols.forEach(function (col, c) {
+                    var layers = col.querySelectorAll(".pq-col-layer");
+                    setBg(layers[0], POOL[idx[c]], function () {
+                        layers[0].classList.add("on");
+                    });
+                });
+                if (reduce) return;
+
+                var turn = 0,
+                    visible = false;
+                new IntersectionObserver(
+                    function (entries) {
+                        visible = entries[0].isIntersecting;
+                    },
+                    { threshold: 0.15 }
+                ).observe(wrap.parentElement);
+
+                setInterval(function () {
+                    if (!visible) return;
+                    var c = turn % N;
+                    turn++;
+                    var col = cols[c];
+                    if (col.offsetParent === null) return; // coluna oculta no responsivo
+                    var layers = col.querySelectorAll(".pq-col-layer");
+                    var cur = layers[active[c]];
+                    var nxt = layers[1 - active[c]];
+                    idx[c] = (idx[c] + N) % POOL.length;
+                    setBg(nxt, POOL[idx[c]], function () {
+                        void nxt.offsetWidth;
+                        nxt.classList.add("on");
+                        cur.classList.remove("on");
+                        active[c] = 1 - active[c];
+                    });
+                }, 4200);
+            })();
+        </script>
+    </body>
+</html> 
