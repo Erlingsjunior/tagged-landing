@@ -1,3 +1,7 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/classica", "destination": "/manifesto", "permanent": true },
+    { "source": "/classica/(.*)", "destination": "/manifesto/$1", "permanent": true }
+  ]
 }
