@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Movimento Tagged — Vista a mudança</title>
+        <meta
+            name="description"
+            content="Mais que um app: um movimento. Camisetas, adesivos, plaquinha, manifesto impresso. O adesivo sai, a marca fica. Quem tem, pertence."
+        />
+        <link rel="icon" href="../favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+        <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+        <meta name="theme-color" content="#f4511e" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Tagged" />
+        <meta property="og:title" content="Movimento Tagged — Vista a mudança" />
+        <meta property="og:description" content="O adesivo sai. A marca ficou. Produtos do movimento que financia a primeira RealTech do mundo." />
+        <meta property="og:image" content="https://apptagged.com/assets/og-tagged.jpg" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --creme: #f4efe9;
+                --creme-2: #ede6dd;
+                --ink: #1a1614;
+                --ink-soft: #6b635c;
+                --orange: #f4511e;
+                --orange-deep: #d63e12;
+                --teal: #0f766e;
+                --line: rgba(26, 22, 20, 0.12);
+                --card: #fff;
+            }
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html { scroll-behavior: smooth; }
+            body {
+                font-family: "Poppins", sans-serif;
+                background: var(--creme);
+                color: var(--ink);
+                -webkit-font-smoothing: antialiased;
+                overflow-x: clip;
+            }
+            body::before {
+                content: "";
+                position: fixed; inset: 0; z-index: -1;
+                background-image:
+                    linear-gradient(var(--creme-2) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--creme-2) 1px, transparent 1px);
+                background-size: 56px 56px;
+            }
+            .anton { font-family: "Anton", sans-serif; text-transform: uppercase; }
+            .serif { font-family: "Instrument Serif", serif; font-style: italic; }
+            .mono { font-family: "JetBrains Mono", monospace; letter-spacing: 0.08em; }
+
+            /* ── NAV (padrão landing) ── */
+            nav {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 20px 5vw; position: sticky; top: 0; z-index: 100;
+                background: rgba(244, 239, 233, 0.92); backdrop-filter: blur(12px);
+                border-bottom: 1px solid var(--line);
+            }
+            .nav-logo { font-family: "Anton", sans-serif; font-size: 26px; color: var(--ink); text-decoration: none; letter-spacing: 0.02em; }
+            .nav-logo span { color: var(--orange); }
+            .nav-right { display: flex; align-items: center; gap: 26px; }
+            .nav-right a.plain {
+                font-family: "JetBrains Mono", monospace; font-size: 13px; letter-spacing: 0.1em;
+                color: var(--ink-soft); text-decoration: none; text-transform: uppercase;
+            }
+            .nav-right a.plain:hover { color: var(--orange); }
+            .btn-dl {
+                display: inline-flex; align-items: center; gap: 10px;
+                font-family: "Anton", sans-serif; text-transform: uppercase; letter-spacing: 0.05em;
+                font-size: 15px; color: var(--creme); background: var(--ink);
+                padding: 12px 26px; border-radius: 999px; text-decoration: none;
+                transition: background 0.2s, transform 0.2s;
+            }
+            .btn-dl:hover { background: var(--orange); transform: translateY(-2px); }
+
+            /* ── HERO (padrão landing) ── */
+            .hero { text-align: center; padding: 96px 5vw 70px; position: relative; }
+            .eyebrow {
+                font-family: "JetBrains Mono", monospace; font-size: 13px;
+                letter-spacing: 0.2em; color: var(--ink-soft); text-transform: uppercase;
+            }
+            .eyebrow::before { content: "● "; color: var(--orange); }
+            .hero h1 {
+                font-family: "Anton", sans-serif; text-transform: uppercase;
+                font-size: clamp(52px, 10vw, 138px); line-height: 0.92; margin-top: 26px;
+            }
+            .hero h1 .serif { color: var(--orange); text-transform: none; display: block; font-size: 0.92em; }
+            .hero p { max-width: 600px; margin: 26px auto 0; color: var(--ink-soft); font-size: 17px; line-height: 1.75; }
+            .hero p strong { color: var(--ink); }
+            .hero-cta { margin-top: 36px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+            .btn-ghost2 {
+                font-family: "Anton", sans-serif; text-transform: uppercase; letter-spacing: 0.05em;
+                font-size: 15px; color: var(--ink); border: 2px solid var(--ink);
+                padding: 12px 26px; border-radius: 999px; text-decoration: none;
+                transition: all 0.2s;
+            }
+            .btn-ghost2:hover { color: var(--orange); border-color: var(--orange); transform: translateY(-2px); }
+
+            /* ── MARQUEE (padrão landing) ── */
+            .marquee {
+                background: var(--ink); color: var(--creme); overflow: hidden;
+                padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+            }
+            .marquee-track { display: inline-block; white-space: nowrap; animation: mq 28s linear infinite; }
+            .marquee-track span {
+                font-family: "JetBrains Mono", monospace; font-size: 14px; letter-spacing: 0.18em;
+                text-transform: uppercase;
+            }
+            @keyframes mq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+            /* ── PARALLAX ROSTOS (padrão landing) ── */
+            .parallax-quote {
+                position: relative; z-index: 2; min-height: 74vh;
+                display: flex; align-items: center; justify-content: center;
+                overflow: hidden; text-align: center;
+            }
+            .pq-cols { position: absolute; inset: 0; display: flex; z-index: -2; }
+            .pq-col { position: relative; flex: 1; overflow: hidden; }
+            .pq-col-layer {
+                position: absolute; inset: -6% 0; background-size: cover;
+                background-position: center 30%; opacity: 0;
+                will-change: opacity, transform;
+                transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+            }
+            .pq-col[data-dir="up"] .pq-col-layer { transform: translateY(4%) scale(1.06); }
+            .pq-col[data-dir="down"] .pq-col-layer { transform: translateY(-4%) scale(1.06); }
+            .pq-col .pq-col-layer.on { opacity: 1; transform: translateY(0) scale(1.02); }
+            .parallax-quote::after {
+                content: ""; position: absolute; inset: 0; z-index: -1;
+                background: linear-gradient(180deg, rgba(244, 81, 30, 0.82), rgba(214, 62, 18, 0.9));
+            }
+            .pq-inner { padding: 60px 5vw; }
+            .pq-num {
+                font-family: "JetBrains Mono", monospace; font-size: 13px; letter-spacing: 0.2em;
+                color: rgba(244, 239, 233, 0.75); text-transform: uppercase;
+            }
+            .pq-inner h2 {
+                font-family: "Anton", sans-serif; text-transform: uppercase; color: #fff;
+                font-size: clamp(40px, 6.5vw, 84px); line-height: 0.98; margin-top: 18px;
+            }
+            .pq-inner h2 .serif { text-transform: none; text-decoration: underline; text-underline-offset: 10px; }
+            .pq-inner p { color: rgba(255, 255, 255, 0.92); max-width: 560px; margin: 20px auto 0; line-height: 1.7; }
+            @media (max-width: 980px) {
+                .pq-col:first-child, .pq-col:last-child { display: none; }
+            }
+            @media (prefers-reduced-motion: reduce) { .pq-col-layer { transition: none; } }
+
+            /* ── BOARDS (padrão landing) ── */
+            .section { padding: 100px 5vw; max-width: 1240px; margin: 0 auto; }
+            .bhead {
+                display: flex; justify-content: space-between; align-items: center;
+                font-family: "JetBrains Mono", monospace; font-size: 12.5px; letter-spacing: 0.16em;
+                text-transform: uppercase; color: var(--ink-soft); margin-bottom: 44px;
+            }
+            .bhead .dot { color: var(--orange); margin-right: 8px; }
+            .bfoot {
+                display: flex; justify-content: space-between; align-items: center;
+                font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.14em;
+                text-transform: uppercase; color: var(--ink-soft);
+                border-top: 1px solid var(--line); margin-top: 64px; padding-top: 20px;
+            }
+            .section-title {
+                font-family: "Anton", sans-serif; text-transform: uppercase;
+                font-size: clamp(38px, 6vw, 80px); line-height: 0.96;
+            }
+            .section-title em { font-family: "Instrument Serif", serif; font-style: italic; color: var(--orange); text-transform: none; }
+            .section-sub { color: var(--ink-soft); max-width: 560px; margin-top: 18px; line-height: 1.75; }
+
+            /* reveal (padrão landing) */
+            .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1); }
+            .reveal.visible { opacity: 1; transform: none; }
+
+            /* ── CAMPANHA: adesivo + celular ── */
+            .camp-grid {
+                display: grid; grid-template-columns: 1fr 0.9fr; gap: 70px;
+                align-items: center; margin-top: 54px;
+            }
+            .camp-steps { margin-top: 34px; display: grid; gap: 20px; }
+            .cstep { display: flex; gap: 18px; align-items: baseline; }
+            .cstep b { font-family: "JetBrains Mono", monospace; color: var(--orange); font-size: 15px; min-width: 36px; }
+            .cstep span { color: var(--ink-soft); font-size: 15.5px; line-height: 1.6; }
+            .cstep strong { color: var(--ink); }
+            .camp-note {
+                margin-top: 28px; padding: 16px 20px; border-left: 3px solid var(--teal);
+                background: rgba(15, 118, 110, 0.08); font-size: 13.5px;
+                color: var(--ink-soft); line-height: 1.65; border-radius: 0 10px 10px 0;
+            }
+            .camp-slogan {
+                font-family: "Instrument Serif", serif; font-style: italic;
+                color: var(--orange); font-size: clamp(26px, 3vw, 38px); margin-top: 28px;
+            }
+            .camp-visual { position: relative; }
+            .camp-visual .sticker {
+                width: 78%; border-radius: 20px; border: 1px solid var(--line);
+                box-shadow: 0 30px 60px rgba(26, 22, 20, 0.18);
+                transform: rotate(-3deg);
+            }
+            .device {
+                position: absolute; right: -4%; bottom: -8%; width: 46%;
+                aspect-ratio: 9/19.5; background: #15110d; border-radius: 26px; padding: 7px;
+                box-shadow: 0 30px 70px rgba(26, 22, 20, 0.35);
+                transform: rotate(5deg);
+                transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+            }
+            .device:hover { transform: rotate(2deg) translateY(-8px); }
+            .device img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; display: block; }
+
+            /* ── CAMPANHA: pull-quote tipográfico + passos polaroid ── */
+            .pull-quote {
+                position: relative; text-align: center;
+                margin: 90px auto 20px; max-width: 900px; padding: 0 20px;
+            }
+            .pull-quote::before {
+                content: "“";
+                font-family: "Instrument Serif", serif;
+                font-size: clamp(120px, 16vw, 220px); line-height: 0;
+                color: var(--orange); opacity: 0.25;
+                position: absolute; top: 26px; left: 50%; transform: translateX(-50%);
+                pointer-events: none;
+            }
+            .pull-quote .q1 {
+                font-family: "Anton", sans-serif; text-transform: uppercase;
+                font-size: clamp(30px, 4.6vw, 60px); line-height: 1.02; color: var(--ink);
+            }
+            .pull-quote .q2 {
+                font-family: "Instrument Serif", serif; font-style: italic;
+                color: var(--orange); font-size: clamp(28px, 4.2vw, 54px); margin-top: 8px;
+            }
+            .pull-quote .q-rule {
+                font-family: "JetBrains Mono", monospace; font-size: 12px;
+                letter-spacing: 0.2em; color: var(--ink-soft); text-transform: uppercase;
+                margin-top: 26px;
+            }
+            .pull-quote .q-rule::before, .pull-quote .q-rule::after {
+                content: "———"; color: var(--orange); margin: 0 12px; letter-spacing: -2px;
+            }
+            .steps-grid {
+                display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 38px 30px; margin-top: 80px;
+            }
+            .step-card {
+                position: relative; background: #fff; padding: 14px 14px 20px;
+                border-radius: 6px;
+                box-shadow: 0 14px 34px rgba(26, 22, 20, 0.16);
+                transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.35s ease;
+            }
+            .step-card:nth-child(1) { transform: rotate(-2.2deg); }
+            .step-card:nth-child(2) { transform: rotate(1.6deg) translateY(14px); }
+            .step-card:nth-child(3) { transform: rotate(-1.4deg); }
+            .step-card:nth-child(4) { transform: rotate(2.2deg) translateY(14px); }
+            .step-card:hover {
+                transform: rotate(0deg) translateY(-10px) scale(1.03);
+                box-shadow: 0 34px 70px rgba(26, 22, 20, 0.22);
+                z-index: 5;
+            }
+            .step-card::before { /* fita adesiva */
+                content: ""; position: absolute; top: -14px; left: 50%;
+                width: 110px; height: 30px; transform: translateX(-50%) rotate(-3deg);
+                background: rgba(244, 81, 30, 0.75); border-radius: 2px;
+                box-shadow: 0 2px 6px rgba(26, 22, 20, 0.15);
+            }
+            .step-card:nth-child(even)::before { transform: translateX(-50%) rotate(2.5deg); }
+            .step-card img {
+                width: 100%; aspect-ratio: 1; object-fit: cover; display: block;
+                border: 1px solid var(--line);
+            }
+            .step-card .sc-body { padding: 18px 8px 4px; position: relative; }
+            .step-card .sc-num {
+                position: absolute; top: -6px; right: 4px;
+                font-family: "Anton", sans-serif; font-size: 64px; line-height: 1;
+                color: transparent; -webkit-text-stroke: 2px var(--orange);
+                opacity: 0.55; pointer-events: none;
+            }
+            .step-card h3 {
+                font-family: "Anton", sans-serif; text-transform: uppercase;
+                font-size: 24px; line-height: 1; padding-right: 60px;
+            }
+            .step-card h3 em { font-family: "Instrument Serif", serif; font-style: italic; color: var(--orange); text-transform: none; }
+            .step-card p { color: var(--ink-soft); font-size: 13.5px; line-height: 1.65; margin-top: 10px; }
+            .step-card p strong { color: var(--ink); }
+            .camp-stamp {
+                text-align: center; margin-top: 64px;
+            }
+            .camp-stamp .selo-txt {
+                display: inline-block; font-family: "Anton", sans-serif; text-transform: uppercase;
+                font-size: clamp(24px, 3vw, 40px); color: var(--orange);
+                border: 4px solid var(--orange); border-radius: 14px;
+                padding: 14px 34px; transform: rotate(-2deg);
+                letter-spacing: 0.04em;
+            }
+            .camp-stamp .sub { margin-top: 22px; }
+
+            /* ── VITRINE ── */
+            .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 26px; margin-top: 54px; }
+            .product {
+                background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+                overflow: hidden; cursor: pointer;
+                transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s ease;
+                display: flex; flex-direction: column;
+            }
+            .product:hover { transform: translateY(-8px) rotate(-0.5deg); box-shadow: 0 30px 60px rgba(26, 22, 20, 0.14); }
+            .product .imgwrap { overflow: hidden; }
+            .product img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; transition: transform 0.5s ease; }
+            .product:hover img { transform: scale(1.06); }
+            .product .info { padding: 20px 22px 24px; flex: 1; display: flex; flex-direction: column; }
+            .tagchip {
+                display: inline-block; font-family: "JetBrains Mono", monospace;
+                font-size: 11px; letter-spacing: 0.12em; color: var(--orange);
+                border: 1px solid var(--orange); border-radius: 999px;
+                padding: 4px 12px; margin-bottom: 12px; align-self: flex-start;
+            }
+            .product h3 { font-family: "Anton", sans-serif; text-transform: uppercase; font-size: 20px; }
+            .product .frase { font-family: "Instrument Serif", serif; font-style: italic; color: var(--ink-soft); font-size: 15px; margin-top: 6px; flex: 1; }
+            .product .ver {
+                margin-top: 16px; font-family: "JetBrains Mono", monospace; font-size: 12px;
+                letter-spacing: 0.12em; color: var(--ink); text-transform: uppercase;
+            }
+            .product .ver::after { content: " →"; color: var(--orange); }
+
+            /* ── MODAL + LUPA ── */
+            .shop-modal {
+                position: fixed; inset: 0; z-index: 300; display: none;
+                align-items: center; justify-content: center;
+                background: rgba(26, 22, 20, 0.85); backdrop-filter: blur(10px); padding: 4vw;
+            }
+            .shop-modal.open { display: flex; }
+            .sm-box {
+                background: var(--creme); border-radius: 22px; overflow: hidden;
+                max-width: 980px; width: 100%; max-height: 92vh;
+                display: grid; grid-template-columns: 1.1fr 1fr;
+                animation: smIn 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+            }
+            @keyframes smIn { from { opacity: 0; transform: translateY(24px) scale(0.97); } to { opacity: 1; transform: none; } }
+            .sm-gallery { padding: 26px; background: #fff; }
+            .sm-main { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); cursor: crosshair; }
+            .sm-main img { width: 100%; display: block; }
+            .sm-lens {
+                position: absolute; width: 170px; height: 170px;
+                border: 3px solid var(--orange); border-radius: 50%;
+                pointer-events: none; display: none; background-repeat: no-repeat;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }
+            .sm-hint { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.12em; margin-top: 10px; text-align: center; text-transform: uppercase; }
+            .sm-thumbs { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+            .sm-thumbs img {
+                width: 64px; height: 64px; object-fit: cover; border-radius: 10px;
+                border: 2px solid transparent; cursor: pointer; opacity: 0.65; transition: all 0.15s;
+            }
+            .sm-thumbs img.on { border-color: var(--orange); opacity: 1; }
+            .sm-info { padding: 40px 36px; display: flex; flex-direction: column; overflow-y: auto; }
+            .sm-info h3 { font-family: "Anton", sans-serif; text-transform: uppercase; font-size: 32px; line-height: 1; }
+            .sm-frase { font-family: "Instrument Serif", serif; font-style: italic; color: var(--orange); font-size: 22px; margin: 12px 0 16px; }
+            .sm-info p { color: var(--ink-soft); font-size: 14.5px; line-height: 1.7; flex: 1; }
+            .sm-preco { font-family: "JetBrains Mono", monospace; font-size: 13px; color: var(--teal); margin: 18px 0 14px; letter-spacing: 0.08em; }
+            .btn {
+                display: inline-block; text-align: center; text-decoration: none;
+                font-family: "Anton", sans-serif; text-transform: uppercase; letter-spacing: 0.06em;
+                font-size: 15px; padding: 14px 24px; border-radius: 999px;
+                background: var(--ink); color: var(--creme); transition: background 0.2s;
+            }
+            .btn:hover { background: var(--orange); }
+            .sm-close {
+                position: absolute; top: 20px; right: 24px; z-index: 310;
+                width: 46px; height: 46px; border: none; border-radius: 50%;
+                background: rgba(244, 239, 233, 0.15); color: var(--creme); font-size: 20px; cursor: pointer;
+            }
+            .sm-close:hover { background: var(--orange); }
+
+            /* ── O APP LEMBRADO ── */
+            .app-strip { background: var(--ink); color: var(--creme); }
+            .app-strip .section-title { color: var(--creme); }
+            .app-strip .section-sub { color: rgba(244, 239, 233, 0.65); }
+            .app-phones { display: flex; gap: 5%; justify-content: center; margin-top: 60px; align-items: flex-end; }
+            .app-phones .ph {
+                width: 24%; aspect-ratio: 9/19.5; background: #000; border-radius: 30px; padding: 8px;
+                box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+                transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+            }
+            .app-phones .ph:nth-child(1) { transform: rotate(-6deg) translateY(18px); }
+            .app-phones .ph:nth-child(3) { transform: rotate(6deg) translateY(18px); }
+            .app-phones .ph:hover { transform: rotate(0) translateY(-10px) scale(1.04); z-index: 3; }
+            .app-phones .ph img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; display: block; }
+            .app-cap { text-align: center; margin-top: 44px; }
+            .app-cap .serif { color: var(--orange); font-size: clamp(22px, 2.6vw, 32px); }
+
+            .bfoot.dark { color: rgba(244, 239, 233, 0.5); border-color: rgba(244, 239, 233, 0.15); }
+
+            footer {
+                padding: 48px 5vw; border-top: 1px solid var(--line);
+                display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px;
+            }
+            footer .mono { font-size: 12px; color: var(--ink-soft); }
+
+            @media (max-width: 860px) {
+                .camp-grid { grid-template-columns: 1fr; gap: 90px; }
+                .sm-box { grid-template-columns: 1fr; overflow-y: auto; }
+                .sm-main { cursor: default; }
+                .app-phones { flex-wrap: wrap; gap: 20px; }
+                .app-phones .ph { width: 44%; }
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <a class="nav-logo" href="../">TAG<span>GED</span></a>
+            <div class="nav-right">
+                <a class="plain" href="../">← Voltar ao site</a>
+                <a class="btn-dl" href="../#baixar">Baixar App</a>
+            </div>
+        </nav>
+
+        <!-- HERO -->
+        <header class="hero">
+            <div class="eyebrow">TAGGED · MOVIMENTO · VOL. I</div>
+            <h1>
+                Vista a<span class="serif">mudança.</span>
+            </h1>
+            <p>
+                Todo movimento tem símbolos. A camiseta vira <strong>uniforme</strong>,
+                o adesivo vira <strong>bandeira</strong>, o manifesto vira
+                <strong>biblioteca</strong>. Cada produto financia a plataforma
+                que o mercado disse que ninguém queria — e marca quem faz parte.
+            </p>
+            <div class="hero-cta">
+                <a class="btn-dl" href="#produtos">Ver a coleção</a>
+                <a class="btn-ghost2" href="#campanha">A campanha do adesivo</a>
+            </div>
+        </header>
+
+        <div class="marquee">
+            <div class="marquee-track">
+                <span>✦ Vista ✦ Cole ✦ Marque ✦ Poste ✦ Pertença ✦ O adesivo sai, a marca ficou ✦ Quem tem, pertence ✦ Vista ✦ Cole ✦ Marque ✦ Poste ✦ Pertença ✦ O adesivo sai, a marca ficou ✦ Quem tem, pertence ✦&nbsp;</span>
+            </div>
+        </div>
+
+        <!-- PARALLAX ROSTOS (colunas vivas, igual à landing) -->
+        <section class="parallax-quote">
+            <div class="pq-cols" id="pqCols" aria-hidden="true">
+                <div class="pq-col" data-dir="up"><div class="pq-col-layer"></div><div class="pq-col-layer"></div></div>
+                <div class="pq-col" data-dir="down"><div class="pq-col-layer"></div><div class="pq-col-layer"></div></div>
+                <div class="pq-col" data-dir="up"><div class="pq-col-layer"></div><div class="pq-col-layer"></div></div>
+                <div class="pq-col" data-dir="down"><div class="pq-col-layer"></div><div class="pq-col-layer"></div></div>
+                <div class="pq-col" data-dir="up"><div class="pq-col-layer"></div><div class="pq-col-layer"></div></div>
+            </div>
+            <div class="pq-inner">
+                <div class="pq-num">● MOVIMENTO · TAGGED</div>
+                <h2>Quem tem,<br /><span class="serif">pertence.</span></h2>
+                <p>
+                    O movimento não se compra — se veste, se cola, se carrega.
+                    Estas são as pessoas que marcam o mundo. Falta você.
+                </p>
+            </div>
+        </section>
+
+        <!-- BOARD 01 — A CAMPANHA -->
+        <section class="section" id="campanha">
+            <div class="bhead reveal">
+                <div><span class="dot">●</span>BOARD 01 OF 03 — A CAMPANHA FÍSICA</div>
+                <div>ADESIVO REMOVÍVEL · SINALIZAÇÃO CIDADÃ</div>
+            </div>
+            <div class="reveal">
+                <h2 class="section-title">Viu o buraco?<br /><em>cola. taggeia. muda.</em></h2>
+                <p class="section-sub">
+                    Todo dia você passa pelo mesmo buraco, pela mesma lâmpada
+                    queimada, pelo mesmo descaso. E engole. <strong>Chega.</strong>
+                    O Adesivo Tagged é a tag do mundo real: cola no problema,
+                    vira QR, vira denúncia, vira pilha de assinatura na calçada.
+                    Ninguém mais finge que não viu.
+                </p>
+            </div>
+
+            <div class="pull-quote reveal">
+                <div class="q1">Tem rede social com<br />filtro de cachorro.</div>
+                <div class="q2">a Tagged tem adesivo que<br />vira petição na calçada.</div>
+                <div class="q-rule">MOVIMENTO TAGGED</div>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step-card reveal">
+                    <img src="img/adesivo-qr.jpg" alt="Adesivo Tagged com QR code" loading="lazy" />
+                    <div class="sc-body">
+                        <div class="sc-num">01</div>
+                        <h3>Cola no <em>problema.</em></h3>
+                        <p>
+                            Buraco, vazamento, abandono — <strong>cola em cima.</strong>
+                            Adesivo removível, sem dano, sem pichação. A gente marca
+                            o descaso, não o patrimônio.
+                        </p>
+                    </div>
+                </div>
+                <div class="step-card reveal">
+                    <img src="../assets/scr-20.jpg" alt="Criando a tag no app Tagged" loading="lazy" />
+                    <div class="sc-body">
+                        <div class="sc-num">02</div>
+                        <h3>Taggeia no <em>app.</em></h3>
+                        <p>
+                            Abre a Tagged, posta a denúncia com foto e localização,
+                            escaneia <strong>seu próprio adesivo</strong> e vincula.
+                            Pronto: aquele QR agora aponta pra sua causa. Pra sempre.
+                        </p>
+                    </div>
+                </div>
+                <div class="step-card reveal">
+                    <img src="img/passo-scan.jpg" alt="Pessoa escaneando o QR do adesivo" loading="lazy" />
+                    <div class="sc-body">
+                        <div class="sc-num">03</div>
+                        <h3>Quem passa, <em>escaneia.</em></h3>
+                        <p>
+                            O vizinho aponta a câmera e cai <strong>direto na denúncia</strong>.
+                            Assina em dois toques. Não tem o app? A página oferece.
+                            Cada adesivo na rua é uma porta de entrada.
+                        </p>
+                    </div>
+                </div>
+                <div class="step-card reveal">
+                    <img src="img/passo-pilha.jpg" alt="Pilha de adesivos acumulados: assinaturas visíveis" loading="lazy" />
+                    <div class="sc-body">
+                        <div class="sc-num">04</div>
+                        <h3>A pilha <em>cresce.</em></h3>
+                        <p>
+                            Quem assina cola o seu do lado. A parede de laranja
+                            vira <strong>petição visível a olho nu</strong> — e quando
+                            bate a massa crítica, vira documento oficial no app.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="camp-stamp reveal">
+                <span class="selo-txt">ESTE LUGAR TEM TAG.</span>
+                <div class="camp-slogan sub">"O adesivo sai. A marca ficou."</div>
+            </div>
+
+            <div class="camp-note reveal" style="max-width: 720px; margin-left: auto; margin-right: auto;">
+                Sinalização cidadã, não vandalismo: adesivo removível, sem dano,
+                colado no problema — nunca em patrimônio, placas oficiais ou veículos.
+                Marcamos o descaso, respeitamos a cidade.
+            </div>
+            <div class="bfoot">
+                <span>● 01 · A CAMPANHA</span><span>APPTAGGED.COM</span><span>01 / 03</span>
+            </div>
+        </section>
+
+        <!-- BOARD 02 — A VITRINE -->
+        <section class="section" id="produtos">
+            <div class="bhead reveal">
+                <div><span class="dot">●</span>BOARD 02 OF 03 — A VITRINE</div>
+                <div>PRODUÇÃO SOB DEMANDA · SEM ESTOQUE</div>
+            </div>
+            <h2 class="section-title reveal">A coleção <em>fundadora.</em></h2>
+            <p class="section-sub reveal">
+                Clique num produto pra ver de perto — com lupa, como tem que ser.
+                Cada peça financia a Tagged e identifica o clã.
+            </p>
+            <div class="products" id="shopGrid"></div>
+            <div class="bfoot">
+                <span>● 02 · A VITRINE</span><span>QUEM TEM, PERTENCE</span><span>02 / 03</span>
+            </div>
+        </section>
+
+        <!-- BOARD 03 — O APP É O MOTIVO -->
+        <section class="app-strip">
+            <div class="section">
+                <div class="bhead reveal" style="color: rgba(244,239,233,0.5)">
+                    <div><span class="dot">●</span>BOARD 03 OF 03 — O MOTIVO DE TUDO</div>
+                    <div>TODA RENDA FINANCIA A PLATAFORMA</div>
+                </div>
+                <h2 class="section-title reveal">A camiseta é o uniforme.<br /><em>o app é a luta.</em></h2>
+                <p class="section-sub reveal">
+                    Nada disso existe pra vender caneca: existe pra manter no ar a
+                    primeira RealTech do mundo — independente, sem investidor,
+                    do jeito que o clã construiu.
+                </p>
+                <div class="app-phones">
+                    <div class="ph reveal"><img src="../assets/scr-17.jpg" alt="Mapa do Brasil com tags" loading="lazy" /></div>
+                    <div class="ph reveal"><img src="../assets/scr-30.jpg" alt="Denúncia anônima no app" loading="lazy" /></div>
+                    <div class="ph reveal"><img src="../assets/scr-32.jpg" alt="Celebração no feed" loading="lazy" /></div>
+                </div>
+                <div class="app-cap reveal">
+                    <div class="serif">use o que você veste. vista o que você usa.</div>
+                    <div style="margin-top: 26px">
+                        <a class="btn-dl" href="../#baixar" style="background: var(--orange)">Baixar o app</a>
+                    </div>
+                </div>
+                <div class="bfoot dark">
+                    <span>● 03 · O MOTIVO</span><span>COGITO · TESTIMONIUM · AGO</span><span>03 / 03</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODAL DO E-SHOP -->
+        <div class="shop-modal" id="shopModal" role="dialog" aria-modal="true">
+            <button class="sm-close" id="smClose" aria-label="Fechar">✕</button>
+            <div class="sm-box">
+                <div class="sm-gallery">
+                    <div class="sm-main" id="smMain">
+                        <img id="smImg" src="" alt="" />
+                        <div class="sm-lens" id="smLens"></div>
+                    </div>
+                    <div class="sm-hint">passe o mouse pra usar a lupa</div>
+                    <div class="sm-thumbs" id="smThumbs"></div>
+                </div>
+                <div class="sm-info">
+                    <span class="tagchip" id="smChip"></span>
+                    <h3 id="smNome"></h3>
+                    <div class="sm-frase" id="smFrase"></div>
+                    <p id="smDesc"></p>
+                    <div class="sm-preco" id="smPreco"></div>
+                    <a class="btn" id="smCta" href="#">Avise-me quando lançar</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <a class="nav-logo" href="../">TAG<span>GED</span></a>
+            <div class="mono">"Cogito, testimonium, ago — ergo liber sum."</div>
+            <div class="mono">APPTAGGED.COM · @TAGGED</div>
+        </footer>
+
+        <script>
+            /* ── E-SHOP ── */
+            const PRODUTOS = [
+                { id: "camiseta", chip: "VESTUÁRIO", nome: "Camiseta Use Tagged", frase: "o uniforme do clã.",
+                  desc: "Algodão premium em três cores de guerra: branca, preta e laranja. Frente com o alvo-T no peito; costas com CADA TAG TEM PESO. Quem vê, pergunta. Quem pergunta, baixa.",
+                  preco: "EM BREVE · BRANCA / PRETA / LARANJA · P-GG",
+                  imgs: ["img/camiseta-laranja-rua.jpg","img/camiseta-branca-buraco.jpg","img/camiseta-preta-rua.jpg","img/camiseta-branca-rua.jpg","img/camiseta-laranja-frente.jpg","img/camiseta-branca-frente.jpg","img/camiseta-laranja-costas.jpg","img/camiseta-preta-costas.jpg","img/camiseta-branca-costas.jpg","img/camiseta-preta-cena.jpg","img/camiseta-laranja-cena.jpg","img/camiseta-preta-macro.jpg","img/camiseta-laranja-macro.jpg","img/camiseta-branca-macro.jpg"] },
+                { id: "adesivos", chip: "CAMPANHA", nome: "Cartela de Adesivos QR", frase: "“escaneie. assine. cole o seu.”",
+                  desc: "Adesivos removíveis com QR code que leva direto à denúncia. Quem passa, escaneia, assina — e cola o próprio adesivo ao lado. A pilha de adesivos vira a petição visível no mundo real: movimento digital e físico ao mesmo tempo.",
+                  preco: "EM BREVE · QR ÚNICO POR TAG · PRODUÇÃO SOB DEMANDA",
+                  imgs: ["img/adesivos-foto.jpg","img/adesivo-qr.jpg","img/camiseta-preta-cena-2.jpg","img/camiseta-laranja-cena-2.jpg"] },
+                { id: "kit", chip: "COLECIONÁVEL", nome: "Kit do Clã", frase: "tudo que o movimento veste.",
+                  desc: "Camiseta dobrada, bottons de metal, chaveiro alvo-T e adesivos — o enxoval completo de quem entra pro clã. Montado em duas cores de base: branca ou laranja.",
+                  preco: "EM BREVE · KIT COMPLETO",
+                  imgs: ["img/kit-laranja.jpg","img/kit-branco.jpg","img/kit-laranja-2.jpg","img/kit-branco-2.jpg"] },
+                { id: "plaquinha", chip: "ÍCONE", nome: "Plaquinha Tagged", frase: "a claquete da denúncia.",
+                  desc: "Segure na foto e assine a cena. A plaquinha aparece em cada tag como marca de quem faz — sem colar nada, sem tocar em nada. Plástico rígido, cabe no bolso da mochila.",
+                  preco: "EM BREVE · EDIÇÃO FUNDADORA", imgs: ["img/plaquinha.jpg"] },
+                { id: "caneca", chip: "DIA A DIA", nome: "Caneca do Clã", frase: "cada gole tem peso.",
+                  desc: "Cerâmica em branca, preta ou laranja com o alvo-T. Pro café de quem acorda disposto a marcar o mundo antes do almoço — e pro escritório inteiro perguntar o que é a Tagged.",
+                  preco: "EM BREVE · BRANCA / PRETA / LARANJA · 325ML",
+                  imgs: ["img/caneca-branca.jpg","img/caneca-preta.jpg","img/caneca-laranja.jpg"] },
+                { id: "manifesto", chip: "EDIÇÃO FUNDADORA", nome: "Manifesto Impresso", frase: "cogito, testimonium, ago.",
+                  desc: "O Tratado da Existência Real em papel: IX partes + conclusão, capa dura, edição numerada. O documento que explica por que existir não basta — pra estante de quem age.",
+                  preco: "EM BREVE · NUMERADO · CAPA DURA", imgs: ["img/manifesto-impresso.jpg"] },
+                { id: "bottons", chip: "COLECIONÁVEL", nome: "Bottons de Selo", frase: "conquistou dentro, mostra fora.",
+                  desc: "Seus selos do app em metal: alvo-T, Watchmen, Primeira Voz. Na mochila, na jaqueta, no cordão do crachá. Colecionáveis como as conquistas que representam.",
+                  preco: "EM BREVE · KIT COM 3", imgs: ["img/bottons.jpg","img/kit-branco.jpg","img/kit-laranja-2.jpg"] },
+                { id: "chaveiro", chip: "DIA A DIA", nome: "Chaveiro Alvo-T", frase: "a mudança começa na sua rua.",
+                  desc: "O símbolo do movimento junto das chaves de casa. Emborrachado, resistente, laranja que não passa despercebido.",
+                  preco: "EM BREVE", imgs: ["img/chaveiro.jpg","img/kit-laranja.jpg"] },
+                { id: "munhequeira", chip: "VESTUÁRIO", nome: "Munhequeira do Clã", frase: "no punho de quem age.",
+                  desc: "FAÇA ALGO. USE TAGGED. — literalmente escrito no punho de quem escreve, fotografa, aponta e move. Algodão com elastano, tamanho único.",
+                  preco: "EM BREVE", imgs: ["img/munhequeira.jpg"] },
+                { id: "bandana", chip: "VESTUÁRIO", nome: "Bandana do Movimento", frase: "a bandeira que se veste.",
+                  desc: "Lenço laranja com padrão de alvos-T. No pescoço, na mochila, no retrovisor — o movimento vai aonde você for.",
+                  preco: "EM BREVE", imgs: ["img/bandana.jpg"] },
+                { id: "oculos", chip: "ATITUDE", nome: "Óculos Tagged", frase: "veja o que importa.",
+                  desc: "Armação preta, alvo-T na haste. Pra quem enxerga o que os outros fingem não ver — proteção UV inclusa, visão cidadã de série.",
+                  preco: "EM BREVE", imgs: ["img/oculos.jpg"] },
+            ];
+
+            const grid = document.getElementById("shopGrid");
+            PRODUTOS.forEach((p, i) => {
+                const el = document.createElement("div");
+                el.className = "product reveal";
+                el.innerHTML = `
+                    <div class="imgwrap"><img src="${p.imgs[0]}" alt="${p.nome}" loading="lazy" /></div>
+                    <div class="info">
+                        <span class="tagchip">${p.chip}</span>
+                        <h3>${p.nome}</h3>
+                        <div class="frase">${p.frase}</div>
+                        <div class="ver">Ver de perto${p.imgs.length > 1 ? " · " + p.imgs.length + " fotos" : ""}</div>
+                    </div>`;
+                el.addEventListener("click", () => openProduct(i));
+                grid.appendChild(el);
+            });
+
+            const modal = document.getElementById("shopModal");
+            const smImg = document.getElementById("smImg");
+            const smLens = document.getElementById("smLens");
+            const smMain = document.getElementById("smMain");
+            const smThumbs = document.getElementById("smThumbs");
+
+            function openProduct(i) {
+                const p = PRODUTOS[i];
+                document.getElementById("smChip").textContent = p.chip;
+                document.getElementById("smNome").textContent = p.nome;
+                document.getElementById("smFrase").textContent = p.frase;
+                document.getElementById("smDesc").textContent = p.desc;
+                document.getElementById("smPreco").textContent = p.preco;
+                document.getElementById("smCta").href =
+                    "mailto:erlingsjunior@gmail.com?subject=" +
+                    encodeURIComponent("Quero: " + p.nome) +
+                    "&body=" + encodeURIComponent("Me avisa quando “" + p.nome + "” lançar!");
+                smThumbs.innerHTML = "";
+                p.imgs.forEach((src, k) => {
+                    const t = document.createElement("img");
+                    t.src = src;
+                    if (k === 0) t.classList.add("on");
+                    t.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        smImg.src = src;
+                        smThumbs.querySelectorAll("img").forEach((x) => x.classList.remove("on"));
+                        t.classList.add("on");
+                    });
+                    smThumbs.appendChild(t);
+                });
+                smImg.src = p.imgs[0];
+                modal.classList.add("open");
+                document.body.style.overflow = "hidden";
+            }
+            function closeProduct() {
+                modal.classList.remove("open");
+                document.body.style.overflow = "";
+            }
+            document.getElementById("smClose").addEventListener("click", closeProduct);
+            modal.addEventListener("click", (e) => { if (e.target === modal) closeProduct(); });
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape" && modal.classList.contains("open")) closeProduct();
+            });
+
+            /* LUPA — amplia 2.4x seguindo o mouse */
+            const ZOOM = 2.4;
+            smMain.addEventListener("mousemove", (e) => {
+                if (window.innerWidth < 820) return;
+                const r = smMain.getBoundingClientRect();
+                const x = e.clientX - r.left, y = e.clientY - r.top;
+                smLens.style.display = "block";
+                smLens.style.left = x - 85 + "px";
+                smLens.style.top = y - 85 + "px";
+                smLens.style.backgroundImage = `url(${smImg.src})`;
+                smLens.style.backgroundSize = r.width * ZOOM + "px " + r.height * ZOOM + "px";
+                smLens.style.backgroundPosition = -(x * ZOOM - 85) + "px " + -(y * ZOOM - 85) + "px";
+            });
+            smMain.addEventListener("mouseleave", () => { smLens.style.display = "none"; });
+
+            /* ── REVEAL ON SCROLL (padrão landing) ── */
+            const obs = new IntersectionObserver(
+                (es) => es.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+                { threshold: 0.12 }
+            );
+            document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
+
+            /* ── COLUNAS VIVAS (mesmo motor da landing) ── */
+            (function () {
+                var POOL = [];
+                for (var n = 1; n <= 15; n++) POOL.push("../assets/col-" + String(n).padStart(2, "0") + ".jpg");
+                var wrap = document.getElementById("pqCols");
+                if (!wrap) return;
+                var cols = wrap.querySelectorAll(".pq-col");
+                var N = cols.length;
+                var current = [5, 6, 7, 8, 9], active = [0,0,0,0,0], busy = [false,false,false,false,false], lastCol = -1;
+                var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                function setBg(layer, src, cb) {
+                    var im = new Image();
+                    im.onload = function () { layer.style.backgroundImage = "url(" + src + ")"; if (cb) cb(); };
+                    im.src = src;
+                }
+                cols.forEach(function (col, c) {
+                    var layers = col.querySelectorAll(".pq-col-layer");
+                    setBg(layers[0], POOL[current[c]], function () { layers[0].classList.add("on"); });
+                });
+                if (reduce) return;
+                var visible = false;
+                new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; }, { threshold: 0.15 }).observe(wrap.parentElement);
+                function rand(a, b) { return a + Math.random() * (b - a); }
+                function pickCol() {
+                    var opts = [];
+                    for (var c = 0; c < N; c++) if (cols[c].offsetParent !== null && !busy[c] && c !== lastCol) opts.push(c);
+                    return opts.length ? opts[Math.floor(Math.random() * opts.length)] : -1;
+                }
+                function pickImg(c) {
+                    var opts = [];
+                    for (var i = 0; i < POOL.length; i++) if (current.indexOf(i) === -1) opts.push(i);
+                    return opts.length ? opts[Math.floor(Math.random() * opts.length)] : current[c];
+                }
+                function swap(c) {
+                    var layers = cols[c].querySelectorAll(".pq-col-layer");
+                    var cur = layers[active[c]], nxt = layers[1 - active[c]];
+                    var img = pickImg(c);
+                    busy[c] = true;
+                    setBg(nxt, POOL[img], function () {
+                        void nxt.offsetWidth;
+                        nxt.classList.add("on"); cur.classList.remove("on");
+                        active[c] = 1 - active[c]; current[c] = img;
+                        setTimeout(function () { busy[c] = false; }, 850);
+                    });
+                    lastCol = c;
+                }
+                function tick() {
+                    if (visible) {
+                        var c = pickCol();
+                        if (c !== -1) swap(c);
+                        if (Math.random() < 0.35) setTimeout(function () { var c2 = pickCol(); if (c2 !== -1) swap(c2); }, rand(180, 420));
+                    }
+                    setTimeout(tick, rand(700, 2200));
+                }
+                setTimeout(tick, 500);
+            })();
+        </script>
+    </body>
+</html>
