@@ -132,6 +132,10 @@
                 text-decoration: none;
                 opacity: 0.7;
                 transition: opacity 0.2s;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                font-size: 13.5px;
+                font-weight: 600;
             }
             .navlinks a:hover {
                 opacity: 1;
@@ -2448,6 +2452,108 @@
                 transform: scale(1.7);
                 transition: transform 0.25s cubic-bezier(0.2, 1.6, 0.4, 1);
             }
+
+            /* ── CARIMBO DO SHOP — gigante, flanco direito do hero ── */
+            .stamp-shop {
+                position: absolute;
+                top: 170px;
+                right: 3vw;
+                z-index: 5;
+                width: min(34vw, 560px);
+                aspect-ratio: 1;
+                border-radius: 50%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+                border: 9px dashed var(--orange);
+                color: var(--orange);
+                text-decoration: none;
+                transform: rotate(10deg);
+                background: rgba(244, 81, 30, 0.05);
+                transition:
+                    transform 0.3s cubic-bezier(0.2, 1.4, 0.4, 1),
+                    background 0.2s,
+                    box-shadow 0.3s;
+                animation: stampIn 0.6s cubic-bezier(0.2, 1.6, 0.4, 1) 0.8s backwards;
+            }
+            .stamp-shop::after {
+                content: "";
+                position: absolute;
+                inset: 20px;
+                border: 3px dashed var(--orange);
+                border-radius: 50%;
+                opacity: 0.65;
+                pointer-events: none;
+            }
+            .stamp-shop .st-close {
+                position: absolute;
+                top: 4%;
+                right: 8%;
+                width: 34px;
+                height: 34px;
+                border: none;
+                border-radius: 50%;
+                background: var(--ink);
+                color: var(--creme);
+                font-size: 15px;
+                line-height: 1;
+                cursor: pointer;
+                z-index: 6;
+                transition: background 0.2s, transform 0.2s;
+            }
+            .stamp-shop .st-close:hover {
+                background: var(--orange);
+                transform: scale(1.15);
+            }
+            @keyframes stampIn {
+                from { opacity: 0; transform: rotate(10deg) scale(2); }
+                to { opacity: 1; transform: rotate(10deg) scale(1); }
+            }
+            .stamp-shop:hover {
+                transform: rotate(4deg) scale(1.05);
+                background: rgba(244, 81, 30, 0.12);
+                box-shadow: 0 24px 60px rgba(244, 81, 30, 0.3);
+            }
+            .stamp-shop .st-line1 {
+                font-family: "Anton", sans-serif;
+                font-size: clamp(26px, 3vw, 48px);
+                letter-spacing: 0.05em;
+                line-height: 1;
+            }
+            .stamp-shop .st-line2 {
+                font-family: "Anton", sans-serif;
+                font-size: clamp(60px, 7vw, 116px);
+                letter-spacing: 0.08em;
+                line-height: 1;
+            }
+            .stamp-shop .st-line3 {
+                font-family: "JetBrains Mono", monospace;
+                font-size: clamp(12px, 1.1vw, 19px);
+                font-weight: 500;
+                letter-spacing: 0.16em;
+                margin-top: 14px;
+                border-top: 3px dashed var(--orange);
+                padding-top: 12px;
+            }
+            @media (max-width: 1180px) {
+                .stamp-shop {
+                    position: static;
+                    margin: 30px auto 0;
+                    width: 270px;
+                    transform: rotate(-4deg);
+                    border-width: 6px;
+                }
+                .stamp-shop::after { inset: 11px; border-width: 2px; }
+                .stamp-shop .st-line1 { font-size: 26px; }
+                .stamp-shop .st-line2 { font-size: 58px; }
+                .stamp-shop .st-line3 { font-size: 11px; }
+                @keyframes stampIn {
+                    from { opacity: 0; transform: rotate(-4deg) scale(2); }
+                    to { opacity: 1; transform: rotate(-4deg) scale(1); }
+                }
+            }
             /* texto */
             .netgrow-text {
                 font-size: 16px;
@@ -2527,7 +2633,7 @@
             <div class="navlinks">
                 <a href="#filosofia">Filosofia</a><a href="#comercial">Vídeo</a
                 ><a href="#anonimato">Anonimato</a><a href="#pro">PRO</a
-                ><a href="#selos">Selos</a><a href="#manifesto">Manifesto</a><a href="movimento/" style="color: var(--orange); font-weight: 600">Movimento</a>
+                ><a href="#selos">Selos</a><a href="#manifesto">Manifesto</a><a href="movimento/" style="color: var(--orange); font-weight: 600">Shop</a>
                 <div class="langsel" id="langsel">
                     <button class="langsel-btn" id="langselBtn">
                         <span class="flag"
@@ -2757,6 +2863,29 @@
                 >
             </div>
         </nav>
+        <a class="stamp-shop" id="stampShop" href="movimento/" aria-label="Ir para o Shop do Movimento">
+            <button class="st-close" id="stampClose" aria-label="Fechar carimbo">✕</button>
+            <span class="st-line1">QUEM PERTENCE,</span>
+            <span class="st-line2">TEM.</span>
+            <span class="st-line3">SHOP DO MOVIMENTO →</span>
+        </a>
+        <script>
+            (function () {
+                var st = document.getElementById("stampShop");
+                if (sessionStorage.getItem("stampClosed") === "1") {
+                    st.style.display = "none";
+                    return;
+                }
+                document
+                    .getElementById("stampClose")
+                    .addEventListener("click", function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        st.style.display = "none";
+                        sessionStorage.setItem("stampClosed", "1");
+                    });
+            })();
+        </script>
         <section class="hero">
             <div class="eyebrow">
                 <span class="sq"></span>Sua voz · nossa força · muda tudo

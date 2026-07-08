@@ -216,6 +216,53 @@ todas as caras do Brasil.)*
 
 ---
 
+## ADESIVOS QR — OS 3 MODELOS (fotorrealistas)
+
+**IMPORTANTE:** além das referências de sempre, anexe TAMBÉM o arquivo do
+modelo desenhado (`movimento/img/adesivo-regua.jpg`, `adesivo-torre.jpg` ou
+`adesivo-redondo.jpg`) — o Gemini vai reproduzir o layout exato do adesivo
+em foto real. Sem a referência ele inventa outro design.
+
+**Descritores (colar no lugar de {PRODUTO}):**
+
+*Régua:*
+```
+a long horizontal die-cut vinyl sticker exactly as the attached design: vibrant
+orange rounded strip with white crosshair-target T logo on the left, bold white
+condensed "TAGGED." text in the middle, and a white QR code panel on the right
+end. Thick waterproof rubberized vinyl with glossy finish and visible thickness.
+```
+
+*Torre:*
+```
+a tall vertical die-cut vinyl sticker exactly as the attached design: vibrant
+orange rounded column with the white crosshair-target T logo at top, "TAGGED."
+written vertically down the middle, and a white QR code panel at the bottom.
+Thick waterproof rubberized vinyl, glossy finish.
+```
+
+*Redondo com aba:*
+```
+a round die-cut vinyl sticker exactly as the attached design: vibrant orange
+circle with white crosshair-target T logo and "ESTE LUGAR TEM TAG." text, plus
+a small rectangular tab extending from the bottom containing a white QR code
+panel. Thick waterproof rubberized vinyl, glossy finish.
+```
+
+**As 7 tomadas específicas dos adesivos:**
+
+- **T1 Herói:** `Product shot of {PRODUTO}, floating at slight angle over the warm off-white background, soft shadow, studio light.`
+- **T2 Kit completo:** `Overhead flat lay of a sticker kit: 18 die-cut vinyl stickers arranged in a neat grid — 6 long horizontal, 6 tall vertical, 6 round with bottom tab (attached designs) — on warm off-white background with subtle grid.`
+- **T3 Na mão:** `Close-up photo, no face: a hand peeling {PRODUTO} from its backing paper, urban street softly blurred behind, golden hour.`
+- **T4 No asfalto (RÉGUA):** `Photojournalistic shot from above: the long orange TAGGED sticker placed on rough gray asphalt right beside a pothole, daylight, gritty and hopeful.`
+- **T5 No poste (TORRE):** `Street photo: the tall vertical orange TAGGED sticker applied on a concrete utility pole at eye level, Brazilian street background with soft bokeh, afternoon light.`
+- **T6 No muro (REDONDO):** `Street photo: the round orange sticker with QR tab applied on a weathered concrete wall next to a crack, a smartphone in frame scanning the QR code, no face visible.`
+- **T7 Macro:** `Extreme macro of the sticker surface: glossy waterproof vinyl texture with water droplets beading on the orange surface, QR code sharp, proving rain resistance.`
+
+*(T7 com gotas d'água é a foto que vende o "à prova d'água" sem escrever nada.)*
+
+---
+
 ## ORDEM DE PRODUÇÃO SUGERIDA (prioridade da loja)
 
 1ª leva: **Adesivos** e **Camiseta preta** (os dois carros-chefe) = 14 imagens
