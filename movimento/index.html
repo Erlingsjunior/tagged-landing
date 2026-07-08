@@ -333,14 +333,24 @@
             .shop-modal.open { display: flex; }
             .sm-box {
                 background: var(--creme); border-radius: 22px; overflow: hidden;
-                max-width: 980px; width: 100%; max-height: 92vh;
-                display: grid; grid-template-columns: 1.1fr 1fr;
+                max-width: 740px; width: 100%; max-height: 94vh;
+                display: flex; flex-direction: column;
                 animation: smIn 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
             }
             @keyframes smIn { from { opacity: 0; transform: translateY(24px) scale(0.97); } to { opacity: 1; transform: none; } }
-            .sm-gallery { padding: 26px; background: #fff; }
-            .sm-main { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); cursor: crosshair; }
-            .sm-main img { width: 100%; display: block; }
+            .sm-gallery { padding: 22px 22px 16px; background: #fff; }
+            .sm-main {
+                position: relative; border-radius: 14px; overflow: hidden;
+                border: 1px solid var(--line); cursor: crosshair;
+                height: min(48vh, 480px); background: #f7f4f0;
+                display: flex; align-items: center; justify-content: center;
+            }
+            .sm-main img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; }
+            .sm-cap {
+                font-family: "Instrument Serif", serif; font-style: italic;
+                color: var(--orange); font-size: 17px; text-align: center;
+                margin-top: 12px; min-height: 22px;
+            }
             .sm-lens {
                 position: absolute; width: 170px; height: 170px;
                 border: 3px solid var(--orange); border-radius: 50%;
@@ -354,7 +364,7 @@
                 border: 2px solid transparent; cursor: pointer; opacity: 0.65; transition: all 0.15s;
             }
             .sm-thumbs img.on { border-color: var(--orange); opacity: 1; }
-            .sm-info { padding: 40px 36px; display: flex; flex-direction: column; overflow-y: auto; }
+            .sm-info { padding: 26px 30px 30px; display: flex; flex-direction: column; overflow-y: auto; }
             .sm-info h3 { font-family: "Anton", sans-serif; text-transform: uppercase; font-size: 32px; line-height: 1; }
             .sm-frase { font-family: "Instrument Serif", serif; font-style: italic; color: var(--orange); font-size: 22px; margin: 12px 0 16px; }
             .sm-info p { color: var(--ink-soft); font-size: 14.5px; line-height: 1.7; flex: 1; }
@@ -484,7 +494,7 @@
 
             <div class="steps-grid">
                 <div class="step-card reveal">
-                    <img src="img/adesivo-qr.jpg" alt="Adesivo Tagged com QR code" loading="lazy" />
+                    <img src="img/adesivo-regua-real.jpg" alt="Adesivo Tagged com QR code" loading="lazy" />
                     <div class="sc-body">
                         <div class="sc-num">01</div>
                         <h3>Cola no <em>problema.</em></h3>
@@ -508,7 +518,7 @@
                     </div>
                 </div>
                 <div class="step-card reveal">
-                    <img src="img/passo-scan.jpg" alt="Pessoa escaneando o QR do adesivo" loading="lazy" />
+                    <img src="img/adesivo-muro-scan.jpg" alt="Pessoa escaneando o QR do adesivo no muro" loading="lazy" />
                     <div class="sc-body">
                         <div class="sc-num">03</div>
                         <h3>Quem passa, <em>escaneia.</em></h3>
@@ -604,6 +614,7 @@
                         <img id="smImg" src="" alt="" />
                         <div class="sm-lens" id="smLens"></div>
                     </div>
+                    <div class="sm-cap" id="smCap"></div>
                     <div class="sm-hint">passe o mouse pra usar a lupa</div>
                     <div class="sm-thumbs" id="smThumbs"></div>
                 </div>
@@ -630,31 +641,42 @@
                 { id: "camiseta", chip: "VESTUÁRIO", nome: "Camiseta Use Tagged", frase: "o uniforme do clã.",
                   desc: "Algodão premium em três cores de guerra: branca, preta e laranja. Frente com o alvo-T no peito; costas com CADA TAG TEM PESO. Quem vê, pergunta. Quem pergunta, baixa.",
                   preco: "EM BREVE · BRANCA / PRETA / LARANJA · P-GG",
-                  imgs: ["img/camiseta-laranja-rua.jpg","img/camiseta-branca-buraco.jpg","img/camiseta-preta-rua.jpg","img/camiseta-branca-rua.jpg","img/camiseta-laranja-frente.jpg","img/camiseta-branca-frente.jpg","img/camiseta-laranja-costas.jpg","img/camiseta-preta-costas.jpg","img/camiseta-branca-costas.jpg","img/camiseta-preta-cena.jpg","img/camiseta-laranja-cena.jpg","img/camiseta-preta-macro.jpg","img/camiseta-laranja-macro.jpg","img/camiseta-branca-macro.jpg"] },
-                { id: "adesivos", chip: "CAMPANHA", nome: "Cartela de Adesivos QR", frase: "“escaneie. assine. cole o seu.”",
-                  desc: "Adesivos removíveis com QR code que leva direto à denúncia. Quem passa, escaneia, assina — e cola o próprio adesivo ao lado. A pilha de adesivos vira a petição visível no mundo real: movimento digital e físico ao mesmo tempo.",
-                  preco: "EM BREVE · QR ÚNICO POR TAG · PRODUÇÃO SOB DEMANDA",
-                  imgs: ["img/adesivos-foto.jpg","img/adesivo-qr.jpg","img/camiseta-preta-cena-2.jpg","img/camiseta-laranja-cena-2.jpg"] },
+                  imgs: ["img/camiseta-laranja-rua.jpg","img/camiseta-japones.jpg","img/camiseta-branca-rua-2.jpg","img/camiseta-preta-rua.jpg","img/camiseta-branca-buraco.jpg","img/camiseta-branca-rua.jpg","img/camiseta-laranja-frente.jpg","img/camiseta-preta-costas.jpg","img/camiseta-branca-costas.jpg","img/camiseta-laranja-cena.jpg","img/camiseta-preta-macro.jpg","img/camiseta-branca-frente.jpg"],
+                  caps: ["a laranja em campo, luz de fim de tarde — o clã não se esconde.","a laranja no bairro: o clã tem todas as caras do Brasil.","no centro da cidade, de FAÇA ALGO no peito e app na mão.","a preta no ponto de ônibus: o cotidiano é o campo de batalha.","ao lado do buraco que ninguém tapou. é por isso que ela existe.","a branca no calçadão — o clã circula.","alvo no peito e a ordem do dia: FAÇA ALGO.","preta com letras laranja: legível a um quarteirão.","o recado nas costas, sem meias palavras.","junto da placa de obra: sinalizando o que ninguém sinalizou.","de perto: o alvo estampado na trama do algodão.","a branca de frente — mira no que importa."] },
+                { id: "adesivos", chip: "CAMPANHA", nome: "Kit de Adesivos QR", frase: "“escaneie. assine. cole o seu.”",
+                  desc: "18 adesivos em 3 modelos — 6 réguas (TAGGED. comprido com QR na ponta), 6 torres (vertical, pra poste e quina) e 6 redondos com aba de QR. Vinil emborrachado à prova d'água, feito pra rua: aguenta sol, chuva e pé de gente. Cada QR se vincula à SUA denúncia no app — quem passa, escaneia e assina.",
+                  preco: "EM BREVE · 18 UNIDADES · VINIL À PROVA D'ÁGUA",
+                  imgs: ["img/adesivo-regua-real.jpg","img/adesivo-torre-real.jpg","img/adesivo-torre-dupla.jpg","img/adesivo-muro-scan.jpg"],
+                  caps: ["modelo régua: TAGGED. de comprido, QR na ponta — pro asfalto.","modelo torre: vertical, nascido pra poste, quina e batente.","a dupla da torre: TAGGED. e FAÇA ALGO. — cole em par.","em campo: colado no muro, escaneado, assinado. o ciclo completo."] },
+                { id: "camiseta-fem", chip: "VESTUÁRIO", nome: "Camiseta Feminina", frase: "o corte de quem lidera.",
+                  desc: "Corte feminino fitted: cintura acinturada, manga curta, gola mais aberta. Mesmo algodão premium, mesmas três cores de guerra, mesmo alvo no peito. Porque metade do clã sempre foi delas.",
+                  preco: "EM BREVE · BRANCA / PRETA / LARANJA · P-GG",
+                  imgs: ["img/camiseta-fem-laranja.jpg","img/camiseta-fem-preta.jpg"],
+                  caps: ["a laranja no ponto de ônibus — impossível não ver.","a preta em movimento no centro: FAÇA ALGO em campo."] },
                 { id: "kit", chip: "COLECIONÁVEL", nome: "Kit do Clã", frase: "tudo que o movimento veste.",
                   desc: "Camiseta dobrada, bottons de metal, chaveiro alvo-T e adesivos — o enxoval completo de quem entra pro clã. Montado em duas cores de base: branca ou laranja.",
                   preco: "EM BREVE · KIT COMPLETO",
-                  imgs: ["img/kit-laranja.jpg","img/kit-branco.jpg","img/kit-laranja-2.jpg","img/kit-branco-2.jpg"] },
+                  imgs: ["img/kit-laranja-5.jpg","img/kit-preto.jpg","img/kit-branco-3.jpg","img/kit-laranja-4.jpg"],
+                  caps: ["o kit laranja completo: camiseta, adesivos, bottons e chaveiro.","kit preto: pro clã que trabalha à noite.","kit branco: a versão limpa do enxoval.","cada peça com o mesmo alvo — dobrado, pronto, seu."] },
                 { id: "plaquinha", chip: "ÍCONE", nome: "Plaquinha Tagged", frase: "a claquete da denúncia.",
                   desc: "Segure na foto e assine a cena. A plaquinha aparece em cada tag como marca de quem faz — sem colar nada, sem tocar em nada. Plástico rígido, cabe no bolso da mochila.",
                   preco: "EM BREVE · EDIÇÃO FUNDADORA", imgs: ["img/plaquinha.jpg"] },
                 { id: "caneca", chip: "DIA A DIA", nome: "Caneca do Clã", frase: "cada gole tem peso.",
                   desc: "Cerâmica em branca, preta ou laranja com o alvo-T. Pro café de quem acorda disposto a marcar o mundo antes do almoço — e pro escritório inteiro perguntar o que é a Tagged.",
                   preco: "EM BREVE · BRANCA / PRETA / LARANJA · 325ML",
-                  imgs: ["img/caneca-branca.jpg","img/caneca-preta.jpg","img/caneca-laranja.jpg"] },
+                  imgs: ["img/caneca-rua-mao.jpg","img/caneca-preta-mao.jpg","img/caneca-branca-asfalto.jpg","img/caneca-laranja-faixa.jpg","img/caneca-laranja-estudio.jpg","img/caneca-preta-estudio.jpg","img/caneca-branca-estudio.jpg","img/caneca-laranja-macro.jpg"],
+                  caps: ["na mão, na rua: o café acompanha a ronda.","a preta na mesa de madeira — reunião do clã.","a branca no asfalto, com o porta-copos alvo.","a laranja atravessando a faixa: cafeína com causa.","a laranja de estúdio: 325ml de disposição.","a preta: café forte, causa forte.","a branca: o primeiro gole do dia tem peso.","de perto: cerâmica e mira."] },
                 { id: "manifesto", chip: "EDIÇÃO FUNDADORA", nome: "Manifesto Impresso", frase: "cogito, testimonium, ago.",
                   desc: "O Tratado da Existência Real em papel: IX partes + conclusão, capa dura, edição numerada. O documento que explica por que existir não basta — pra estante de quem age.",
                   preco: "EM BREVE · NUMERADO · CAPA DURA", imgs: ["img/manifesto-impresso.jpg"] },
                 { id: "bottons", chip: "COLECIONÁVEL", nome: "Bottons de Selo", frase: "conquistou dentro, mostra fora.",
                   desc: "Seus selos do app em metal: alvo-T, Watchmen, Primeira Voz. Na mochila, na jaqueta, no cordão do crachá. Colecionáveis como as conquistas que representam.",
-                  preco: "EM BREVE · KIT COM 3", imgs: ["img/bottons.jpg","img/kit-branco.jpg","img/kit-laranja-2.jpg"] },
+                  preco: "EM BREVE · KIT COM 3", imgs: ["img/adesivos-foto.jpg","img/bottons.jpg","img/kit-laranja-2.jpg"],
+                  caps: ["bottons, chaveiro e adesivos: a família colecionável.","os selos do app, agora em metal.","detalhe do kit laranja — colecionáveis de verdade."] },
                 { id: "chaveiro", chip: "DIA A DIA", nome: "Chaveiro Alvo-T", frase: "a mudança começa na sua rua.",
                   desc: "O símbolo do movimento junto das chaves de casa. Emborrachado, resistente, laranja que não passa despercebido.",
-                  preco: "EM BREVE", imgs: ["img/chaveiro.jpg","img/kit-laranja.jpg"] },
+                  preco: "EM BREVE", imgs: ["img/chaveiro.jpg","img/kit-laranja.jpg"],
+                  caps: ["o alvo-T emborrachado pras chaves de casa.","no kit completo, ao lado dos irmãos."] },
                 { id: "munhequeira", chip: "VESTUÁRIO", nome: "Munhequeira do Clã", frase: "no punho de quem age.",
                   desc: "FAÇA ALGO. USE TAGGED. — literalmente escrito no punho de quem escreve, fotografa, aponta e move. Algodão com elastano, tamanho único.",
                   preco: "EM BREVE", imgs: ["img/munhequeira.jpg"] },
@@ -699,6 +721,7 @@
                     "mailto:erlingsjunior@gmail.com?subject=" +
                     encodeURIComponent("Quero: " + p.nome) +
                     "&body=" + encodeURIComponent("Me avisa quando “" + p.nome + "” lançar!");
+                const smCap = document.getElementById("smCap");
                 smThumbs.innerHTML = "";
                 p.imgs.forEach((src, k) => {
                     const t = document.createElement("img");
@@ -707,12 +730,14 @@
                     t.addEventListener("click", (e) => {
                         e.stopPropagation();
                         smImg.src = src;
+                        smCap.textContent = (p.caps && p.caps[k]) || p.frase;
                         smThumbs.querySelectorAll("img").forEach((x) => x.classList.remove("on"));
                         t.classList.add("on");
                     });
                     smThumbs.appendChild(t);
                 });
                 smImg.src = p.imgs[0];
+                smCap.textContent = (p.caps && p.caps[0]) || p.frase;
                 modal.classList.add("open");
                 document.body.style.overflow = "hidden";
             }
@@ -726,18 +751,25 @@
                 if (e.key === "Escape" && modal.classList.contains("open")) closeProduct();
             });
 
-            /* LUPA — amplia 2.4x seguindo o mouse */
+            /* LUPA — amplia 2.4x sobre a área real da imagem */
             const ZOOM = 2.4;
             smMain.addEventListener("mousemove", (e) => {
                 if (window.innerWidth < 820) return;
-                const r = smMain.getBoundingClientRect();
-                const x = e.clientX - r.left, y = e.clientY - r.top;
+                const rc = smMain.getBoundingClientRect();
+                const ri = smImg.getBoundingClientRect();
+                // fora da imagem (faixas de letterbox)? esconde
+                if (e.clientX < ri.left || e.clientX > ri.right || e.clientY < ri.top || e.clientY > ri.bottom) {
+                    smLens.style.display = "none";
+                    return;
+                }
+                const ix = e.clientX - ri.left, iy = e.clientY - ri.top;   // posição na imagem
+                const cx = e.clientX - rc.left, cy = e.clientY - rc.top;   // posição no container
                 smLens.style.display = "block";
-                smLens.style.left = x - 85 + "px";
-                smLens.style.top = y - 85 + "px";
+                smLens.style.left = cx - 85 + "px";
+                smLens.style.top = cy - 85 + "px";
                 smLens.style.backgroundImage = `url(${smImg.src})`;
-                smLens.style.backgroundSize = r.width * ZOOM + "px " + r.height * ZOOM + "px";
-                smLens.style.backgroundPosition = -(x * ZOOM - 85) + "px " + -(y * ZOOM - 85) + "px";
+                smLens.style.backgroundSize = ri.width * ZOOM + "px " + ri.height * ZOOM + "px";
+                smLens.style.backgroundPosition = -(ix * ZOOM - 85) + "px " + -(iy * ZOOM - 85) + "px";
             });
             smMain.addEventListener("mouseleave", () => { smLens.style.display = "none"; });
 
