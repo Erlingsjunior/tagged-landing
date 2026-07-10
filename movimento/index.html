@@ -23,6 +23,7 @@
             href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
             rel="stylesheet"
         />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
         <style>
             :root {
                 --creme: #f4efe9;
@@ -383,6 +384,49 @@
             }
             .sm-close:hover { background: var(--orange); }
 
+            /* ── CHECKOUT ── */
+            .ck-form { padding: 34px 32px; overflow-y: auto; max-height: 92vh; }
+            .ck-title { font-family: "Anton", sans-serif; text-transform: uppercase; font-size: 26px; }
+            .ck-title em { font-family: "Instrument Serif", serif; font-style: italic; color: var(--orange); text-transform: none; }
+            .ck-sec { margin-top: 24px; }
+            .ck-label { font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.16em; color: var(--orange); margin-bottom: 12px; }
+            .ck-in {
+                width: 100%; padding: 13px 15px; margin-bottom: 10px;
+                border: 1.5px solid var(--line); border-radius: 10px;
+                font-family: "Poppins", sans-serif; font-size: 14px;
+                background: #fff; color: var(--ink);
+            }
+            .ck-in:focus { outline: none; border-color: var(--orange); }
+            .ck-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+            .ck-var {
+                display: flex; align-items: center; gap: 12px;
+                border: 2px solid var(--line); border-radius: 12px;
+                padding: 14px 16px; margin-bottom: 10px; cursor: pointer;
+                transition: border-color 0.15s, background 0.15s;
+            }
+            .ck-var.on { border-color: var(--orange); background: rgba(244, 81, 30, 0.06); }
+            .ck-var b { font-family: "Anton", sans-serif; font-size: 17px; letter-spacing: 0.03em; margin-left: auto; color: var(--orange); white-space: nowrap; }
+            .ck-var span { font-size: 13.5px; }
+            .ck-frete {
+                font-family: "JetBrains Mono", monospace; font-size: 12px;
+                color: var(--teal); padding: 10px 0 2px;
+            }
+            .ck-qr { display: flex; justify-content: center; margin-bottom: 10px; }
+            .ck-qr img, .ck-qr canvas { border: 8px solid #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(26,22,20,0.12); }
+            .ck-hint { font-size: 12px; color: var(--ink-soft); margin: 8px 0; }
+            .ck-recebedor { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--ink-soft); margin-top: 8px; }
+            .btn.ghost2 { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
+            .btn.ghost2:hover { color: var(--orange); border-color: var(--orange); background: transparent; }
+            .ck-sucesso {
+                position: fixed; inset: 0; z-index: 400; display: none;
+                align-items: center; justify-content: center;
+                background: rgba(26, 22, 20, 0.85); backdrop-filter: blur(8px);
+            }
+            .ck-sucesso-box {
+                background: var(--creme); border-radius: 20px; padding: 40px 44px;
+                text-align: center; max-width: 420px; margin: 20px;
+            }
+
             /* ── O APP LEMBRADO ── */
             .app-strip { background: var(--ink); color: var(--creme); }
             .app-strip .section-title { color: var(--creme); }
@@ -629,6 +673,93 @@
             </div>
         </div>
 
+        <!-- ══════════ CHECKOUT PIX ══════════ -->
+        <div class="shop-modal" id="ckModal" role="dialog" aria-modal="true">
+            <button class="sm-close" id="ckClose" aria-label="Fechar">✕</button>
+            <div class="sm-box" style="max-width: 640px">
+                <form
+                    id="ckForm"
+                    class="ck-form"
+                    action="https://formsubmit.co/contato@apptagged.com"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+                    <h3 class="ck-title">Garanta o seu <em id="ckProduto">Book do Manifesto</em></h3>
+
+                    <div class="ck-sec">
+                        <div class="ck-label">1 · ESCOLHA A VERSÃO</div>
+                        <div id="ckVariantes"></div>
+                    </div>
+
+                    <div class="ck-sec">
+                        <div class="ck-label">2 · SEUS DADOS</div>
+                        <input class="ck-in" type="text" name="nome" id="ckNome" placeholder="Nome completo *" required />
+                        <input class="ck-in" type="email" name="email" id="ckEmail" placeholder="Email (você recebe as atualizações do pedido) *" required />
+                        <div id="ckEndereco" style="display: none">
+                            <div class="ck-row">
+                                <input class="ck-in" type="text" name="cep" id="ckCep" placeholder="CEP *" maxlength="9" inputmode="numeric" />
+                                <input class="ck-in" type="text" name="cidade_uf" id="ckCidadeUf" placeholder="Cidade / UF" readonly />
+                            </div>
+                            <input class="ck-in" type="text" name="rua" id="ckRua" placeholder="Rua (preenchida pelo CEP)" />
+                            <div class="ck-row">
+                                <input class="ck-in" type="text" name="numero" id="ckNumero" placeholder="Número *" />
+                                <input class="ck-in" type="text" name="complemento" placeholder="Complemento" />
+                            </div>
+                            <input class="ck-in" type="text" name="bairro" id="ckBairro" placeholder="Bairro" />
+                            <div class="ck-frete">📦 FRETE GRÁTIS pra você — a gente cuida do envio.</div>
+                        </div>
+                    </div>
+
+                    <div class="ck-sec">
+                        <div class="ck-label">3 · PAGUE COM PIX</div>
+                        <button type="button" class="btn" id="ckGerarPix" style="width: 100%">Gerar PIX de <span id="ckValor">R$ 19,90</span></button>
+                        <div id="ckPixArea" style="display: none; text-align: center; margin-top: 16px">
+                            <div id="ckQr" class="ck-qr"></div>
+                            <div class="ck-hint">Escaneie no app do seu banco, ou use o copia e cola:</div>
+                            <textarea class="ck-in" id="ckPixCode" readonly rows="3" style="font-size: 11px"></textarea>
+                            <button type="button" class="btn ghost2" id="ckCopiar">Copiar código PIX</button>
+                            <div class="ck-recebedor">Recebedor: Erling Sriubas Junior (Tagged) · Araras-SP</div>
+                        </div>
+                    </div>
+
+                    <div class="ck-sec" id="ckSecComprovante" style="display: none">
+                        <div class="ck-label">4 · ANEXE O COMPROVANTE</div>
+                        <input class="ck-in" type="file" name="comprovante" id="ckComprovante" accept="image/*,.pdf" required />
+                        <div class="ck-hint">Print da tela de confirmação do PIX. No celular: toca e escolhe da galeria.</div>
+                        <button type="submit" class="btn" id="ckEnviar" style="width: 100%; margin-top: 14px; background: var(--teal)">
+                            ✓ Enviar pedido
+                        </button>
+                    </div>
+
+                    <!-- campos ocultos que viajam no email -->
+                    <input type="hidden" name="_subject" id="ckSubject" value="🎯 PEDIDO — Book do Manifesto" />
+                    <input type="hidden" name="_template" value="table" />
+                    <input type="hidden" name="_captcha" value="false" />
+                    <input type="hidden" name="_autoresponse" value="Pedido recebido, clã! 🎯 Estamos conferindo seu comprovante PIX — em breve você recebe a confirmação e as próximas atualizações por este email. Cada tag tem peso. Obrigado por fazer parte do movimento. — Tagged · apptagged.com" />
+                    <input type="hidden" name="_next" id="ckNext" value="" />
+                    <input type="hidden" name="produto" id="hProduto" value="" />
+                    <input type="hidden" name="versao" id="hVersao" value="" />
+                    <input type="hidden" name="valor" id="hValor" value="" />
+                    <input type="hidden" name="frete_estimado_para_voce" id="hFrete" value="" />
+                    <input type="hidden" name="pix_copia_cola_gerado" id="hPix" value="" />
+                    <input type="hidden" name="RESPONDER_confirmar_pagamento" id="hMailConfirma" value="" />
+                    <input type="hidden" name="RESPONDER_avisar_envio" id="hMailEnvio" value="" />
+                </form>
+            </div>
+        </div>
+
+        <div class="ck-sucesso" id="ckSucesso">
+            <div class="ck-sucesso-box">
+                <div style="font-size: 44px">🎯</div>
+                <h3 class="anton" style="font-size: 28px; margin: 10px 0">Pedido enviado!</h3>
+                <p style="color: var(--ink-soft); font-size: 14.5px; line-height: 1.7">
+                    Recebemos seu pedido e o comprovante. Confira seu email —
+                    a primeira confirmação já está chegando. Bem-vindo ao clã.
+                </p>
+                <button class="btn" onclick="document.getElementById('ckSucesso').style.display='none'" style="margin-top: 16px">Fechar</button>
+            </div>
+        </div>
+
         <footer>
             <a class="nav-logo" href="../">TAG<span>GED</span></a>
             <div class="mono">"Cogito, testimonium, ago — ergo liber sum."</div>
@@ -658,17 +789,24 @@
                   preco: "EM BREVE · KIT COMPLETO",
                   imgs: ["img/kit-laranja-5.jpg","img/kit-preto.jpg","img/kit-branco-3.jpg","img/kit-laranja-4.jpg"],
                   caps: ["o kit laranja completo: camiseta, adesivos, bottons e chaveiro.","kit preto: pro clã que trabalha à noite.","kit branco: a versão limpa do enxoval.","cada peça com o mesmo alvo — dobrado, pronto, seu."] },
-                { id: "plaquinha", chip: "ÍCONE", nome: "Plaquinha Tagged", frase: "a claquete da denúncia.",
-                  desc: "Segure na foto e assine a cena. A plaquinha aparece em cada tag como marca de quem faz — sem colar nada, sem tocar em nada. Plástico rígido, cabe no bolso da mochila.",
-                  preco: "EM BREVE · EDIÇÃO FUNDADORA", imgs: ["img/plaquinha.jpg"] },
+                { id: "book", chip: "EDIÇÃO FUNDADORA", nome: "Book do Manifesto", frase: "cogito, testimonium, ago.",
+                  desc: "O Manifesto Tagged completo — o tratado que explica por que existir não basta e como apps viram movimentos. Em PDF pra ler agora em qualquer tela, ou impresso pra estante de quem age. Cada exemplar financia a plataforma independente que o mercado disse que ninguém queria.",
+                  preco: "PDF R$ 19,90 · IMPRESSO R$ 69,90 COM FRETE GRÁTIS",
+                  compra: [
+                    { vid: "pdf", rotulo: "Versão PDF — entrega por email", valor: 19.90, endereco: false },
+                    { vid: "impresso", rotulo: "Versão Impressa — frete grátis", valor: 69.90, endereco: true }
+                  ],
+                  imgs: ["img/book-capa.jpg","img/book-mesa.jpg","img/book-aberto.jpg","img/book-leitura-cafe.jpg","img/book-leitura-rua.jpg","img/book-metro.jpg"],
+                  caps: ["a capa: o tratado que virou movimento.","na mesa de quem pensa antes do café esfriar.","frente e verso: com QR pro manifesto online.","leitura noturna, cidade acesa.","lido onde a mudança acontece: na rua.","no vagão lotado — o manifesto circula."] },
                 { id: "caneca", chip: "DIA A DIA", nome: "Caneca do Clã", frase: "cada gole tem peso.",
                   desc: "Cerâmica em branca, preta ou laranja com o alvo-T. Pro café de quem acorda disposto a marcar o mundo antes do almoço — e pro escritório inteiro perguntar o que é a Tagged.",
                   preco: "EM BREVE · BRANCA / PRETA / LARANJA · 325ML",
                   imgs: ["img/caneca-rua-mao.jpg","img/caneca-preta-mao.jpg","img/caneca-branca-asfalto.jpg","img/caneca-laranja-faixa.jpg","img/caneca-laranja-estudio.jpg","img/caneca-preta-estudio.jpg","img/caneca-branca-estudio.jpg","img/caneca-laranja-macro.jpg"],
                   caps: ["na mão, na rua: o café acompanha a ronda.","a preta na mesa de madeira — reunião do clã.","a branca no asfalto, com o porta-copos alvo.","a laranja atravessando a faixa: cafeína com causa.","a laranja de estúdio: 325ml de disposição.","a preta: café forte, causa forte.","a branca: o primeiro gole do dia tem peso.","de perto: cerâmica e mira."] },
-                { id: "manifesto", chip: "EDIÇÃO FUNDADORA", nome: "Manifesto Impresso", frase: "cogito, testimonium, ago.",
-                  desc: "O Tratado da Existência Real em papel: IX partes + conclusão, capa dura, edição numerada. O documento que explica por que existir não basta — pra estante de quem age.",
-                  preco: "EM BREVE · NUMERADO · CAPA DURA", imgs: ["img/manifesto-impresso.jpg"] },
+                /* ── PRODUTOS PAUSADOS (descomentar quando voltarem) ──
+                { id: "plaquinha", chip: "ÍCONE", nome: "Plaquinha Tagged", frase: "a claquete da denúncia.",
+                  desc: "Segure na foto e assine a cena. A plaquinha aparece em cada tag como marca de quem faz — sem colar nada, sem tocar em nada. Plástico rígido, cabe no bolso da mochila.",
+                  preco: "EM BREVE · EDIÇÃO FUNDADORA", imgs: ["img/plaquinha.jpg"] },
                 { id: "bottons", chip: "COLECIONÁVEL", nome: "Bottons de Selo", frase: "conquistou dentro, mostra fora.",
                   desc: "Seus selos do app em metal: alvo-T, Watchmen, Primeira Voz. Na mochila, na jaqueta, no cordão do crachá. Colecionáveis como as conquistas que representam.",
                   preco: "EM BREVE · KIT COM 3", imgs: ["img/adesivos-foto.jpg","img/bottons.jpg","img/kit-laranja-2.jpg"],
@@ -686,6 +824,7 @@
                 { id: "oculos", chip: "ATITUDE", nome: "Óculos Tagged", frase: "veja o que importa.",
                   desc: "Armação preta, alvo-T na haste. Pra quem enxerga o que os outros fingem não ver — proteção UV inclusa, visão cidadã de série.",
                   preco: "EM BREVE", imgs: ["img/oculos.jpg"] },
+                ── FIM DOS PAUSADOS ── */
             ];
 
             const grid = document.getElementById("shopGrid");
@@ -717,10 +856,21 @@
                 document.getElementById("smFrase").textContent = p.frase;
                 document.getElementById("smDesc").textContent = p.desc;
                 document.getElementById("smPreco").textContent = p.preco;
-                document.getElementById("smCta").href =
-                    "mailto:erlingsjunior@gmail.com?subject=" +
-                    encodeURIComponent("Quero: " + p.nome) +
-                    "&body=" + encodeURIComponent("Me avisa quando “" + p.nome + "” lançar!");
+                const cta = document.getElementById("smCta");
+                if (p.compra) {
+                    cta.textContent = "Comprar agora";
+                    cta.href = "#";
+                    cta.style.background = "var(--orange)";
+                    cta.onclick = (e) => { e.preventDefault(); closeProduct(); openCheckout(p); };
+                } else {
+                    cta.textContent = "Avise-me quando lançar";
+                    cta.style.background = "";
+                    cta.onclick = null;
+                    cta.href =
+                        "mailto:contato@apptagged.com?subject=" +
+                        encodeURIComponent("Quero: " + p.nome) +
+                        "&body=" + encodeURIComponent("Me avisa quando “" + p.nome + "” lançar!");
+                }
                 const smCap = document.getElementById("smCap");
                 smThumbs.innerHTML = "";
                 p.imgs.forEach((src, k) => {
@@ -772,6 +922,163 @@
                 smLens.style.backgroundPosition = -(ix * ZOOM - 85) + "px " + -(iy * ZOOM - 85) + "px";
             });
             smMain.addEventListener("mouseleave", () => { smLens.style.display = "none"; });
+
+            /* ══════════ CHECKOUT PIX ══════════ */
+            const PIX_CHAVE = "6de9c366-609b-4cc5-9dd4-9476ad0493d1";
+            const PIX_NOME = "Erling Sriubas Junior";
+            const PIX_CIDADE = "Araras";
+
+            function emv(id, valor) {
+                const len = String(valor.length).padStart(2, "0");
+                return id + len + valor;
+            }
+            function crc16(str) {
+                let crc = 0xffff;
+                for (let i = 0; i < str.length; i++) {
+                    crc ^= str.charCodeAt(i) << 8;
+                    for (let j = 0; j < 8; j++) {
+                        crc = crc & 0x8000 ? ((crc << 1) ^ 0x1021) & 0xffff : (crc << 1) & 0xffff;
+                    }
+                }
+                return crc.toString(16).toUpperCase().padStart(4, "0");
+            }
+            function gerarPixCode(valor, txid) {
+                const gui = emv("00", "BR.GOV.BCB.PIX") + emv("01", PIX_CHAVE);
+                let p =
+                    emv("00", "01") +
+                    emv("26", gui) +
+                    emv("52", "0000") +
+                    emv("53", "986") +
+                    emv("54", valor.toFixed(2)) +
+                    emv("58", "BR") +
+                    emv("59", PIX_NOME) +
+                    emv("60", PIX_CIDADE) +
+                    emv("62", emv("05", txid));
+                p += "6304";
+                return p + crc16(p);
+            }
+
+            const FRETE_UF = {
+                SP: "≈ R$ 12-16 (PAC, saindo de Araras-SP)",
+                RJ: "≈ R$ 18-24 (PAC)", MG: "≈ R$ 16-22 (PAC)", ES: "≈ R$ 18-24 (PAC)",
+                PR: "≈ R$ 18-24 (PAC)", SC: "≈ R$ 20-26 (PAC)", RS: "≈ R$ 22-28 (PAC)",
+                DF: "≈ R$ 22-28 (PAC)", GO: "≈ R$ 22-28 (PAC)", MS: "≈ R$ 22-28 (PAC)", MT: "≈ R$ 24-30 (PAC)",
+                BA: "≈ R$ 24-32 (PAC)", SE: "≈ R$ 26-34 (PAC)", AL: "≈ R$ 26-34 (PAC)", PE: "≈ R$ 26-34 (PAC)",
+                PB: "≈ R$ 26-34 (PAC)", RN: "≈ R$ 26-34 (PAC)", CE: "≈ R$ 26-34 (PAC)", PI: "≈ R$ 26-34 (PAC)", MA: "≈ R$ 28-36 (PAC)",
+                TO: "≈ R$ 26-34 (PAC)", PA: "≈ R$ 30-40 (PAC)", AP: "≈ R$ 34-44 (PAC)", AM: "≈ R$ 32-42 (PAC)",
+                RR: "≈ R$ 36-46 (PAC)", RO: "≈ R$ 30-40 (PAC)", AC: "≈ R$ 34-44 (PAC)",
+            };
+
+            let ckProd = null, ckVar = null;
+            const ckModal = document.getElementById("ckModal");
+
+            function openCheckout(p) {
+                ckProd = p;
+                document.getElementById("ckProduto").textContent = p.nome;
+                const vs = document.getElementById("ckVariantes");
+                vs.innerHTML = "";
+                p.compra.forEach((v, i) => {
+                    const el = document.createElement("label");
+                    el.className = "ck-var" + (i === 0 ? " on" : "");
+                    el.innerHTML = `<input type="radio" name="vsel" value="${v.vid}" ${i === 0 ? "checked" : ""} style="accent-color:var(--orange)"/><span>${v.rotulo}</span><b>R$ ${v.valor.toFixed(2).replace(".", ",")}</b>`;
+                    el.addEventListener("change", () => selecionaVar(v, el));
+                    vs.appendChild(el);
+                });
+                selecionaVar(p.compra[0], vs.firstChild);
+                document.getElementById("ckPixArea").style.display = "none";
+                document.getElementById("ckSecComprovante").style.display = "none";
+                document.getElementById("ckNext").value =
+                    location.origin + location.pathname + "?pedido=ok";
+                ckModal.classList.add("open");
+                document.body.style.overflow = "hidden";
+            }
+            function selecionaVar(v, el) {
+                ckVar = v;
+                document.querySelectorAll(".ck-var").forEach((x) => x.classList.remove("on"));
+                if (el) el.classList.add("on");
+                document.getElementById("ckValor").textContent = "R$ " + v.valor.toFixed(2).replace(".", ",");
+                document.getElementById("ckEndereco").style.display = v.endereco ? "block" : "none";
+                document.getElementById("ckPixArea").style.display = "none";
+                document.getElementById("ckSecComprovante").style.display = "none";
+            }
+            document.getElementById("ckClose").addEventListener("click", () => {
+                ckModal.classList.remove("open");
+                document.body.style.overflow = "";
+            });
+            ckModal.addEventListener("click", (e) => {
+                if (e.target === ckModal) {
+                    ckModal.classList.remove("open");
+                    document.body.style.overflow = "";
+                }
+            });
+
+            /* CEP → ViaCEP */
+            const ckCep = document.getElementById("ckCep");
+            ckCep.addEventListener("blur", async () => {
+                const cep = ckCep.value.replace(/\D/g, "");
+                if (cep.length !== 8) return;
+                try {
+                    const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                    const d = await r.json();
+                    if (d.erro) return;
+                    document.getElementById("ckRua").value = d.logradouro || "";
+                    document.getElementById("ckBairro").value = d.bairro || "";
+                    document.getElementById("ckCidadeUf").value = (d.localidade || "") + " / " + (d.uf || "");
+                    document.getElementById("hFrete").value = FRETE_UF[d.uf] || "consultar no app dos Correios";
+                } catch (e) {}
+            });
+
+            /* Gerar PIX */
+            document.getElementById("ckGerarPix").addEventListener("click", () => {
+                const nome = document.getElementById("ckNome").value.trim();
+                const email = document.getElementById("ckEmail").value.trim();
+                if (!nome || !email.includes("@")) {
+                    alert("Preencha seu nome e um email válido primeiro — é por ele que você recebe as atualizações do pedido.");
+                    return;
+                }
+                if (ckVar.endereco) {
+                    if (ckCep.value.replace(/\D/g, "").length !== 8 || !document.getElementById("ckNumero").value.trim()) {
+                        alert("Preencha o CEP e o número do endereço pra entrega.");
+                        return;
+                    }
+                }
+                const txid = "TAG" + Date.now().toString(36).toUpperCase();
+                const code = gerarPixCode(ckVar.valor, txid);
+                document.getElementById("ckPixCode").value = code;
+                document.getElementById("hPix").value = code;
+                const qrDiv = document.getElementById("ckQr");
+                qrDiv.innerHTML = "";
+                new QRCode(qrDiv, { text: code, width: 220, height: 220, correctLevel: QRCode.CorrectLevel.M });
+                document.getElementById("ckPixArea").style.display = "block";
+                document.getElementById("ckSecComprovante").style.display = "block";
+
+                /* campos do email */
+                document.getElementById("hProduto").value = ckProd.nome;
+                document.getElementById("hVersao").value = ckVar.rotulo + " — R$ " + ckVar.valor.toFixed(2).replace(".", ",");
+                document.getElementById("hValor").value = "R$ " + ckVar.valor.toFixed(2).replace(".", ",");
+                document.getElementById("ckSubject").value = `🎯 PEDIDO ${txid} — ${ckProd.nome} (${ckVar.vid.toUpperCase()}) — ${nome}`;
+                const assuntoC = encodeURIComponent(`✅ Pagamento confirmado — seu ${ckProd.nome} [${txid}]`);
+                const corpoC = encodeURIComponent(`Olá, ${nome}!\n\nSeu pagamento foi confirmado. 🎯\n${ckVar.endereco ? "Seu pedido entra agora na fila de envio — em breve você recebe o código de rastreio." : "Seu PDF está anexado neste email. Boa leitura — e bem-vindo ao clã!"}\n\nCada tag tem peso.\nTagged · apptagged.com`);
+                document.getElementById("hMailConfirma").value = `mailto:${email}?subject=${assuntoC}&body=${corpoC}`;
+                const assuntoE = encodeURIComponent(`📦 Seu ${ckProd.nome} foi postado! [${txid}]`);
+                const corpoE = encodeURIComponent(`Olá, ${nome}!\n\nSeu Book do Manifesto foi postado hoje. 🎯\nCódigo de rastreio: COLE_AQUI\nAcompanhe em: https://rastreamento.correios.com.br\n\nFaça algo. Use Tagged.\napptagged.com`);
+                document.getElementById("hMailEnvio").value = `mailto:${email}?subject=${assuntoE}&body=${corpoE}`;
+            });
+
+            document.getElementById("ckCopiar").addEventListener("click", () => {
+                const t = document.getElementById("ckPixCode");
+                t.select();
+                navigator.clipboard.writeText(t.value).then(() => {
+                    document.getElementById("ckCopiar").textContent = "✓ Copiado!";
+                    setTimeout(() => (document.getElementById("ckCopiar").textContent = "Copiar código PIX"), 2000);
+                });
+            });
+
+            /* volta do FormSubmit com sucesso */
+            if (new URLSearchParams(location.search).get("pedido") === "ok") {
+                document.getElementById("ckSucesso").style.display = "flex";
+                history.replaceState(null, "", location.pathname);
+            }
 
             /* ── REVEAL ON SCROLL (padrão landing) ── */
             const obs = new IntersectionObserver(
