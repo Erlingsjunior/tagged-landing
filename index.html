@@ -2031,10 +2031,10 @@
                     height: 300vh;
                 }
                 .cinema-stage {
-                    height: 54vh;
+                    height: 56vh;
                 }
                 .cine-phone {
-                    width: clamp(150px, 46vw, 210px);
+                    width: clamp(110px, 32vw, 150px);
                 }
                 .cinema-head .section-title {
                     font-size: clamp(34px, 11vw, 56px);
@@ -4945,8 +4945,10 @@
                         d = Math.max(-1.6, Math.min(1.6, d));
                         const ad = Math.abs(d);
                         const focus = Math.max(0, 1 - ad);
-                        const x = -d * 64 + focus * 6; // foco levemente à direita
-                        const scale = 0.66 + focus * 1.09; // foco 25% maior
+                        const mob = innerWidth <= 768;
+                        // mobile: escala contida pra tela caber inteira; desktop: foco 25% maior
+                        const x = -d * 64 + (mob ? 0 : focus * 6);
+                        const scale = 0.66 + focus * (mob ? 0.55 : 1.09);
                         const rot = d * 9;
                         const z = Math.round(focus * 100);
                         const op = ad > 1.45 ? 0 : 0.28 + focus * 0.72;
