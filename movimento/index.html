@@ -9,21 +9,38 @@
             content="Mais que um app: um movimento. Camisetas, adesivos, plaquinha, manifesto impresso. O adesivo sai, a marca fica. Quem tem, pertence."
         />
         <link rel="icon" href="../favicon.ico" sizes="any" />
-        <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="../assets/favicon-32.png"
+        />
         <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
         <meta name="theme-color" content="#f4511e" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Tagged" />
-        <meta property="og:title" content="Movimento Tagged — Vista a mudança" />
-        <meta property="og:description" content="O adesivo sai. A marca ficou. Produtos do movimento que financia a primeira RealTech do mundo." />
-        <meta property="og:image" content="https://apptagged.com/assets/og-tagged.jpg" />
+        <meta
+            property="og:title"
+            content="Movimento Tagged — Vista a mudança"
+        />
+        <meta
+            property="og:description"
+            content="O adesivo sai. A marca ficou. Produtos do movimento que financia a primeira RealTech do mundo."
+        />
+        <meta
+            property="og:image"
+            content="https://apptagged.com/assets/og-tagged.jpg"
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
             href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
             rel="stylesheet"
         />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+            defer
+        ></script>
         <style>
             :root {
                 --creme: #f4efe9;
@@ -36,8 +53,14 @@
                 --line: rgba(26, 22, 20, 0.12);
                 --card: #fff;
             }
-            * { margin: 0; padding: 0; box-sizing: border-box; }
-            html { scroll-behavior: smooth; }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
             body {
                 font-family: "Poppins", sans-serif;
                 background: var(--creme);
@@ -47,513 +70,1292 @@
             }
             body::before {
                 content: "";
-                position: fixed; inset: 0; z-index: -1;
+                position: fixed;
+                inset: 0;
+                z-index: -1;
                 background-image:
                     linear-gradient(var(--creme-2) 1px, transparent 1px),
                     linear-gradient(90deg, var(--creme-2) 1px, transparent 1px);
                 background-size: 56px 56px;
             }
-            .anton { font-family: "Anton", sans-serif; text-transform: uppercase; }
-            .serif { font-family: "Instrument Serif", serif; font-style: italic; }
-            .mono { font-family: "JetBrains Mono", monospace; letter-spacing: 0.08em; }
+            .anton {
+                font-family: "Anton", sans-serif;
+                text-transform: uppercase;
+            }
+            .serif {
+                font-family: "Instrument Serif", serif;
+                font-style: italic;
+            }
+            .mono {
+                font-family: "JetBrains Mono", monospace;
+                letter-spacing: 0.08em;
+            }
 
             /* ── NAV (padrão landing) ── */
             nav {
-                display: flex; align-items: center; justify-content: space-between;
-                padding: 20px 5vw; position: sticky; top: 0; z-index: 100;
-                background: rgba(244, 239, 233, 0.92); backdrop-filter: blur(12px);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 20px 5vw;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                background: rgba(244, 239, 233, 0.92);
+                backdrop-filter: blur(12px);
                 border-bottom: 1px solid var(--line);
             }
-            .nav-logo { font-family: "Anton", sans-serif; font-size: 26px; color: var(--ink); text-decoration: none; letter-spacing: 0.02em; }
-            .nav-logo span { color: var(--orange); }
-            .nav-right { display: flex; align-items: center; gap: 26px; }
+            .nav-logo {
+                font-family: "Anton", sans-serif;
+                font-size: 26px;
+                color: var(--ink);
+                text-decoration: none;
+                letter-spacing: 0.02em;
+            }
+            .nav-logo span {
+                color: var(--orange);
+            }
+            .nav-right {
+                display: flex;
+                align-items: center;
+                gap: 26px;
+            }
             .nav-right a.plain {
-                font-family: "JetBrains Mono", monospace; font-size: 13px; letter-spacing: 0.1em;
-                color: var(--ink-soft); text-decoration: none; text-transform: uppercase;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 13px;
+                letter-spacing: 0.1em;
+                color: var(--ink-soft);
+                text-decoration: none;
+                text-transform: uppercase;
             }
-            .nav-right a.plain:hover { color: var(--orange); }
+            .nav-right a.plain:hover {
+                color: var(--orange);
+            }
             .btn-dl {
-                display: inline-flex; align-items: center; gap: 10px;
-                font-family: "Anton", sans-serif; text-transform: uppercase; letter-spacing: 0.05em;
-                font-size: 15px; color: var(--creme); background: var(--ink);
-                padding: 12px 26px; border-radius: 999px; text-decoration: none;
-                transition: background 0.2s, transform 0.2s;
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                font-family: "Anton", sans-serif;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                font-size: 15px;
+                color: var(--creme);
+                background: var(--ink);
+                padding: 12px 26px;
+                border-radius: 999px;
+                text-decoration: none;
+                transition:
+                    background 0.2s,
+                    transform 0.2s;
             }
-            .btn-dl:hover { background: var(--orange); transform: translateY(-2px); }
+            .btn-dl:hover {
+                background: var(--orange);
+                transform: translateY(-2px);
+            }
 
             /* ── HERO (padrão landing) ── */
-            .hero { text-align: center; padding: 96px 5vw 70px; position: relative; }
+            .hero {
+                text-align: center;
+                padding: 96px 5vw 70px;
+                position: relative;
+            }
             .eyebrow {
-                font-family: "JetBrains Mono", monospace; font-size: 13px;
-                letter-spacing: 0.2em; color: var(--ink-soft); text-transform: uppercase;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 13px;
+                letter-spacing: 0.2em;
+                color: var(--ink-soft);
+                text-transform: uppercase;
             }
-            .eyebrow::before { content: "● "; color: var(--orange); }
+            .eyebrow::before {
+                content: "● ";
+                color: var(--orange);
+            }
             .hero h1 {
-                font-family: "Anton", sans-serif; text-transform: uppercase;
-                font-size: clamp(52px, 10vw, 138px); line-height: 0.92; margin-top: 26px;
+                font-family: "Anton", sans-serif;
+                text-transform: uppercase;
+                font-size: clamp(52px, 10vw, 138px);
+                line-height: 0.92;
+                margin-top: 26px;
             }
-            .hero h1 .serif { color: var(--orange); text-transform: none; display: block; font-size: 0.92em; }
-            .hero p { max-width: 600px; margin: 26px auto 0; color: var(--ink-soft); font-size: 17px; line-height: 1.75; }
-            .hero p strong { color: var(--ink); }
-            .hero-cta { margin-top: 36px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+            .hero h1 .serif {
+                color: var(--orange);
+                text-transform: none;
+                display: block;
+                font-size: 0.92em;
+            }
+            .hero p {
+                max-width: 600px;
+                margin: 26px auto 0;
+                color: var(--ink-soft);
+                font-size: 17px;
+                line-height: 1.75;
+            }
+            .hero p strong {
+                color: var(--ink);
+            }
+            .hero-cta {
+                margin-top: 36px;
+                display: flex;
+                gap: 16px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
             .btn-ghost2 {
-                font-family: "Anton", sans-serif; text-transform: uppercase; letter-spacing: 0.05em;
-                font-size: 15px; color: var(--ink); border: 2px solid var(--ink);
-                padding: 12px 26px; border-radius: 999px; text-decoration: none;
+                font-family: "Anton", sans-serif;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                font-size: 15px;
+                color: var(--ink);
+                border: 2px solid var(--ink);
+                padding: 12px 26px;
+                border-radius: 999px;
+                text-decoration: none;
                 transition: all 0.2s;
             }
-            .btn-ghost2:hover { color: var(--orange); border-color: var(--orange); transform: translateY(-2px); }
+            .btn-ghost2:hover {
+                color: var(--orange);
+                border-color: var(--orange);
+                transform: translateY(-2px);
+            }
 
             /* ── MARQUEE (padrão landing) ── */
             .marquee {
-                background: var(--ink); color: var(--creme); overflow: hidden;
-                padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+                background: var(--ink);
+                color: var(--creme);
+                overflow: hidden;
+                padding: 14px 0;
+                border-top: 1px solid var(--line);
+                border-bottom: 1px solid var(--line);
             }
-            .marquee-track { display: inline-block; white-space: nowrap; animation: mq 28s linear infinite; }
+            .marquee-track {
+                display: inline-block;
+                white-space: nowrap;
+                animation: mq 28s linear infinite;
+            }
             .marquee-track span {
-                font-family: "JetBrains Mono", monospace; font-size: 14px; letter-spacing: 0.18em;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 14px;
+                letter-spacing: 0.18em;
                 text-transform: uppercase;
             }
-            @keyframes mq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+            @keyframes mq {
+                from {
+                    transform: translateX(0);
+                }
+                to {
+                    transform: translateX(-50%);
+                }
+            }
 
             /* ── PARALLAX ROSTOS (padrão landing) ── */
             .parallax-quote {
-                position: relative; z-index: 2; min-height: 74vh;
-                display: flex; align-items: center; justify-content: center;
-                overflow: hidden; text-align: center;
+                position: relative;
+                z-index: 2;
+                min-height: 74vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                text-align: center;
             }
-            .pq-cols { position: absolute; inset: 0; display: flex; z-index: -2; }
-            .pq-col { position: relative; flex: 1; overflow: hidden; }
+            .pq-cols {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                z-index: -2;
+            }
+            .pq-col {
+                position: relative;
+                flex: 1;
+                overflow: hidden;
+            }
             .pq-col-layer {
-                position: absolute; inset: -6% 0; background-size: cover;
-                background-position: center 30%; opacity: 0;
+                position: absolute;
+                inset: -6% 0;
+                background-size: cover;
+                background-position: center 30%;
+                opacity: 0;
                 will-change: opacity, transform;
-                transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+                transition:
+                    opacity 0.8s ease,
+                    transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
             }
-            .pq-col[data-dir="up"] .pq-col-layer { transform: translateY(4%) scale(1.06); }
-            .pq-col[data-dir="down"] .pq-col-layer { transform: translateY(-4%) scale(1.06); }
-            .pq-col .pq-col-layer.on { opacity: 1; transform: translateY(0) scale(1.02); }
+            .pq-col[data-dir="up"] .pq-col-layer {
+                transform: translateY(4%) scale(1.06);
+            }
+            .pq-col[data-dir="down"] .pq-col-layer {
+                transform: translateY(-4%) scale(1.06);
+            }
+            .pq-col .pq-col-layer.on {
+                opacity: 1;
+                transform: translateY(0) scale(1.02);
+            }
             .parallax-quote::after {
-                content: ""; position: absolute; inset: 0; z-index: -1;
-                background: linear-gradient(180deg, rgba(244, 81, 30, 0.82), rgba(214, 62, 18, 0.9));
+                content: "";
+                position: absolute;
+                inset: 0;
+                z-index: -1;
+                background: linear-gradient(
+                    180deg,
+                    rgba(244, 81, 30, 0.82),
+                    rgba(214, 62, 18, 0.9)
+                );
             }
-            .pq-inner { padding: 60px 5vw; }
+            .pq-inner {
+                padding: 60px 5vw;
+            }
             .pq-num {
-                font-family: "JetBrains Mono", monospace; font-size: 13px; letter-spacing: 0.2em;
-                color: rgba(244, 239, 233, 0.75); text-transform: uppercase;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 13px;
+                letter-spacing: 0.2em;
+                color: rgba(244, 239, 233, 0.75);
+                text-transform: uppercase;
             }
             .pq-inner h2 {
-                font-family: "Anton", sans-serif; text-transform: uppercase; color: #fff;
-                font-size: clamp(40px, 6.5vw, 84px); line-height: 0.98; margin-top: 18px;
+                font-family: "Anton", sans-serif;
+                text-transform: uppercase;
+                color: #fff;
+                font-size: clamp(40px, 6.5vw, 84px);
+                line-height: 0.98;
+                margin-top: 18px;
             }
-            .pq-inner h2 .serif { text-transform: none; text-decoration: underline; text-underline-offset: 10px; }
-            .pq-inner p { color: rgba(255, 255, 255, 0.92); max-width: 560px; margin: 20px auto 0; line-height: 1.7; }
+            .pq-inner h2 .serif {
+                text-transform: none;
+                text-decoration: underline;
+                text-underline-offset: 10px;
+            }
+            .pq-inner p {
+                color: rgba(255, 255, 255, 0.92);
+                max-width: 560px;
+                margin: 20px auto 0;
+                line-height: 1.7;
+            }
             @media (max-width: 980px) {
-                .pq-col:first-child, .pq-col:last-child { display: none; }
+                .pq-col:first-child,
+                .pq-col:last-child {
+                    display: none;
+                }
             }
-            @media (prefers-reduced-motion: reduce) { .pq-col-layer { transition: none; } }
+            @media (prefers-reduced-motion: reduce) {
+                .pq-col-layer {
+                    transition: none;
+                }
+            }
 
             /* ── BOARDS (padrão landing) ── */
-            .section { padding: 100px 5vw; max-width: 1240px; margin: 0 auto; }
-            .bhead {
-                display: flex; justify-content: space-between; align-items: center;
-                font-family: "JetBrains Mono", monospace; font-size: 12.5px; letter-spacing: 0.16em;
-                text-transform: uppercase; color: var(--ink-soft); margin-bottom: 44px;
+            .section {
+                padding: 100px 5vw;
+                max-width: 1240px;
+                margin: 0 auto;
             }
-            .bhead .dot { color: var(--orange); margin-right: 8px; }
+            .bhead {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12.5px;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                color: var(--ink-soft);
+                margin-bottom: 44px;
+            }
+            .bhead .dot {
+                color: var(--orange);
+                margin-right: 8px;
+            }
             .bfoot {
-                display: flex; justify-content: space-between; align-items: center;
-                font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.14em;
-                text-transform: uppercase; color: var(--ink-soft);
-                border-top: 1px solid var(--line); margin-top: 64px; padding-top: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--ink-soft);
+                border-top: 1px solid var(--line);
+                margin-top: 64px;
+                padding-top: 20px;
             }
             .section-title {
-                font-family: "Anton", sans-serif; text-transform: uppercase;
-                font-size: clamp(38px, 6vw, 80px); line-height: 0.96;
+                font-family: "Anton", sans-serif;
+                text-transform: uppercase;
+                font-size: clamp(38px, 6vw, 80px);
+                line-height: 0.96;
             }
-            .section-title em { font-family: "Instrument Serif", serif; font-style: italic; color: var(--orange); text-transform: none; }
-            .section-sub { color: var(--ink-soft); max-width: 560px; margin-top: 18px; line-height: 1.75; }
+            .section-title em {
+                font-family: "Instrument Serif", serif;
+                font-style: italic;
+                color: var(--orange);
+                text-transform: none;
+            }
+            .section-sub {
+                color: var(--ink-soft);
+                max-width: 560px;
+                margin-top: 18px;
+                line-height: 1.75;
+            }
 
             /* reveal (padrão landing) */
-            .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1); }
-            .reveal.visible { opacity: 1; transform: none; }
+            .reveal {
+                opacity: 0;
+                transform: translateY(28px);
+                transition:
+                    opacity 0.7s ease,
+                    transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+            }
+            .reveal.visible {
+                opacity: 1;
+                transform: none;
+            }
 
             /* ── CAMPANHA: adesivo + celular ── */
             .camp-grid {
-                display: grid; grid-template-columns: 1fr 0.9fr; gap: 70px;
-                align-items: center; margin-top: 54px;
+                display: grid;
+                grid-template-columns: 1fr 0.9fr;
+                gap: 70px;
+                align-items: center;
+                margin-top: 54px;
             }
-            .camp-steps { margin-top: 34px; display: grid; gap: 20px; }
-            .cstep { display: flex; gap: 18px; align-items: baseline; }
-            .cstep b { font-family: "JetBrains Mono", monospace; color: var(--orange); font-size: 15px; min-width: 36px; }
-            .cstep span { color: var(--ink-soft); font-size: 15.5px; line-height: 1.6; }
-            .cstep strong { color: var(--ink); }
+            .camp-steps {
+                margin-top: 34px;
+                display: grid;
+                gap: 20px;
+            }
+            .cstep {
+                display: flex;
+                gap: 18px;
+                align-items: baseline;
+            }
+            .cstep b {
+                font-family: "JetBrains Mono", monospace;
+                color: var(--orange);
+                font-size: 15px;
+                min-width: 36px;
+            }
+            .cstep span {
+                color: var(--ink-soft);
+                font-size: 15.5px;
+                line-height: 1.6;
+            }
+            .cstep strong {
+                color: var(--ink);
+            }
             .camp-note {
-                margin-top: 28px; padding: 16px 20px; border-left: 3px solid var(--teal);
-                background: rgba(15, 118, 110, 0.08); font-size: 13.5px;
-                color: var(--ink-soft); line-height: 1.65; border-radius: 0 10px 10px 0;
+                margin-top: 28px;
+                padding: 16px 20px;
+                border-left: 3px solid var(--teal);
+                background: rgba(15, 118, 110, 0.08);
+                font-size: 13.5px;
+                color: var(--ink-soft);
+                line-height: 1.65;
+                border-radius: 0 10px 10px 0;
             }
             .camp-slogan {
-                font-family: "Instrument Serif", serif; font-style: italic;
-                color: var(--orange); font-size: clamp(26px, 3vw, 38px); margin-top: 28px;
+                font-family: "Instrument Serif", serif;
+                font-style: italic;
+                color: var(--orange);
+                font-size: clamp(26px, 3vw, 38px);
+                margin-top: 28px;
             }
-            .camp-visual { position: relative; }
+            .camp-visual {
+                position: relative;
+            }
             .camp-visual .sticker {
-                width: 78%; border-radius: 20px; border: 1px solid var(--line);
+                width: 78%;
+                border-radius: 20px;
+                border: 1px solid var(--line);
                 box-shadow: 0 30px 60px rgba(26, 22, 20, 0.18);
                 transform: rotate(-3deg);
             }
             .device {
-                position: absolute; right: -4%; bottom: -8%; width: 46%;
-                aspect-ratio: 9/19.5; background: #15110d; border-radius: 26px; padding: 7px;
+                position: absolute;
+                right: -4%;
+                bottom: -8%;
+                width: 46%;
+                aspect-ratio: 9/19.5;
+                background: #15110d;
+                border-radius: 26px;
+                padding: 7px;
                 box-shadow: 0 30px 70px rgba(26, 22, 20, 0.35);
                 transform: rotate(5deg);
                 transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
             }
-            .device:hover { transform: rotate(2deg) translateY(-8px); }
-            .device img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; display: block; }
+            .device:hover {
+                transform: rotate(2deg) translateY(-8px);
+            }
+            .device img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 20px;
+                display: block;
+            }
 
             /* ── CAMPANHA: pull-quote tipográfico + passos polaroid ── */
             .pull-quote {
-                position: relative; text-align: center;
-                margin: 90px auto 20px; max-width: 900px; padding: 0 20px;
+                position: relative;
+                text-align: center;
+                margin: 90px auto 20px;
+                max-width: 900px;
+                padding: 0 20px;
             }
             .pull-quote::before {
                 content: "“";
                 font-family: "Instrument Serif", serif;
-                font-size: clamp(120px, 16vw, 220px); line-height: 0;
-                color: var(--orange); opacity: 0.25;
-                position: absolute; top: 26px; left: 50%; transform: translateX(-50%);
+                font-size: clamp(120px, 16vw, 220px);
+                line-height: 0;
+                color: var(--orange);
+                opacity: 0.25;
+                position: absolute;
+                top: 26px;
+                left: 50%;
+                transform: translateX(-50%);
                 pointer-events: none;
             }
             .pull-quote .q1 {
-                font-family: "Anton", sans-serif; text-transform: uppercase;
-                font-size: clamp(30px, 4.6vw, 60px); line-height: 1.02; color: var(--ink);
+                font-family: "Anton", sans-serif;
+                text-transform: uppercase;
+                font-size: clamp(30px, 4.6vw, 60px);
+                line-height: 1.02;
+                color: var(--ink);
             }
             .pull-quote .q2 {
-                font-family: "Instrument Serif", serif; font-style: italic;
-                color: var(--orange); font-size: clamp(28px, 4.2vw, 54px); margin-top: 8px;
+                font-family: "Instrument Serif", serif;
+                font-style: italic;
+                color: var(--orange);
+                font-size: clamp(28px, 4.2vw, 54px);
+                margin-top: 8px;
             }
             .pull-quote .q-rule {
-                font-family: "JetBrains Mono", monospace; font-size: 12px;
-                letter-spacing: 0.2em; color: var(--ink-soft); text-transform: uppercase;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                letter-spacing: 0.2em;
+                color: var(--ink-soft);
+                text-transform: uppercase;
                 margin-top: 26px;
             }
-            .pull-quote .q-rule::before, .pull-quote .q-rule::after {
-                content: "———"; color: var(--orange); margin: 0 12px; letter-spacing: -2px;
+            .pull-quote .q-rule::before,
+            .pull-quote .q-rule::after {
+                content: "———";
+                color: var(--orange);
+                margin: 0 12px;
+                letter-spacing: -2px;
             }
             .steps-grid {
-                display: grid; grid-template-columns: repeat(4, 1fr);
-                gap: 38px 22px; margin-top: 80px;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 38px 22px;
+                margin-top: 80px;
             }
-            .swipe-hint { display: none; }
+            .swipe-hint {
+                display: none;
+            }
             @media (max-width: 1080px) {
-                .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 44px 26px; }
+                .steps-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 44px 26px;
+                }
             }
             @media (max-width: 640px) {
                 /* carrossel 1 em 1 com snap — arrasta pro lado */
                 .steps-grid {
-                    display: flex; overflow-x: auto;
+                    display: flex;
+                    overflow-x: auto;
                     scroll-snap-type: x mandatory;
-                    gap: 18px; padding: 14px 6px 10px;
+                    gap: 18px;
+                    padding: 14px 6px 10px;
                     -webkit-overflow-scrolling: touch;
                     scrollbar-width: none;
                 }
-                .steps-grid::-webkit-scrollbar { display: none; }
-                .step-card {
-                    flex: 0 0 84%; scroll-snap-align: center;
+                .steps-grid::-webkit-scrollbar {
+                    display: none;
                 }
-                .step-card:nth-child(1), .step-card:nth-child(3) { transform: rotate(-1.2deg); }
-                .step-card:nth-child(2), .step-card:nth-child(4) { transform: rotate(1.2deg) translateY(0); }
+                .step-card {
+                    flex: 0 0 84%;
+                    scroll-snap-align: center;
+                }
+                .step-card:nth-child(1),
+                .step-card:nth-child(3) {
+                    transform: rotate(-1.2deg);
+                }
+                .step-card:nth-child(2),
+                .step-card:nth-child(4) {
+                    transform: rotate(1.2deg) translateY(0);
+                }
                 .swipe-hint {
-                    display: block; text-align: center;
-                    font-family: "JetBrains Mono", monospace; font-size: 11px;
-                    letter-spacing: 0.14em; color: var(--ink-soft);
-                    margin-top: 14px; text-transform: uppercase;
+                    display: block;
+                    text-align: center;
+                    font-family: "JetBrains Mono", monospace;
+                    font-size: 11px;
+                    letter-spacing: 0.14em;
+                    color: var(--ink-soft);
+                    margin-top: 14px;
+                    text-transform: uppercase;
                 }
             }
             .step-card {
-                position: relative; background: #fff; padding: 14px 14px 20px;
+                position: relative;
+                background: #fff;
+                padding: 14px 14px 20px;
                 border-radius: 6px;
                 box-shadow: 0 14px 34px rgba(26, 22, 20, 0.16);
-                transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.35s ease;
+                transition:
+                    transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+                    box-shadow 0.35s ease;
             }
-            .step-card:nth-child(1) { transform: rotate(-2.2deg); }
-            .step-card:nth-child(2) { transform: rotate(1.6deg) translateY(14px); }
-            .step-card:nth-child(3) { transform: rotate(-1.4deg); }
-            .step-card:nth-child(4) { transform: rotate(2.2deg) translateY(14px); }
+            .step-card:nth-child(1) {
+                transform: rotate(-2.2deg);
+            }
+            .step-card:nth-child(2) {
+                transform: rotate(1.6deg) translateY(14px);
+            }
+            .step-card:nth-child(3) {
+                transform: rotate(-1.4deg);
+            }
+            .step-card:nth-child(4) {
+                transform: rotate(2.2deg) translateY(14px);
+            }
             .step-card:hover {
                 transform: rotate(0deg) translateY(-10px) scale(1.03);
                 box-shadow: 0 34px 70px rgba(26, 22, 20, 0.22);
                 z-index: 5;
             }
-            .step-card::before { /* fita adesiva */
-                content: ""; position: absolute; top: -14px; left: 50%;
-                width: 110px; height: 30px; transform: translateX(-50%) rotate(-3deg);
-                background: rgba(244, 81, 30, 0.75); border-radius: 2px;
+            .step-card::before {
+                /* fita adesiva */
+                content: "";
+                position: absolute;
+                top: -14px;
+                left: 50%;
+                width: 110px;
+                height: 30px;
+                transform: translateX(-50%) rotate(-3deg);
+                background: rgba(244, 81, 30, 0.75);
+                border-radius: 2px;
                 box-shadow: 0 2px 6px rgba(26, 22, 20, 0.15);
             }
-            .step-card:nth-child(even)::before { transform: translateX(-50%) rotate(2.5deg); }
+            .step-card:nth-child(even)::before {
+                transform: translateX(-50%) rotate(2.5deg);
+            }
             .step-card img {
-                width: 100%; aspect-ratio: 1; object-fit: cover; display: block;
+                width: 100%;
+                aspect-ratio: 1;
+                object-fit: cover;
+                display: block;
                 border: 1px solid var(--line);
             }
-            .step-card .sc-body { padding: 18px 8px 4px; position: relative; }
+            .step-card .sc-body {
+                padding: 18px 8px 4px;
+                position: relative;
+            }
             .step-card .sc-num {
-                position: absolute; top: -6px; right: 4px;
-                font-family: "Anton", sans-serif; font-size: 64px; line-height: 1;
-                color: transparent; -webkit-text-stroke: 2px var(--orange);
-                opacity: 0.55; pointer-events: none;
+                position: absolute;
+                top: -6px;
+                right: 4px;
+                font-family: "Anton", sans-serif;
+                font-size: 64px;
+                line-height: 1;
+                color: transparent;
+                -webkit-text-stroke: 2px var(--orange);
+                opacity: 0.55;
+                pointer-events: none;
             }
             .step-card h3 {
-                font-family: "Anton", sans-serif; text-transform: uppercase;
-                font-size: 24px; line-height: 1; padding-right: 60px;
+                font-family: "Anton", sans-serif;
+                text-transform: uppercase;
+                font-size: 24px;
+                line-height: 1;
+                padding-right: 60px;
             }
-            .step-card h3 em { font-family: "Instrument Serif", serif; font-style: italic; color: var(--orange); text-transform: none; }
-            .step-card p { color: var(--ink-soft); font-size: 13.5px; line-height: 1.65; margin-top: 10px; }
-            .step-card p strong { color: var(--ink); }
+            .step-card h3 em {
+                font-family: "Instrument Serif", serif;
+                font-style: italic;
+                color: var(--orange);
+                text-transform: none;
+            }
+            .step-card p {
+                color: var(--ink-soft);
+                font-size: 13.5px;
+                line-height: 1.65;
+                margin-top: 10px;
+            }
+            .step-card p strong {
+                color: var(--ink);
+            }
             .camp-stamp {
-                text-align: center; margin-top: 64px;
+                text-align: center;
+                margin-top: 64px;
             }
             .camp-stamp .selo-txt {
-                display: inline-block; font-family: "Anton", sans-serif; text-transform: uppercase;
-                font-size: clamp(24px, 3vw, 40px); color: var(--orange);
-                border: 4px solid var(--orange); border-radius: 14px;
-                padding: 14px 34px; transform: rotate(-2deg);
+                display: inline-block;
+                font-family: "Anton", sans-serif;
+                text-transform: uppercase;
+                font-size: clamp(24px, 3vw, 40px);
+                color: var(--orange);
+                border: 4px solid var(--orange);
+                border-radius: 14px;
+                padding: 14px 34px;
+                transform: rotate(-2deg);
                 letter-spacing: 0.04em;
             }
-            .camp-stamp .sub { margin-top: 22px; }
+            .camp-stamp .sub {
+                margin-top: 22px;
+            }
 
             /* ── VITRINE ── */
-            .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 26px; margin-top: 54px; }
+            .products {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 26px;
+                margin-top: 54px;
+            }
             .product {
-                background: var(--card); border: 1px solid var(--line); border-radius: 18px;
-                overflow: hidden; cursor: pointer;
-                transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s ease;
-                display: flex; flex-direction: column;
+                background: var(--card);
+                border: 1px solid var(--line);
+                border-radius: 18px;
+                overflow: hidden;
+                cursor: pointer;
+                transition:
+                    transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
+                    box-shadow 0.3s ease;
+                display: flex;
+                flex-direction: column;
             }
-            .product:hover { transform: translateY(-8px) rotate(-0.5deg); box-shadow: 0 30px 60px rgba(26, 22, 20, 0.14); }
-            .product .imgwrap { overflow: hidden; }
-            .product img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; transition: transform 0.5s ease; }
-            .product:hover img { transform: scale(1.06); }
-            .product .info { padding: 20px 22px 24px; flex: 1; display: flex; flex-direction: column; }
+            .product:hover {
+                transform: translateY(-8px) rotate(-0.5deg);
+                box-shadow: 0 30px 60px rgba(26, 22, 20, 0.14);
+            }
+            .product .imgwrap {
+                overflow: hidden;
+            }
+            .product img {
+                width: 100%;
+                aspect-ratio: 1;
+                object-fit: cover;
+                display: block;
+                transition: transform 0.5s ease;
+            }
+            .product:hover img {
+                transform: scale(1.06);
+            }
+            .product .info {
+                padding: 20px 22px 24px;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+            }
             .tagchip {
-                display: inline-block; font-family: "JetBrains Mono", monospace;
-                font-size: 11px; letter-spacing: 0.12em; color: var(--orange);
-                border: 1px solid var(--orange); border-radius: 999px;
-                padding: 4px 12px; margin-bottom: 12px; align-self: flex-start;
+                display: inline-block;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 0.12em;
+                color: var(--orange);
+                border: 1px solid var(--orange);
+                border-radius: 999px;
+                padding: 4px 12px;
+                margin-bottom: 12px;
+                align-self: flex-start;
             }
-            .product h3 { font-family: "Anton", sans-serif; text-transform: uppercase; font-size: 20px; }
-            .product .frase { font-family: "Instrument Serif", serif; font-style: italic; color: var(--ink-soft); font-size: 15px; margin-top: 6px; flex: 1; }
+            .product h3 {
+                font-family: "Anton", sans-serif;
+                text-transform: uppercase;
+                font-size: 20px;
+            }
+            .product .frase {
+                font-family: "Instrument Serif", serif;
+                font-style: italic;
+                color: var(--ink-soft);
+                font-size: 15px;
+                margin-top: 6px;
+                flex: 1;
+            }
             .product .ver {
-                margin-top: 16px; font-family: "JetBrains Mono", monospace; font-size: 12px;
-                letter-spacing: 0.12em; color: var(--ink); text-transform: uppercase;
+                margin-top: 16px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                letter-spacing: 0.12em;
+                color: var(--ink);
+                text-transform: uppercase;
             }
-            .product .ver::after { content: " →"; color: var(--orange); }
+            .product .ver::after {
+                content: " →";
+                color: var(--orange);
+            }
 
             /* ── MODAL + LUPA ── */
             .shop-modal {
-                position: fixed; inset: 0; z-index: 300; display: none;
-                align-items: center; justify-content: center;
-                background: rgba(26, 22, 20, 0.85); backdrop-filter: blur(10px); padding: clamp(14px, 4vw, 40px);
+                position: fixed;
+                inset: 0;
+                z-index: 300;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                background: rgba(26, 22, 20, 0.85);
+                backdrop-filter: blur(10px);
+                padding: clamp(14px, 4vw, 40px);
             }
-            .shop-modal.open { display: flex; }
+            .shop-modal.open {
+                display: flex;
+            }
             .sm-box {
-                background: var(--creme); border-radius: 22px;
-                overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain;
+                background: var(--creme);
+                border-radius: 22px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                overscroll-behavior: contain;
                 -webkit-overflow-scrolling: touch;
-                max-width: 740px; width: 100%; max-height: 94vh; max-height: 92dvh;
-                display: flex; flex-direction: column;
+                max-width: 740px;
+                width: 100%;
+                max-height: 94vh;
+                max-height: 92dvh;
+                display: flex;
+                flex-direction: column;
                 animation: smIn 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
             }
-            @keyframes smIn { from { opacity: 0; transform: translateY(24px) scale(0.97); } to { opacity: 1; transform: none; } }
-            .sm-gallery { padding: 22px 22px 16px; background: #fff; }
-            .sm-main {
-                position: relative; border-radius: 14px; overflow: hidden;
-                border: 1px solid var(--line); cursor: crosshair;
-                height: min(48vh, 480px); background: #f7f4f0;
-                display: flex; align-items: center; justify-content: center;
+            @keyframes smIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(24px) scale(0.97);
+                }
+                to {
+                    opacity: 1;
+                    transform: none;
+                }
             }
-            .sm-main img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; }
+            .sm-gallery {
+                padding: 22px 22px 16px;
+                background: #fff;
+            }
+            .sm-main {
+                position: relative;
+                border-radius: 14px;
+                overflow: hidden;
+                border: 1px solid var(--line);
+                cursor: crosshair;
+                height: min(48vh, 480px);
+                background: #f7f4f0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .sm-main img {
+                max-width: 100%;
+                max-height: 100%;
+                width: auto;
+                height: auto;
+                display: block;
+            }
             .sm-cap {
-                font-family: "Instrument Serif", serif; font-style: italic;
-                color: var(--orange); font-size: 17px; text-align: center;
-                margin-top: 12px; min-height: 22px;
+                font-family: "Instrument Serif", serif;
+                font-style: italic;
+                color: var(--orange);
+                font-size: 17px;
+                text-align: center;
+                margin-top: 12px;
+                min-height: 22px;
             }
             .sm-lens {
-                position: absolute; width: 170px; height: 170px;
-                border: 3px solid var(--orange); border-radius: 50%;
-                pointer-events: none; display: none; background-repeat: no-repeat;
+                position: absolute;
+                width: 170px;
+                height: 170px;
+                border: 3px solid var(--orange);
+                border-radius: 50%;
+                pointer-events: none;
+                display: none;
+                background-repeat: no-repeat;
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             }
-            .sm-hint { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.12em; margin-top: 10px; text-align: center; text-transform: uppercase; }
-            .sm-thumbs { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+            .sm-hint {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                color: var(--ink-soft);
+                letter-spacing: 0.12em;
+                margin-top: 10px;
+                text-align: center;
+                text-transform: uppercase;
+            }
+            .sm-thumbs {
+                display: flex;
+                gap: 10px;
+                margin-top: 14px;
+                flex-wrap: wrap;
+            }
             .sm-thumbs img {
-                width: 64px; height: 64px; object-fit: cover; border-radius: 10px;
-                border: 2px solid transparent; cursor: pointer; opacity: 0.65; transition: all 0.15s;
+                width: 64px;
+                height: 64px;
+                object-fit: cover;
+                border-radius: 10px;
+                border: 2px solid transparent;
+                cursor: pointer;
+                opacity: 0.65;
+                transition: all 0.15s;
             }
-            .sm-thumbs img.on { border-color: var(--orange); opacity: 1; }
-            .sm-info { padding: 26px 30px 30px; display: flex; flex-direction: column; }
-            .sm-info h3 { font-family: "Anton", sans-serif; text-transform: uppercase; font-size: 32px; line-height: 1; }
-            .sm-frase { font-family: "Instrument Serif", serif; font-style: italic; color: var(--orange); font-size: 22px; margin: 12px 0 16px; }
-            .sm-info p { color: var(--ink-soft); font-size: 14.5px; line-height: 1.7; flex: 1; }
-            .sm-preco { font-family: "JetBrains Mono", monospace; font-size: 13px; color: var(--teal); margin: 18px 0 14px; letter-spacing: 0.08em; }
+            .sm-thumbs img.on {
+                border-color: var(--orange);
+                opacity: 1;
+            }
+            .sm-info {
+                padding: 26px 30px 30px;
+                display: flex;
+                flex-direction: column;
+            }
+            .sm-info h3 {
+                font-family: "Anton", sans-serif;
+                text-transform: uppercase;
+                font-size: 32px;
+                line-height: 1;
+            }
+            .sm-frase {
+                font-family: "Instrument Serif", serif;
+                font-style: italic;
+                color: var(--orange);
+                font-size: 22px;
+                margin: 12px 0 16px;
+            }
+            .sm-info p {
+                color: var(--ink-soft);
+                font-size: 14.5px;
+                line-height: 1.7;
+                flex: 1;
+            }
+            .sm-preco {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 13px;
+                color: var(--teal);
+                margin: 18px 0 14px;
+                letter-spacing: 0.08em;
+            }
             /* cards de preço (produtos compráveis) */
-            .preco-ops { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0 16px; }
-            .preco-op {
-                position: relative; text-align: left; cursor: pointer;
-                border: 2.5px solid var(--line); border-radius: 16px;
-                padding: 14px 16px 12px; background: #fff;
-                transition: border-color 0.15s, background 0.15s, transform 0.15s;
+            .preco-ops {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                margin: 18px 0 16px;
             }
-            .preco-op:hover { transform: translateY(-2px); }
-            .preco-op.on { border-color: var(--orange); background: rgba(244, 81, 30, 0.05); }
+            .preco-op {
+                position: relative;
+                text-align: left;
+                cursor: pointer;
+                border: 2.5px solid var(--line);
+                border-radius: 16px;
+                padding: 14px 16px 12px;
+                background: #fff;
+                transition:
+                    border-color 0.15s,
+                    background 0.15s,
+                    transform 0.15s;
+            }
+            .preco-op:hover {
+                transform: translateY(-2px);
+            }
+            .preco-op.on {
+                border-color: var(--orange);
+                background: rgba(244, 81, 30, 0.05);
+            }
             .preco-op.on::after {
-                content: "✓"; position: absolute; top: -11px; right: -8px;
-                width: 24px; height: 24px; border-radius: 50%;
-                background: var(--orange); color: #fff; font-size: 13px;
-                display: flex; align-items: center; justify-content: center;
+                content: "✓";
+                position: absolute;
+                top: -11px;
+                right: -8px;
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                background: var(--orange);
+                color: #fff;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 font-weight: 700;
             }
             .preco-op .po-nome {
-                font-family: "JetBrains Mono", monospace; font-size: 10.5px;
-                letter-spacing: 0.14em; color: var(--ink-soft); text-transform: uppercase;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10.5px;
+                letter-spacing: 0.14em;
+                color: var(--ink-soft);
+                text-transform: uppercase;
             }
             .preco-op .po-valor {
-                font-family: "Anton", sans-serif; font-size: 27px; color: var(--ink);
-                margin: 3px 0 2px; letter-spacing: 0.02em;
+                font-family: "Anton", sans-serif;
+                font-size: 27px;
+                color: var(--ink);
+                margin: 3px 0 2px;
+                letter-spacing: 0.02em;
             }
-            .preco-op.on .po-valor { color: var(--orange); }
-            .preco-op .po-sub { font-size: 11px; color: var(--ink-soft); line-height: 1.4; }
+            .preco-op.on .po-valor {
+                color: var(--orange);
+            }
+            .preco-op .po-sub {
+                font-size: 11px;
+                color: var(--ink-soft);
+                line-height: 1.4;
+            }
             .preco-op .po-badge {
-                display: inline-block; margin-top: 6px;
-                font-family: "JetBrains Mono", monospace; font-size: 9.5px;
-                letter-spacing: 0.1em; color: #fff; background: var(--teal);
-                border-radius: 999px; padding: 3px 9px;
+                display: inline-block;
+                margin-top: 6px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 9.5px;
+                letter-spacing: 0.1em;
+                color: #fff;
+                background: var(--teal);
+                border-radius: 999px;
+                padding: 3px 9px;
             }
-            .preco-ops.solo { grid-template-columns: 1fr; }
-            .preco-ops.solo .preco-op { cursor: pointer; }
-            @media (max-width: 480px) { .preco-ops { grid-template-columns: 1fr; } }
+            .preco-ops.solo {
+                grid-template-columns: 1fr;
+            }
+            .preco-ops.solo .preco-op {
+                cursor: pointer;
+            }
+            @media (max-width: 480px) {
+                .preco-ops {
+                    grid-template-columns: 1fr;
+                }
+            }
             .btn {
-                display: inline-block; text-align: center; text-decoration: none;
-                font-family: "Anton", sans-serif; text-transform: uppercase; letter-spacing: 0.06em;
-                font-size: 15px; padding: 14px 24px; border-radius: 999px;
-                background: var(--ink); color: var(--creme); transition: background 0.2s;
+                display: inline-block;
+                text-align: center;
+                text-decoration: none;
+                font-family: "Anton", sans-serif;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                font-size: 15px;
+                padding: 14px 24px;
+                border-radius: 999px;
+                background: var(--ink);
+                color: var(--creme);
+                transition: background 0.2s;
             }
-            .btn:hover { background: var(--orange); }
+            .btn:hover {
+                background: var(--orange);
+            }
             .sm-close {
-                position: absolute; top: 20px; right: 24px; z-index: 310;
-                width: 46px; height: 46px; border: none; border-radius: 50%;
-                background: rgba(244, 239, 233, 0.15); color: var(--creme); font-size: 20px; cursor: pointer;
+                position: absolute;
+                top: 20px;
+                right: 24px;
+                z-index: 310;
+                width: 46px;
+                height: 46px;
+                border: none;
+                border-radius: 50%;
+                background: rgba(244, 239, 233, 0.15);
+                color: var(--creme);
+                font-size: 20px;
+                cursor: pointer;
             }
-            .sm-close:hover { background: var(--orange); }
+            .sm-close:hover {
+                background: var(--orange);
+            }
 
             /* ── CHECKOUT ── */
-            .ck-form { padding: 34px 32px; }
-            .ck-title { font-family: "Anton", sans-serif; text-transform: uppercase; font-size: 26px; }
-            .ck-title em { font-family: "Instrument Serif", serif; font-style: italic; color: var(--orange); text-transform: none; }
-            .ck-sec { margin-top: 24px; }
-            .ck-label { font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.16em; color: var(--orange); margin-bottom: 12px; }
+            .ck-form {
+                padding: 34px 32px;
+            }
+            .ck-title {
+                font-family: "Anton", sans-serif;
+                text-transform: uppercase;
+                font-size: 26px;
+            }
+            .ck-title em {
+                font-family: "Instrument Serif", serif;
+                font-style: italic;
+                color: var(--orange);
+                text-transform: none;
+            }
+            .ck-sec {
+                margin-top: 24px;
+            }
+            .ck-label {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                letter-spacing: 0.16em;
+                color: var(--orange);
+                margin-bottom: 12px;
+            }
             .ck-in {
-                width: 100%; padding: 13px 15px; margin-bottom: 10px;
-                border: 1.5px solid var(--line); border-radius: 10px;
-                font-family: "Poppins", sans-serif; font-size: 14px;
-                background: #fff; color: var(--ink);
+                width: 100%;
+                padding: 13px 15px;
+                margin-bottom: 10px;
+                border: 1.5px solid var(--line);
+                border-radius: 10px;
+                font-family: "Poppins", sans-serif;
+                font-size: 14px;
+                background: #fff;
+                color: var(--ink);
             }
-            .ck-in:focus { outline: none; border-color: var(--orange); }
-            .ck-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+            .ck-in:focus {
+                outline: none;
+                border-color: var(--orange);
+            }
+            .ck-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
             .ck-var {
-                display: flex; align-items: center; gap: 12px;
-                border: 2px solid var(--line); border-radius: 12px;
-                padding: 14px 16px; margin-bottom: 10px; cursor: pointer;
-                transition: border-color 0.15s, background 0.15s;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                border: 2px solid var(--line);
+                border-radius: 12px;
+                padding: 14px 16px;
+                margin-bottom: 10px;
+                cursor: pointer;
+                transition:
+                    border-color 0.15s,
+                    background 0.15s;
             }
-            .ck-var.on { border-color: var(--orange); background: rgba(244, 81, 30, 0.06); }
-            .ck-var b { font-family: "Anton", sans-serif; font-size: 17px; letter-spacing: 0.03em; margin-left: auto; color: var(--orange); white-space: nowrap; }
-            .ck-var span { font-size: 13.5px; }
+            .ck-var.on {
+                border-color: var(--orange);
+                background: rgba(244, 81, 30, 0.06);
+            }
+            .ck-var b {
+                font-family: "Anton", sans-serif;
+                font-size: 17px;
+                letter-spacing: 0.03em;
+                margin-left: auto;
+                color: var(--orange);
+                white-space: nowrap;
+            }
+            .ck-var span {
+                font-size: 13.5px;
+            }
             .ck-sub {
-                font-family: "JetBrains Mono", monospace; font-size: 10.5px;
-                letter-spacing: 0.16em; color: var(--ink-soft); text-transform: uppercase;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10.5px;
+                letter-spacing: 0.16em;
+                color: var(--ink-soft);
+                text-transform: uppercase;
                 margin: 14px 0 8px;
             }
-            .ck-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+            .ck-chips {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
             .ck-chip {
-                border: 2px solid var(--line); border-radius: 999px;
-                padding: 9px 18px; background: #fff; cursor: pointer;
-                font-family: "Poppins", sans-serif; font-size: 13.5px; color: var(--ink);
-                transition: border-color 0.15s, background 0.15s;
+                border: 2px solid var(--line);
+                border-radius: 999px;
+                padding: 9px 18px;
+                background: #fff;
+                cursor: pointer;
+                font-family: "Poppins", sans-serif;
+                font-size: 13.5px;
+                color: var(--ink);
+                transition:
+                    border-color 0.15s,
+                    background 0.15s;
             }
-            .ck-chip.on { border-color: var(--orange); background: rgba(244, 81, 30, 0.07); font-weight: 600; }
-            .ck-qty { display: flex; align-items: center; gap: 14px; }
+            .ck-chip.on {
+                border-color: var(--orange);
+                background: rgba(244, 81, 30, 0.07);
+                font-weight: 600;
+            }
+            .ck-qty {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+            }
             .ck-qty .q-btn {
-                width: 38px; height: 38px; border-radius: 50%;
-                border: 2px solid var(--line); background: #fff; cursor: pointer;
-                font-size: 19px; line-height: 1; color: var(--ink);
-                transition: border-color 0.15s, color 0.15s;
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                border: 2px solid var(--line);
+                background: #fff;
+                cursor: pointer;
+                font-size: 19px;
+                line-height: 1;
+                color: var(--ink);
+                transition:
+                    border-color 0.15s,
+                    color 0.15s;
             }
-            .ck-qty .q-btn:hover { border-color: var(--orange); color: var(--orange); }
-            .ck-qty b { font-family: "Anton", sans-serif; font-size: 21px; min-width: 22px; text-align: center; }
-            .ck-qty-tot { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--teal); margin-left: 4px; }
+            .ck-qty .q-btn:hover {
+                border-color: var(--orange);
+                color: var(--orange);
+            }
+            .ck-qty b {
+                font-family: "Anton", sans-serif;
+                font-size: 21px;
+                min-width: 22px;
+                text-align: center;
+            }
+            .ck-qty-tot {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                color: var(--teal);
+                margin-left: 4px;
+            }
             .ck-frete {
-                font-family: "JetBrains Mono", monospace; font-size: 12px;
-                color: var(--teal); padding: 10px 0 2px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                color: var(--teal);
+                padding: 10px 0 2px;
             }
-            .ck-qr { display: flex; justify-content: center; margin-bottom: 10px; }
-            .ck-qr img, .ck-qr canvas { border: 8px solid #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(26,22,20,0.12); }
-            .ck-hint { font-size: 12px; color: var(--ink-soft); margin: 8px 0; }
-            .ck-recebedor { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--ink-soft); margin-top: 8px; }
-            .btn.ghost2 { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
-            .btn.ghost2:hover { color: var(--orange); border-color: var(--orange); background: transparent; }
+            .ck-qr {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+            .ck-qr img,
+            .ck-qr canvas {
+                border: 8px solid #fff;
+                border-radius: 12px;
+                box-shadow: 0 8px 24px rgba(26, 22, 20, 0.12);
+            }
+            .ck-hint {
+                font-size: 12px;
+                color: var(--ink-soft);
+                margin: 8px 0;
+            }
+            .ck-recebedor {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                color: var(--ink-soft);
+                margin-top: 8px;
+            }
+            .btn.ghost2 {
+                background: transparent;
+                color: var(--ink);
+                border: 2px solid var(--ink);
+            }
+            .btn.ghost2:hover {
+                color: var(--orange);
+                border-color: var(--orange);
+                background: transparent;
+            }
             .ck-sucesso {
-                position: fixed; inset: 0; z-index: 400; display: none;
-                align-items: center; justify-content: center;
-                background: rgba(26, 22, 20, 0.85); backdrop-filter: blur(8px);
+                position: fixed;
+                inset: 0;
+                z-index: 400;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                background: rgba(26, 22, 20, 0.85);
+                backdrop-filter: blur(8px);
             }
             .ck-sucesso-box {
-                background: var(--creme); border-radius: 20px; padding: 40px 44px;
-                text-align: center; max-width: 420px; margin: 20px;
+                background: var(--creme);
+                border-radius: 20px;
+                padding: 40px 44px;
+                text-align: center;
+                max-width: 420px;
+                margin: 20px;
             }
 
             /* ── O APP LEMBRADO ── */
-            .app-strip { background: var(--ink); color: var(--creme); }
-            .app-strip .section-title { color: var(--creme); }
-            .app-strip .section-sub { color: rgba(244, 239, 233, 0.65); }
-            .app-phones { display: flex; gap: 5%; justify-content: center; margin-top: 60px; align-items: flex-end; }
+            .app-strip {
+                background: var(--ink);
+                color: var(--creme);
+            }
+            .app-strip .section-title {
+                color: var(--creme);
+            }
+            .app-strip .section-sub {
+                color: rgba(244, 239, 233, 0.65);
+            }
+            .app-phones {
+                display: flex;
+                gap: 5%;
+                justify-content: center;
+                margin-top: 60px;
+                align-items: flex-end;
+            }
             .app-phones .ph {
-                width: 24%; aspect-ratio: 9/19.5; background: #000; border-radius: 30px; padding: 8px;
+                width: 24%;
+                aspect-ratio: 9/19.5;
+                background: #000;
+                border-radius: 30px;
+                padding: 8px;
                 box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
                 transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
             }
-            .app-phones .ph:nth-child(1) { transform: rotate(-6deg) translateY(18px); }
-            .app-phones .ph:nth-child(3) { transform: rotate(6deg) translateY(18px); }
-            .app-phones .ph:hover { transform: rotate(0) translateY(-10px) scale(1.04); z-index: 3; }
-            .app-phones .ph img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; display: block; }
-            .app-cap { text-align: center; margin-top: 44px; }
-            .app-cap .serif { color: var(--orange); font-size: clamp(22px, 2.6vw, 32px); }
+            .app-phones .ph:nth-child(1) {
+                transform: rotate(-6deg) translateY(18px);
+            }
+            .app-phones .ph:nth-child(3) {
+                transform: rotate(6deg) translateY(18px);
+            }
+            .app-phones .ph:hover {
+                transform: rotate(0) translateY(-10px) scale(1.04);
+                z-index: 3;
+            }
+            .app-phones .ph img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 24px;
+                display: block;
+            }
+            .app-cap {
+                text-align: center;
+                margin-top: 44px;
+            }
+            .app-cap .serif {
+                color: var(--orange);
+                font-size: clamp(22px, 2.6vw, 32px);
+            }
 
-            .bfoot.dark { color: rgba(244, 239, 233, 0.5); border-color: rgba(244, 239, 233, 0.15); }
+            .bfoot.dark {
+                color: rgba(244, 239, 233, 0.5);
+                border-color: rgba(244, 239, 233, 0.15);
+            }
 
             footer {
-                padding: 48px 5vw; border-top: 1px solid var(--line);
-                display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px;
+                padding: 48px 5vw;
+                border-top: 1px solid var(--line);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 18px;
             }
-            footer .mono { font-size: 12px; color: var(--ink-soft); }
+            footer .mono {
+                font-size: 12px;
+                color: var(--ink-soft);
+            }
 
             @media (max-width: 860px) {
-                .camp-grid { grid-template-columns: 1fr; gap: 90px; }
-                .shop-modal { padding: 10px 10px 26px; }
-                .sm-box { grid-template-columns: 1fr; max-height: 86dvh; }
-                .sm-main { cursor: default; height: 34dvh; }
-                .sm-gallery { padding: 14px 14px 12px; }
-                .sm-info { padding: 20px 20px 26px; }
-                .sm-hint { display: none; }
-                .sm-close {
-                    top: 10px; right: 10px; width: 42px; height: 42px;
-                    background: rgba(26, 22, 20, 0.82); box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+                .camp-grid {
+                    grid-template-columns: 1fr;
+                    gap: 90px;
                 }
-                .ck-form { padding: 26px 20px; }
-                .app-phones { flex-wrap: wrap; gap: 20px; }
-                .app-phones .ph { width: 44%; }
+                .shop-modal {
+                    padding: 10px 10px 26px;
+                }
+                .sm-box {
+                    grid-template-columns: 1fr;
+                    max-height: 86dvh;
+                }
+                .sm-main {
+                    cursor: default;
+                    height: 34dvh;
+                }
+                .sm-gallery {
+                    padding: 14px 14px 12px;
+                }
+                .sm-info {
+                    padding: 20px 20px 26px;
+                }
+                .sm-hint {
+                    display: none;
+                }
+                .sm-close {
+                    top: 10px;
+                    right: 10px;
+                    width: 42px;
+                    height: 42px;
+                    background: rgba(26, 22, 20, 0.82);
+                    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+                }
+                .ck-form {
+                    padding: 26px 20px;
+                }
+                .app-phones {
+                    flex-wrap: wrap;
+                    gap: 20px;
+                }
+                .app-phones .ph {
+                    width: 44%;
+                }
             }
         </style>
     </head>
@@ -569,12 +1371,11 @@
         <!-- HERO -->
         <header class="hero">
             <div class="eyebrow">TAGGED · MOVIMENTO · VOL. I</div>
-            <h1>
-                Vista a<span class="serif">mudança.</span>
-            </h1>
+            <h1>Vista a<span class="serif">mudança.</span></h1>
             <p>
-                Todo movimento tem símbolos. A camiseta vira <strong>uniforme</strong>,
-                o adesivo vira <strong>bandeira</strong>, o manifesto vira
+                Todo movimento tem símbolos. A camiseta vira
+                <strong>uniforme</strong>, o adesivo vira
+                <strong>bandeira</strong>, o manifesto vira
                 <strong>biblioteca</strong>. Cada produto financia a plataforma
                 que o mercado disse que ninguém queria — e marca quem faz parte.
             </p>
@@ -586,18 +1387,38 @@
 
         <div class="marquee">
             <div class="marquee-track">
-                <span>✦ Vista ✦ Cole ✦ Marque ✦ Poste ✦ Pertença ✦ O adesivo sai, a marca ficou ✦ Quem tem, pertence ✦ Vista ✦ Cole ✦ Marque ✦ Poste ✦ Pertença ✦ O adesivo sai, a marca ficou ✦ Quem tem, pertence ✦&nbsp;</span>
+                <span
+                    >✦ Vista ✦ Cole ✦ Marque ✦ Poste ✦ Pertença ✦ O adesivo sai,
+                    a marca ficou ✦ Quem tem, pertence ✦ Vista ✦ Cole ✦ Marque ✦
+                    Poste ✦ Pertença ✦ O adesivo sai, a marca ficou ✦ Quem tem,
+                    pertence ✦&nbsp;</span
+                >
             </div>
         </div>
 
         <!-- PARALLAX ROSTOS (colunas vivas, igual à landing) -->
         <section class="parallax-quote">
             <div class="pq-cols" id="pqCols" aria-hidden="true">
-                <div class="pq-col" data-dir="up"><div class="pq-col-layer"></div><div class="pq-col-layer"></div></div>
-                <div class="pq-col" data-dir="down"><div class="pq-col-layer"></div><div class="pq-col-layer"></div></div>
-                <div class="pq-col" data-dir="up"><div class="pq-col-layer"></div><div class="pq-col-layer"></div></div>
-                <div class="pq-col" data-dir="down"><div class="pq-col-layer"></div><div class="pq-col-layer"></div></div>
-                <div class="pq-col" data-dir="up"><div class="pq-col-layer"></div><div class="pq-col-layer"></div></div>
+                <div class="pq-col" data-dir="up">
+                    <div class="pq-col-layer"></div>
+                    <div class="pq-col-layer"></div>
+                </div>
+                <div class="pq-col" data-dir="down">
+                    <div class="pq-col-layer"></div>
+                    <div class="pq-col-layer"></div>
+                </div>
+                <div class="pq-col" data-dir="up">
+                    <div class="pq-col-layer"></div>
+                    <div class="pq-col-layer"></div>
+                </div>
+                <div class="pq-col" data-dir="down">
+                    <div class="pq-col-layer"></div>
+                    <div class="pq-col-layer"></div>
+                </div>
+                <div class="pq-col" data-dir="up">
+                    <div class="pq-col-layer"></div>
+                    <div class="pq-col-layer"></div>
+                </div>
             </div>
             <div class="pq-inner">
                 <div class="pq-num">● MOVIMENTO · TAGGED</div>
@@ -612,14 +1433,19 @@
         <!-- BOARD 01 — A CAMPANHA -->
         <section class="section" id="campanha">
             <div class="bhead reveal">
-                <div><span class="dot">●</span>BOARD 01 OF 03 — A CAMPANHA FÍSICA</div>
+                <div>
+                    <span class="dot">●</span>BOARD 01 OF 03 — A CAMPANHA FÍSICA
+                </div>
                 <div>ADESIVO REMOVÍVEL · SINALIZAÇÃO CIDADÃ</div>
             </div>
             <div class="reveal">
-                <h2 class="section-title">Viu o buraco?<br /><em>cola. taggeia. muda.</em></h2>
+                <h2 class="section-title">
+                    Viu o PROBLEMA?<br /><em>cola. taggeia. muda.</em>
+                </h2>
                 <p class="section-sub">
                     Todo dia você passa pelo mesmo buraco, pela mesma lâmpada
-                    queimada, pelo mesmo descaso. E engole. <strong>Chega.</strong>
+                    queimada, pelo mesmo descaso. E engole.
+                    <strong>Chega.</strong>
                     O Adesivo Tagged é a tag do mundo real: cola no problema,
                     vira QR, vira denúncia, vira pilha de assinatura na calçada.
                     Ninguém mais finge que não viu.
@@ -627,57 +1453,82 @@
             </div>
 
             <div class="pull-quote reveal">
-                <div class="q1">Tem rede social com<br />filtro de cachorro.</div>
-                <div class="q2">a Tagged tem adesivo que<br />vira petição na calçada.</div>
+                <div class="q1">
+                    Tem rede social com<br />filtro de cachorro.
+                </div>
+                <div class="q2">
+                    a Tagged tem adesivo que<br />vira petição na calçada.
+                </div>
                 <div class="q-rule">MOVIMENTO TAGGED</div>
             </div>
 
             <div class="steps-grid">
                 <div class="step-card reveal">
-                    <img src="img/adesivo-torre-dupla.jpg" alt="Dupla de adesivos Tagged: TAGGED. e FAÇA ALGO. com QR code" loading="lazy" />
+                    <img
+                        src="img/adesivo-torre-dupla.jpg"
+                        alt="Dupla de adesivos Tagged: TAGGED. e FAÇA ALGO. com QR code"
+                        loading="lazy"
+                    />
                     <div class="sc-body">
                         <div class="sc-num">01</div>
                         <h3>Cola no <em>problema.</em></h3>
                         <p>
-                            Buraco, vazamento, abandono — <strong>cola em cima.</strong>
-                            Adesivo removível, sem dano, sem pichação. A gente marca
-                            o descaso, não o patrimônio.
+                            Buraco, vazamento, abandono —
+                            <strong>cola em cima.</strong>
+                            Adesivo removível, sem dano, sem pichação. A gente
+                            marca o descaso, não o patrimônio.
                         </p>
                     </div>
                 </div>
                 <div class="step-card reveal">
-                    <img src="../assets/scr-20.jpg" alt="Criando a tag no app Tagged" loading="lazy" />
+                    <img
+                        src="../assets/scr-20.jpg"
+                        alt="Criando a tag no app Tagged"
+                        loading="lazy"
+                    />
                     <div class="sc-body">
                         <div class="sc-num">02</div>
                         <h3>Taggeia no <em>app.</em></h3>
                         <p>
-                            Abre a Tagged, posta a denúncia com foto e localização,
-                            escaneia <strong>seu próprio adesivo</strong> e vincula.
-                            Pronto: aquele QR agora aponta pra sua causa. Pra sempre.
+                            Abre a Tagged, posta a denúncia com foto e
+                            localização, escaneia
+                            <strong>seu próprio adesivo</strong> e vincula.
+                            Pronto: aquele QR agora aponta pra sua causa. Pra
+                            sempre.
                         </p>
                     </div>
                 </div>
                 <div class="step-card reveal">
-                    <img src="img/adesivo-muro-scan.jpg" alt="Pessoa escaneando o QR do adesivo no muro" loading="lazy" />
+                    <img
+                        src="img/adesivo-muro-scan.jpg"
+                        alt="Pessoa escaneando o QR do adesivo no muro"
+                        loading="lazy"
+                    />
                     <div class="sc-body">
                         <div class="sc-num">03</div>
                         <h3>Quem passa, <em>escaneia.</em></h3>
                         <p>
-                            O vizinho aponta a câmera e cai <strong>direto na denúncia</strong>.
-                            Assina em dois toques. Não tem o app? A página oferece.
-                            Cada adesivo na rua é uma porta de entrada.
+                            O vizinho aponta a câmera e cai
+                            <strong>direto na denúncia</strong>. Assina em dois
+                            toques. Não tem o app? A página oferece. Cada
+                            adesivo na rua é uma porta de entrada.
                         </p>
                     </div>
                 </div>
                 <div class="step-card reveal">
-                    <img src="img/campanha-escola.jpg" alt="Portão de escola coberto de adesivos durante greve, estudantes de camiseta Tagged" loading="lazy" />
+                    <img
+                        src="img/campanha-escola.jpg"
+                        alt="Portão de escola coberto de adesivos durante greve, estudantes de camiseta Tagged"
+                        loading="lazy"
+                    />
                     <div class="sc-body">
                         <div class="sc-num">04</div>
                         <h3>A pilha <em>cresce.</em></h3>
                         <p>
                             Quem assina cola o seu do lado. A parede de laranja
-                            vira <strong>petição visível a olho nu</strong> — e quando
-                            bate a massa crítica, vira documento oficial no app.
+                            vira <strong>petição visível a olho nu</strong> — e
+                            quando bate a massa crítica, vira documento oficial
+                            no app.
                         </p>
                     </div>
                 </div>
@@ -687,16 +1538,22 @@
 
             <div class="camp-stamp reveal">
                 <span class="selo-txt">ESTE LUGAR TEM TAG.</span>
-                <div class="camp-slogan sub">"O adesivo sai. A marca ficou."</div>
+                <div class="camp-slogan sub">
+                    "O adesivo sai. A marca ficou."
+                </div>
             </div>
 
-            <div class="camp-note reveal" style="max-width: 720px; margin-left: auto; margin-right: auto;">
+            <div
+                class="camp-note reveal"
+                style="max-width: 720px; margin-left: auto; margin-right: auto"
+            >
                 Sinalização cidadã, não vandalismo: adesivo removível, sem dano,
-                colado no problema — nunca em patrimônio, placas oficiais ou veículos.
-                Marcamos o descaso, respeitamos a cidade.
+                colado no problema — nunca em patrimônio, placas oficiais ou
+                veículos. Marcamos o descaso, respeitamos a cidade.
             </div>
             <div class="bfoot">
-                <span>● 01 · A CAMPANHA</span><span>APPTAGGED.COM</span><span>01 / 03</span>
+                <span>● 01 · A CAMPANHA</span><span>APPTAGGED.COM</span
+                ><span>01 / 03</span>
             </div>
         </section>
 
@@ -708,41 +1565,76 @@
             </div>
             <h2 class="section-title reveal">A coleção <em>fundadora.</em></h2>
             <p class="section-sub reveal">
-                Clique num produto pra ver de perto — com lupa, como tem que ser.
-                Cada peça financia a Tagged e identifica o clã.
+                Clique num produto pra ver de perto — com lupa, como tem que
+                ser. Cada peça financia a Tagged e identifica o clã.
             </p>
             <div class="products" id="shopGrid"></div>
             <div class="bfoot">
-                <span>● 02 · A VITRINE</span><span>QUEM TEM, PERTENCE</span><span>02 / 03</span>
+                <span>● 02 · A VITRINE</span><span>QUEM TEM, PERTENCE</span
+                ><span>02 / 03</span>
             </div>
         </section>
 
         <!-- BOARD 03 — O APP É O MOTIVO -->
         <section class="app-strip">
             <div class="section">
-                <div class="bhead reveal" style="color: rgba(244,239,233,0.5)">
-                    <div><span class="dot">●</span>BOARD 03 OF 03 — O MOTIVO DE TUDO</div>
+                <div
+                    class="bhead reveal"
+                    style="color: rgba(244, 239, 233, 0.5)"
+                >
+                    <div>
+                        <span class="dot">●</span>BOARD 03 OF 03 — O MOTIVO DE
+                        TUDO
+                    </div>
                     <div>TODA RENDA FINANCIA A PLATAFORMA</div>
                 </div>
-                <h2 class="section-title reveal">A camiseta é o uniforme.<br /><em>o app é a luta.</em></h2>
+                <h2 class="section-title reveal">
+                    A camiseta é o uniforme.<br /><em>o app é a luta.</em>
+                </h2>
                 <p class="section-sub reveal">
-                    Nada disso existe pra vender caneca: existe pra manter no ar a
-                    primeira RealTech do mundo — independente, sem investidor,
+                    Nada disso existe pra vender caneca: existe pra manter no ar
+                    a primeira RealTech do mundo — independente, sem investidor,
                     do jeito que o clã construiu.
                 </p>
                 <div class="app-phones">
-                    <div class="ph reveal"><img src="../assets/scr-17.jpg" alt="Mapa do Brasil com tags" loading="lazy" /></div>
-                    <div class="ph reveal"><img src="../assets/scr-30.jpg" alt="Denúncia anônima no app" loading="lazy" /></div>
-                    <div class="ph reveal"><img src="../assets/scr-32.jpg" alt="Celebração no feed" loading="lazy" /></div>
+                    <div class="ph reveal">
+                        <img
+                            src="../assets/scr-17.jpg"
+                            alt="Mapa do Brasil com tags"
+                            loading="lazy"
+                        />
+                    </div>
+                    <div class="ph reveal">
+                        <img
+                            src="../assets/scr-30.jpg"
+                            alt="Denúncia anônima no app"
+                            loading="lazy"
+                        />
+                    </div>
+                    <div class="ph reveal">
+                        <img
+                            src="../assets/scr-32.jpg"
+                            alt="Celebração no feed"
+                            loading="lazy"
+                        />
+                    </div>
                 </div>
                 <div class="app-cap reveal">
-                    <div class="serif">use o que você veste. vista o que você usa.</div>
+                    <div class="serif">
+                        use o que você veste. vista o que você usa.
+                    </div>
                     <div style="margin-top: 26px">
-                        <a class="btn-dl" href="../#baixar" style="background: var(--orange)">Baixar o app</a>
+                        <a
+                            class="btn-dl"
+                            href="../#baixar"
+                            style="background: var(--orange)"
+                            >Baixar o app</a
+                        >
                     </div>
                 </div>
                 <div class="bfoot dark">
-                    <span>● 03 · O MOTIVO</span><span>COGITO · TESTIMONIUM · AGO</span><span>03 / 03</span>
+                    <span>● 03 · O MOTIVO</span
+                    ><span>COGITO · TESTIMONIUM · AGO</span><span>03 / 03</span>
                 </div>
             </div>
         </section>
@@ -766,7 +1658,9 @@
                     <div class="sm-frase" id="smFrase"></div>
                     <p id="smDesc"></p>
                     <div class="sm-preco" id="smPreco"></div>
-                    <a class="btn" id="smCta" href="#">Avise-me quando lançar</a>
+                    <a class="btn" id="smCta" href="#"
+                        >Avise-me quando lançar</a
+                    >
                 </div>
             </div>
         </div>
@@ -782,67 +1676,220 @@
                     method="POST"
                     enctype="multipart/form-data"
                 >
-                    <h3 class="ck-title">Garanta o seu <em id="ckProduto">Book do Manifesto</em></h3>
+                    <h3 class="ck-title">
+                        Garanta o seu <em id="ckProduto">Book do Manifesto</em>
+                    </h3>
 
                     <div class="ck-sec">
-                        <div class="ck-label" id="ckLabelVar">1 · ESCOLHA A VERSÃO</div>
+                        <div class="ck-label" id="ckLabelVar">
+                            1 · ESCOLHA A VERSÃO
+                        </div>
                         <div id="ckVariantes"></div>
                     </div>
 
                     <div class="ck-sec">
                         <div class="ck-label">2 · SEUS DADOS</div>
-                        <input class="ck-in" type="text" name="nome" id="ckNome" placeholder="Nome completo *" required />
-                        <input class="ck-in" type="email" name="email" id="ckEmail" placeholder="Email (você recebe as atualizações do pedido) *" required />
-                        <input class="ck-in" type="text" name="arroba_tagged" placeholder="@seu_user na Tagged (a gente agradece por lá 🎯)" />
+                        <input
+                            class="ck-in"
+                            type="text"
+                            name="nome"
+                            id="ckNome"
+                            placeholder="Nome completo *"
+                            required
+                        />
+                        <input
+                            class="ck-in"
+                            type="email"
+                            name="email"
+                            id="ckEmail"
+                            placeholder="Email (você recebe as atualizações do pedido) *"
+                            required
+                        />
+                        <input
+                            class="ck-in"
+                            type="text"
+                            name="arroba_tagged"
+                            placeholder="@seu_user na Tagged (a gente agradece por lá 🎯)"
+                        />
                         <div id="ckEndereco" style="display: none">
                             <div class="ck-row">
-                                <input class="ck-in" type="text" name="cep" id="ckCep" placeholder="CEP *" maxlength="9" inputmode="numeric" />
-                                <input class="ck-in" type="text" name="cidade_uf" id="ckCidadeUf" placeholder="Cidade / UF" readonly />
+                                <input
+                                    class="ck-in"
+                                    type="text"
+                                    name="cep"
+                                    id="ckCep"
+                                    placeholder="CEP *"
+                                    maxlength="9"
+                                    inputmode="numeric"
+                                />
+                                <input
+                                    class="ck-in"
+                                    type="text"
+                                    name="cidade_uf"
+                                    id="ckCidadeUf"
+                                    placeholder="Cidade / UF"
+                                    readonly
+                                />
                             </div>
-                            <input class="ck-in" type="text" name="rua" id="ckRua" placeholder="Rua (preenchida pelo CEP)" />
+                            <input
+                                class="ck-in"
+                                type="text"
+                                name="rua"
+                                id="ckRua"
+                                placeholder="Rua (preenchida pelo CEP)"
+                            />
                             <div class="ck-row">
-                                <input class="ck-in" type="text" name="numero" id="ckNumero" placeholder="Número *" />
-                                <input class="ck-in" type="text" name="complemento" placeholder="Complemento" />
+                                <input
+                                    class="ck-in"
+                                    type="text"
+                                    name="numero"
+                                    id="ckNumero"
+                                    placeholder="Número *"
+                                />
+                                <input
+                                    class="ck-in"
+                                    type="text"
+                                    name="complemento"
+                                    placeholder="Complemento"
+                                />
                             </div>
-                            <input class="ck-in" type="text" name="bairro" id="ckBairro" placeholder="Bairro" />
-                            <div class="ck-frete" id="ckFreteInfo">📦 Frete GRÁTIS pra São Paulo · demais estados: calculado pelo CEP e somado no PIX.</div>
+                            <input
+                                class="ck-in"
+                                type="text"
+                                name="bairro"
+                                id="ckBairro"
+                                placeholder="Bairro"
+                            />
+                            <div class="ck-frete" id="ckFreteInfo">
+                                📦 Frete GRÁTIS pra São Paulo · demais estados:
+                                calculado pelo CEP e somado no PIX.
+                            </div>
                         </div>
                     </div>
 
                     <div class="ck-sec">
                         <div class="ck-label">3 · PAGUE COM PIX</div>
-                        <button type="button" class="btn" id="ckGerarPix" style="width: 100%">Gerar PIX de <span id="ckValor">R$ 19,90</span></button>
-                        <div id="ckPixArea" style="display: none; text-align: center; margin-top: 16px">
+                        <button
+                            type="button"
+                            class="btn"
+                            id="ckGerarPix"
+                            style="width: 100%"
+                        >
+                            Gerar PIX de <span id="ckValor">R$ 19,90</span>
+                        </button>
+                        <div
+                            id="ckPixArea"
+                            style="
+                                display: none;
+                                text-align: center;
+                                margin-top: 16px;
+                            "
+                        >
                             <div id="ckQr" class="ck-qr"></div>
-                            <div class="ck-hint">Escaneie no app do seu banco, ou use o copia e cola:</div>
-                            <textarea class="ck-in" id="ckPixCode" readonly rows="3" style="font-size: 11px"></textarea>
-                            <button type="button" class="btn ghost2" id="ckCopiar">Copiar código PIX</button>
-                            <div class="ck-recebedor">Recebedor: Erling Sriubas Junior (Tagged) · Araras-SP</div>
+                            <div class="ck-hint">
+                                Escaneie no app do seu banco, ou use o copia e
+                                cola:
+                            </div>
+                            <textarea
+                                class="ck-in"
+                                id="ckPixCode"
+                                readonly
+                                rows="3"
+                                style="font-size: 11px"
+                            ></textarea>
+                            <button
+                                type="button"
+                                class="btn ghost2"
+                                id="ckCopiar"
+                            >
+                                Copiar código PIX
+                            </button>
+                            <div class="ck-recebedor">
+                                Recebedor: Erling Sriubas Junior (Tagged) ·
+                                Araras-SP
+                            </div>
                         </div>
                     </div>
 
-                    <div class="ck-sec" id="ckSecComprovante" style="display: none">
+                    <div
+                        class="ck-sec"
+                        id="ckSecComprovante"
+                        style="display: none"
+                    >
                         <div class="ck-label">4 · ANEXE O COMPROVANTE</div>
-                        <input class="ck-in" type="file" name="comprovante" id="ckComprovante" accept="image/*,.pdf" required />
-                        <div class="ck-hint">Print da tela de confirmação do PIX. No celular: toca e escolhe da galeria.</div>
-                        <button type="submit" class="btn" id="ckEnviar" style="width: 100%; margin-top: 14px; background: var(--teal)">
+                        <input
+                            class="ck-in"
+                            type="file"
+                            name="comprovante"
+                            id="ckComprovante"
+                            accept="image/*,.pdf"
+                            required
+                        />
+                        <div class="ck-hint">
+                            Print da tela de confirmação do PIX. No celular:
+                            toca e escolhe da galeria.
+                        </div>
+                        <button
+                            type="submit"
+                            class="btn"
+                            id="ckEnviar"
+                            style="
+                                width: 100%;
+                                margin-top: 14px;
+                                background: var(--teal);
+                            "
+                        >
                             ✓ Enviar pedido
                         </button>
                     </div>
 
                     <!-- campos ocultos que viajam no email -->
-                    <input type="hidden" name="_subject" id="ckSubject" value="🎯 PEDIDO — Book do Manifesto" />
+                    <input
+                        type="hidden"
+                        name="_subject"
+                        id="ckSubject"
+                        value="🎯 PEDIDO — Book do Manifesto"
+                    />
                     <input type="hidden" name="_template" value="table" />
                     <input type="hidden" name="_captcha" value="false" />
-                    <input type="hidden" name="_autoresponse" value="Pedido recebido, clã! 🎯 Estamos conferindo seu comprovante PIX — em breve você recebe a confirmação e as próximas atualizações por este email. Cada tag tem peso. Obrigado por fazer parte do movimento. — Tagged · apptagged.com" />
+                    <input
+                        type="hidden"
+                        name="_autoresponse"
+                        value="Pedido recebido, clã! 🎯 Estamos conferindo seu comprovante PIX — em breve você recebe a confirmação e as próximas atualizações por este email. Cada tag tem peso. Obrigado por fazer parte do movimento. — Tagged · apptagged.com"
+                    />
                     <input type="hidden" name="_next" id="ckNext" value="" />
-                    <input type="hidden" name="produto" id="hProduto" value="" />
+                    <input
+                        type="hidden"
+                        name="produto"
+                        id="hProduto"
+                        value=""
+                    />
                     <input type="hidden" name="versao" id="hVersao" value="" />
                     <input type="hidden" name="valor" id="hValor" value="" />
-                    <input type="hidden" name="frete_estimado_para_voce" id="hFrete" value="" />
-                    <input type="hidden" name="pix_copia_cola_gerado" id="hPix" value="" />
-                    <input type="hidden" name="RESPONDER_confirmar_pagamento" id="hMailConfirma" value="" />
-                    <input type="hidden" name="RESPONDER_avisar_envio" id="hMailEnvio" value="" />
+                    <input
+                        type="hidden"
+                        name="frete_estimado_para_voce"
+                        id="hFrete"
+                        value=""
+                    />
+                    <input
+                        type="hidden"
+                        name="pix_copia_cola_gerado"
+                        id="hPix"
+                        value=""
+                    />
+                    <input
+                        type="hidden"
+                        name="RESPONDER_confirmar_pagamento"
+                        id="hMailConfirma"
+                        value=""
+                    />
+                    <input
+                        type="hidden"
+                        name="RESPONDER_avisar_envio"
+                        id="hMailEnvio"
+                        value=""
+                    />
                 </form>
             </div>
         </div>
@@ -850,12 +1897,34 @@
         <div class="ck-sucesso" id="ckSucesso">
             <div class="ck-sucesso-box">
                 <div style="font-size: 44px">🎯</div>
-                <h3 class="anton" id="ckSucTitulo" style="font-size: 28px; margin: 10px 0">Pedido enviado!</h3>
-                <p id="ckSucMsg" style="color: var(--ink-soft); font-size: 14.5px; line-height: 1.7">
-                    Recebemos seu pedido e o comprovante. Confira seu email —
-                    a primeira confirmação já está chegando. Bem-vindo ao clã.
+                <h3
+                    class="anton"
+                    id="ckSucTitulo"
+                    style="font-size: 28px; margin: 10px 0"
+                >
+                    Pedido enviado!
+                </h3>
+                <p
+                    id="ckSucMsg"
+                    style="
+                        color: var(--ink-soft);
+                        font-size: 14.5px;
+                        line-height: 1.7;
+                    "
+                >
+                    Recebemos seu pedido e o comprovante. Confira seu email — a
+                    primeira confirmação já está chegando. Bem-vindo ao clã.
                 </p>
-                <button class="btn" onclick="document.getElementById('ckSucesso').style.display='none'" style="margin-top: 16px">Fechar</button>
+                <button
+                    class="btn"
+                    onclick="
+                        document.getElementById('ckSucesso').style.display =
+                            'none'
+                    "
+                    style="margin-top: 16px"
+                >
+                    Fechar
+                </button>
             </div>
         </div>
 
@@ -868,23 +1937,61 @@
                     action="https://formsubmit.co/contato@apptagged.com"
                     method="POST"
                 >
-                    <h3 class="ck-title">Me avisa do <em id="avProdutoNome">Kit do Clã</em></h3>
+                    <h3 class="ck-title">
+                        Me avisa do <em id="avProdutoNome">Kit do Clã</em>
+                    </h3>
                     <p class="ck-hint" style="margin-top: 10px">
-                        Entra pra lista e você é o primeiro a saber quando lançar —
-                        por email e, se deixar seu @, direto no app.
+                        Entra pra lista e você é o primeiro a saber quando
+                        lançar — por email e, se deixar seu @, direto no app.
                     </p>
                     <div class="ck-sec">
-                        <input class="ck-in" type="text" name="nome" placeholder="Seu nome" />
-                        <input class="ck-in" type="email" name="email" placeholder="Email *" required />
-                        <input class="ck-in" type="text" name="arroba_tagged" placeholder="@seu_user na Tagged (a gente agradece por lá 🎯)" />
+                        <input
+                            class="ck-in"
+                            type="text"
+                            name="nome"
+                            placeholder="Seu nome"
+                        />
+                        <input
+                            class="ck-in"
+                            type="email"
+                            name="email"
+                            placeholder="Email *"
+                            required
+                        />
+                        <input
+                            class="ck-in"
+                            type="text"
+                            name="arroba_tagged"
+                            placeholder="@seu_user na Tagged (a gente agradece por lá 🎯)"
+                        />
                     </div>
-                    <button type="submit" class="btn" style="width: 100%; background: var(--orange)">🔔 Quero ser avisado</button>
-                    <input type="hidden" name="_subject" id="avSubject" value="🔔 AVISE-ME — Kit do Clã" />
+                    <button
+                        type="submit"
+                        class="btn"
+                        style="width: 100%; background: var(--orange)"
+                    >
+                        🔔 Quero ser avisado
+                    </button>
+                    <input
+                        type="hidden"
+                        name="_subject"
+                        id="avSubject"
+                        value="🔔 AVISE-ME — Kit do Clã"
+                    />
                     <input type="hidden" name="_template" value="table" />
                     <input type="hidden" name="_captcha" value="false" />
-                    <input type="hidden" name="_autoresponse" value="Você entrou pra lista! 🎯 Assim que o produto lançar, você é o primeiro a saber — por email e, se deixou seu @, pela Tagged. Cada tag tem peso. — Tagged · apptagged.com" />
+                    <input
+                        type="hidden"
+                        name="_autoresponse"
+                        value="Você entrou pra lista! 🎯 Assim que o produto lançar, você é o primeiro a saber — por email e, se deixou seu @, pela Tagged. Cada tag tem peso. — Tagged · apptagged.com"
+                    />
                     <input type="hidden" name="_next" id="avNext" value="" />
-                    <input type="hidden" name="produto" id="avProduto" value="" />
+                    <input
+                        type="hidden"
+                        name="produto"
+                        id="avProduto"
+                        value=""
+                    />
                 </form>
             </div>
         </div>
@@ -898,46 +2005,199 @@
         <script>
             /* ── E-SHOP ── */
             const PRODUTOS = [
-                { id: "camiseta", chip: "VESTUÁRIO", nome: "Camiseta Use Tagged", frase: "o uniforme do clã.",
-                  desc: "Algodão premium em três cores de guerra: branca, preta e laranja. Frente com o alvo-T no peito; costas com CADA TAG TEM PESO. Quem vê, pergunta. Quem pergunta, baixa.",
-                  preco: "R$ 129,90 · BRANCA / PRETA / LARANJA · P–GG · FRETE GRÁTIS PRA SP",
-                  venda: { valor: 129.90, icone: "👕", escolhas: { "Cor": ["Branca","Preta","Laranja"], "Tamanho": ["P","M","G","GG"] } },
-                  imgs: ["img/camiseta-laranja-rua.jpg","img/camiseta-japones.jpg","img/camiseta-branca-rua-2.jpg","img/camiseta-preta-rua.jpg","img/camiseta-branca-buraco.jpg","img/camiseta-branca-rua.jpg","img/camiseta-laranja-frente.jpg","img/camiseta-preta-costas.jpg","img/camiseta-branca-costas.jpg","img/camiseta-laranja-cena.jpg","img/camiseta-preta-macro.jpg","img/camiseta-branca-frente.jpg"],
-                  caps: ["a laranja em campo, luz de fim de tarde — o clã não se esconde.","a laranja no bairro: o clã tem todas as caras do Brasil.","no centro da cidade, de FAÇA ALGO no peito e app na mão.","a preta no ponto de ônibus: o cotidiano é o campo de batalha.","ao lado do buraco que ninguém tapou. é por isso que ela existe.","a branca no calçadão — o clã circula.","alvo no peito e a ordem do dia: FAÇA ALGO.","preta com letras laranja: legível a um quarteirão.","o recado nas costas, sem meias palavras.","junto da placa de obra: sinalizando o que ninguém sinalizou.","de perto: o alvo estampado na trama do algodão.","a branca de frente — mira no que importa."] },
-                { id: "adesivos", chip: "CAMPANHA", nome: "Kit de Adesivos QR", frase: "“escaneie. assine. cole o seu.”",
-                  desc: "16 adesivos, 8 de cada modelo — régua (TAGGED. comprido com QR na ponta) e torre (vertical, pra poste, quina e batente). Vinil emborrachado à prova d'água, feito pra rua: aguenta sol, chuva e pé de gente. Cada QR se vincula à SUA denúncia no app — quem passa, escaneia e assina.",
-                  preco: "R$ 32,00 · 16 UNIDADES · VINIL À PROVA D'ÁGUA · FRETE GRÁTIS PRA SP",
-                  venda: { valor: 32.00, icone: "🎯", sub: "16 unidades · 8 réguas + 8 torres", escolhas: {} },
-                  imgs: ["img/adesivo-torre-dupla.jpg","img/adesivo-regua-real.jpg","img/adesivo-torre-real.jpg","img/adesivo-muro-scan.jpg"],
-                  caps: ["a dupla da torre: TAGGED. e FAÇA ALGO. — cole em par.","modelo régua: TAGGED. de comprido, QR na ponta — pro asfalto.","modelo torre: vertical, nascido pra poste, quina e batente.","em campo: colado no muro, escaneado, assinado. o ciclo completo."] },
-                { id: "camiseta-fem", chip: "VESTUÁRIO", nome: "Camiseta Feminina", frase: "o corte de quem lidera.",
-                  desc: "Corte feminino fitted: cintura acinturada, manga curta, gola mais aberta. Mesmo algodão premium, mesmas três cores de guerra, mesmo alvo no peito. Porque metade do clã sempre foi delas.",
-                  preco: "R$ 89,90 · BRANCA / PRETA / LARANJA · P–GG · FRETE GRÁTIS PRA SP",
-                  venda: { valor: 89.90, icone: "👕", escolhas: { "Cor": ["Branca","Preta","Laranja"], "Tamanho": ["P","M","G","GG"] } },
-                  imgs: ["img/camiseta-fem-laranja.jpg","img/camiseta-fem-preta.jpg","img/camiseta-fem-frente.jpg","img/camiseta-fem-branca-frente.jpg","img/camiseta-fem-laranja-frente.jpg","img/camiseta-fem-costas.jpg","img/camiseta-fem-macro.jpg"],
-                  caps: ["a laranja no ponto de ônibus — impossível não ver.","a preta em movimento no centro: FAÇA ALGO em campo.","a preta de frente: alvo no peito, FAÇA ALGO na ordem.","a branca — limpa, direta, impossível de ignorar.","a laranja de estúdio: a cor de guerra do clã.","as costas dizem tudo: CADA TAG TEM PESO. use Tagged.","de perto: o alvo-T cravado na trama do algodão."] },
-                { id: "kit", chip: "COLECIONÁVEL", nome: "Kit do Clã", frase: "tudo que o movimento veste.",
-                  desc: "Adesivos, bottons de metal, chaveiro alvo-T e a camiseta que você escolher — masculina ou feminina, na cor e tamanho do seu jeito. O enxoval completo de quem entra pro clã.",
-                  preco: "EM BREVE · KIT COMPLETO · MONTE O SEU",
-                  /* quando tiver o preço, é só descomentar e ajustar o valor:
+                {
+                    id: "camiseta",
+                    chip: "VESTUÁRIO",
+                    nome: "Camiseta Use Tagged",
+                    frase: "o uniforme do clã.",
+                    desc: "Algodão premium em três cores de guerra: branca, preta e laranja. Frente com o alvo-T no peito; costas com CADA TAG TEM PESO. Quem vê, pergunta. Quem pergunta, baixa.",
+                    preco: "R$ 129,90 · BRANCA / PRETA / LARANJA · P–GG · FRETE GRÁTIS PRA SP",
+                    venda: {
+                        valor: 129.9,
+                        icone: "👕",
+                        escolhas: {
+                            Cor: ["Branca", "Preta", "Laranja"],
+                            Tamanho: ["P", "M", "G", "GG"],
+                        },
+                    },
+                    imgs: [
+                        "img/camiseta-laranja-rua.jpg",
+                        "img/camiseta-japones.jpg",
+                        "img/camiseta-branca-rua-2.jpg",
+                        "img/camiseta-preta-rua.jpg",
+                        "img/camiseta-branca-buraco.jpg",
+                        "img/camiseta-branca-rua.jpg",
+                        "img/camiseta-laranja-frente.jpg",
+                        "img/camiseta-preta-costas.jpg",
+                        "img/camiseta-branca-costas.jpg",
+                        "img/camiseta-laranja-cena.jpg",
+                        "img/camiseta-preta-macro.jpg",
+                        "img/camiseta-branca-frente.jpg",
+                    ],
+                    caps: [
+                        "a laranja em campo, luz de fim de tarde — o clã não se esconde.",
+                        "a laranja no bairro: o clã tem todas as caras do Brasil.",
+                        "no centro da cidade, de FAÇA ALGO no peito e app na mão.",
+                        "a preta no ponto de ônibus: o cotidiano é o campo de batalha.",
+                        "ao lado do buraco que ninguém tapou. é por isso que ela existe.",
+                        "a branca no calçadão — o clã circula.",
+                        "alvo no peito e a ordem do dia: FAÇA ALGO.",
+                        "preta com letras laranja: legível a um quarteirão.",
+                        "o recado nas costas, sem meias palavras.",
+                        "junto da placa de obra: sinalizando o que ninguém sinalizou.",
+                        "de perto: o alvo estampado na trama do algodão.",
+                        "a branca de frente — mira no que importa.",
+                    ],
+                },
+                {
+                    id: "adesivos",
+                    chip: "CAMPANHA",
+                    nome: "Kit de Adesivos QR",
+                    frase: "“escaneie. assine. cole o seu.”",
+                    desc: "16 adesivos, 8 de cada modelo — régua (TAGGED. comprido com QR na ponta) e torre (vertical, pra poste, quina e batente). Vinil emborrachado à prova d'água, feito pra rua: aguenta sol, chuva e pé de gente. Cada QR se vincula à SUA denúncia no app — quem passa, escaneia e assina.",
+                    preco: "R$ 32,00 · 16 UNIDADES · VINIL À PROVA D'ÁGUA · FRETE GRÁTIS PRA SP",
+                    venda: {
+                        valor: 32.0,
+                        icone: "🎯",
+                        sub: "16 unidades · 8 réguas + 8 torres",
+                        escolhas: {},
+                    },
+                    imgs: [
+                        "img/adesivo-torre-dupla.jpg",
+                        "img/adesivo-regua-real.jpg",
+                        "img/adesivo-torre-real.jpg",
+                        "img/adesivo-muro-scan.jpg",
+                    ],
+                    caps: [
+                        "a dupla da torre: TAGGED. e FAÇA ALGO. — cole em par.",
+                        "modelo régua: TAGGED. de comprido, QR na ponta — pro asfalto.",
+                        "modelo torre: vertical, nascido pra poste, quina e batente.",
+                        "em campo: colado no muro, escaneado, assinado. o ciclo completo.",
+                    ],
+                },
+                {
+                    id: "camiseta-fem",
+                    chip: "VESTUÁRIO",
+                    nome: "Camiseta Feminina",
+                    frase: "o corte de quem lidera.",
+                    desc: "Corte feminino fitted: cintura acinturada, manga curta, gola mais aberta. Mesmo algodão premium, mesmas três cores de guerra, mesmo alvo no peito. Porque metade do clã sempre foi delas.",
+                    preco: "R$ 89,90 · BRANCA / PRETA / LARANJA · P–GG · FRETE GRÁTIS PRA SP",
+                    venda: {
+                        valor: 89.9,
+                        icone: "👕",
+                        escolhas: {
+                            Cor: ["Branca", "Preta", "Laranja"],
+                            Tamanho: ["P", "M", "G", "GG"],
+                        },
+                    },
+                    imgs: [
+                        "img/camiseta-fem-laranja.jpg",
+                        "img/camiseta-fem-preta.jpg",
+                        "img/camiseta-fem-frente.jpg",
+                        "img/camiseta-fem-branca-frente.jpg",
+                        "img/camiseta-fem-laranja-frente.jpg",
+                        "img/camiseta-fem-costas.jpg",
+                        "img/camiseta-fem-macro.jpg",
+                    ],
+                    caps: [
+                        "a laranja no ponto de ônibus — impossível não ver.",
+                        "a preta em movimento no centro: FAÇA ALGO em campo.",
+                        "a preta de frente: alvo no peito, FAÇA ALGO na ordem.",
+                        "a branca — limpa, direta, impossível de ignorar.",
+                        "a laranja de estúdio: a cor de guerra do clã.",
+                        "as costas dizem tudo: CADA TAG TEM PESO. use Tagged.",
+                        "de perto: o alvo-T cravado na trama do algodão.",
+                    ],
+                },
+                {
+                    id: "kit",
+                    chip: "COLECIONÁVEL",
+                    nome: "Kit do Clã",
+                    frase: "tudo que o movimento veste.",
+                    desc: "Adesivos, bottons de metal, chaveiro alvo-T e a camiseta que você escolher — masculina ou feminina, na cor e tamanho do seu jeito. O enxoval completo de quem entra pro clã.",
+                    preco: "EM BREVE · KIT COMPLETO · MONTE O SEU",
+                    /* quando tiver o preço, é só descomentar e ajustar o valor:
                   venda: { valor: 0.00, escolhas: { "Modelo da camiseta": ["Masculina","Feminina"], "Cor": ["Laranja","Preta","Branca"], "Tamanho": ["P","M","G","GG"] } }, */
-                  imgs: ["img/kit-laranja-5.jpg","img/kit-preto.jpg","img/kit-branco-3.jpg"],
-                  caps: ["o kit laranja completo: camiseta, adesivos, bottons e chaveiro.","kit preto: pro clã que trabalha à noite.","kit branco: a versão limpa do enxoval."] },
-                { id: "book", chip: "EDIÇÃO FUNDADORA", nome: "Book do Manifesto", frase: "cogito, testimonium, ago.",
-                  desc: "O Manifesto Tagged completo — o tratado que explica por que existir não basta e como apps viram movimentos. Em PDF pra ler agora em qualquer tela, ou impresso pra estante de quem age. Cada exemplar financia a plataforma independente que o mercado disse que ninguém queria.",
-                  preco: "PDF R$ 19,90 · IMPRESSO R$ 69,90 COM FRETE GRÁTIS PRA SP",
-                  compra: [
-                    { vid: "pdf", rotulo: "Versão PDF — entrega por email", valor: 19.90, endereco: false },
-                    { vid: "impresso", rotulo: "Versão Impressa — frete grátis pra SP", valor: 69.90, endereco: true }
-                  ],
-                  imgs: ["img/book-capa.jpg","img/book-mesa.jpg","img/book-aberto.jpg","img/book-leitura-cafe.jpg","img/book-leitura-rua.jpg","img/book-metro.jpg"],
-                  caps: ["a capa: o tratado que virou movimento.","na mesa de quem pensa antes do café esfriar.","frente e verso: com QR pro manifesto online.","leitura noturna, cidade acesa.","lido onde a mudança acontece: na rua.","no vagão lotado — o manifesto circula."] },
-                { id: "caneca", chip: "DIA A DIA", nome: "Caneca do Clã", frase: "cada gole tem peso.",
-                  desc: "Cerâmica em branca, preta ou laranja com o alvo-T. Pro café de quem acorda disposto a marcar o mundo antes do almoço — e pro escritório inteiro perguntar o que é a Tagged.",
-                  preco: "R$ 59,90 · BRANCA / PRETA / LARANJA · 325ML · FRETE GRÁTIS PRA SP",
-                  venda: { valor: 59.90, icone: "☕", escolhas: { "Cor": ["Branca","Preta","Laranja"] } },
-                  imgs: ["img/caneca-rua-mao.jpg","img/caneca-preta-mao.jpg","img/caneca-branca-asfalto.jpg","img/caneca-laranja-estudio.jpg","img/caneca-preta-estudio.jpg","img/caneca-branca-estudio.jpg","img/caneca-laranja-macro.jpg"],
-                  caps: ["na mão, na rua: o café acompanha a ronda.","a preta na mesa de madeira — reunião do clã.","a branca no asfalto, com o porta-copos alvo.","a laranja de estúdio: 325ml de disposição.","a preta: café forte, causa forte.","a branca: o primeiro gole do dia tem peso.","de perto: cerâmica e mira."] },
+                    imgs: [
+                        "img/kit-laranja-5.jpg",
+                        "img/kit-preto.jpg",
+                        "img/kit-branco-3.jpg",
+                    ],
+                    caps: [
+                        "o kit laranja completo: camiseta, adesivos, bottons e chaveiro.",
+                        "kit preto: pro clã que trabalha à noite.",
+                        "kit branco: a versão limpa do enxoval.",
+                    ],
+                },
+                {
+                    id: "book",
+                    chip: "EDIÇÃO FUNDADORA",
+                    nome: "Book do Manifesto",
+                    frase: "cogito, testimonium, ago.",
+                    desc: "O Manifesto Tagged completo — o tratado que explica por que existir não basta e como apps viram movimentos. Em PDF pra ler agora em qualquer tela, ou impresso pra estante de quem age. Cada exemplar financia a plataforma independente que o mercado disse que ninguém queria.",
+                    preco: "PDF R$ 19,90 · IMPRESSO R$ 69,90 COM FRETE GRÁTIS PRA SP",
+                    compra: [
+                        {
+                            vid: "pdf",
+                            rotulo: "Versão PDF — entrega por email",
+                            valor: 19.9,
+                            endereco: false,
+                        },
+                        {
+                            vid: "impresso",
+                            rotulo: "Versão Impressa — frete grátis pra SP",
+                            valor: 69.9,
+                            endereco: true,
+                        },
+                    ],
+                    imgs: [
+                        "img/book-capa.jpg",
+                        "img/book-mesa.jpg",
+                        "img/book-aberto.jpg",
+                        "img/book-leitura-cafe.jpg",
+                        "img/book-leitura-rua.jpg",
+                        "img/book-metro.jpg",
+                    ],
+                    caps: [
+                        "a capa: o tratado que virou movimento.",
+                        "na mesa de quem pensa antes do café esfriar.",
+                        "frente e verso: com QR pro manifesto online.",
+                        "leitura noturna, cidade acesa.",
+                        "lido onde a mudança acontece: na rua.",
+                        "no vagão lotado — o manifesto circula.",
+                    ],
+                },
+                {
+                    id: "caneca",
+                    chip: "DIA A DIA",
+                    nome: "Caneca do Clã",
+                    frase: "cada gole tem peso.",
+                    desc: "Cerâmica em branca, preta ou laranja com o alvo-T. Pro café de quem acorda disposto a marcar o mundo antes do almoço — e pro escritório inteiro perguntar o que é a Tagged.",
+                    preco: "R$ 59,90 · BRANCA / PRETA / LARANJA · 325ML · FRETE GRÁTIS PRA SP",
+                    venda: {
+                        valor: 59.9,
+                        icone: "☕",
+                        escolhas: { Cor: ["Branca", "Preta", "Laranja"] },
+                    },
+                    imgs: [
+                        "img/caneca-rua-mao.jpg",
+                        "img/caneca-preta-mao.jpg",
+                        "img/caneca-branca-asfalto.jpg",
+                        "img/caneca-laranja-estudio.jpg",
+                        "img/caneca-preta-estudio.jpg",
+                        "img/caneca-branca-estudio.jpg",
+                        "img/caneca-laranja-macro.jpg",
+                    ],
+                    caps: [
+                        "na mão, na rua: o café acompanha a ronda.",
+                        "a preta na mesa de madeira — reunião do clã.",
+                        "a branca no asfalto, com o porta-copos alvo.",
+                        "a laranja de estúdio: 325ml de disposição.",
+                        "a preta: café forte, causa forte.",
+                        "a branca: o primeiro gole do dia tem peso.",
+                        "de perto: cerâmica e mira.",
+                    ],
+                },
                 /* ── PRODUTOS PAUSADOS (descomentar quando voltarem) ──
                 { id: "plaquinha", chip: "ÍCONE", nome: "Plaquinha Tagged", frase: "a claquete da denúncia.",
                   desc: "Segure na foto e assine a cena. A plaquinha aparece em cada tag como marca de quem faz — sem colar nada, sem tocar em nada. Plástico rígido, cabe no bolso da mochila.",
@@ -1013,7 +2273,9 @@
                         o.addEventListener("click", (e) => {
                             e.stopPropagation();
                             sel = v;
-                            ops.querySelectorAll(".preco-op").forEach((x) => x.classList.remove("on"));
+                            ops.querySelectorAll(".preco-op").forEach((x) =>
+                                x.classList.remove("on"),
+                            );
                             o.classList.add("on");
                             cta.textContent = `Comprar ${v.vid === "pdf" ? "o PDF" : "o Impresso"} · ${fmt(v.valor)}`;
                         });
@@ -1023,13 +2285,20 @@
                     cta.textContent = `Comprar ${sel.vid === "pdf" ? "o PDF" : "o Impresso"} · ${fmt(sel.valor)}`;
                     cta.href = "#";
                     cta.style.background = "var(--orange)";
-                    cta.onclick = (e) => { e.preventDefault(); closeProduct(); openCheckout(p, sel.vid); };
+                    cta.onclick = (e) => {
+                        e.preventDefault();
+                        closeProduct();
+                        openCheckout(p, sel.vid);
+                    };
                 } else if (p.venda) {
                     /* card de preço no padrão do Book */
                     precoEl.innerHTML = "";
                     precoEl.style.margin = "0";
-                    const preco = "R$ " + p.venda.valor.toFixed(2).replace(".", ",");
-                    const grupos = Object.keys(p.venda.escolhas).map((g) => g.toLowerCase()).join(" e ");
+                    const preco =
+                        "R$ " + p.venda.valor.toFixed(2).replace(".", ",");
+                    const grupos = Object.keys(p.venda.escolhas)
+                        .map((g) => g.toLowerCase())
+                        .join(" e ");
                     const ops = document.createElement("div");
                     ops.className = "preco-ops solo";
                     const o = document.createElement("div");
@@ -1039,18 +2308,29 @@
                         <div class="po-valor">${preco}</div>
                         <div class="po-sub">${p.venda.sub || (grupos ? "você escolhe " + grupos + " no pedido" : "")}</div>
                         <span class="po-badge">FRETE GRÁTIS PRA SP</span>`;
-                    o.addEventListener("click", () => { closeProduct(); openCheckout(p); });
+                    o.addEventListener("click", () => {
+                        closeProduct();
+                        openCheckout(p);
+                    });
                     ops.appendChild(o);
                     precoEl.appendChild(ops);
                     cta.textContent = `Comprar · ${preco}`;
                     cta.href = "#";
                     cta.style.background = "var(--orange)";
-                    cta.onclick = (e) => { e.preventDefault(); closeProduct(); openCheckout(p); };
+                    cta.onclick = (e) => {
+                        e.preventDefault();
+                        closeProduct();
+                        openCheckout(p);
+                    };
                 } else {
                     cta.textContent = "Avise-me quando lançar";
                     cta.style.background = "";
                     cta.href = "#";
-                    cta.onclick = (e) => { e.preventDefault(); closeProduct(); openAviso(p); };
+                    cta.onclick = (e) => {
+                        e.preventDefault();
+                        closeProduct();
+                        openAviso(p);
+                    };
                 }
                 const smCap = document.getElementById("smCap");
                 smThumbs.innerHTML = "";
@@ -1062,7 +2342,9 @@
                         e.stopPropagation();
                         smImg.src = src;
                         smCap.textContent = (p.caps && p.caps[k]) || p.frase;
-                        smThumbs.querySelectorAll("img").forEach((x) => x.classList.remove("on"));
+                        smThumbs
+                            .querySelectorAll("img")
+                            .forEach((x) => x.classList.remove("on"));
                         t.classList.add("on");
                     });
                     smThumbs.appendChild(t);
@@ -1076,8 +2358,12 @@
                 modal.classList.remove("open");
                 document.body.style.overflow = "";
             }
-            document.getElementById("smClose").addEventListener("click", closeProduct);
-            modal.addEventListener("click", (e) => { if (e.target === modal) closeProduct(); });
+            document
+                .getElementById("smClose")
+                .addEventListener("click", closeProduct);
+            modal.addEventListener("click", (e) => {
+                if (e.target === modal) closeProduct();
+            });
             document.addEventListener("keydown", (e) => {
                 if (e.key !== "Escape") return;
                 if (modal.classList.contains("open")) closeProduct();
@@ -1093,8 +2379,10 @@
             function openAviso(p) {
                 document.getElementById("avProdutoNome").textContent = p.nome;
                 document.getElementById("avProduto").value = p.nome;
-                document.getElementById("avSubject").value = "🔔 AVISE-ME — " + p.nome;
-                document.getElementById("avNext").value = location.origin + location.pathname + "?aviso=ok";
+                document.getElementById("avSubject").value =
+                    "🔔 AVISE-ME — " + p.nome;
+                document.getElementById("avNext").value =
+                    location.origin + location.pathname + "?aviso=ok";
                 avModal.classList.add("open");
                 document.body.style.overflow = "hidden";
             }
@@ -1102,8 +2390,12 @@
                 avModal.classList.remove("open");
                 document.body.style.overflow = "";
             }
-            document.getElementById("avClose").addEventListener("click", closeAviso);
-            avModal.addEventListener("click", (e) => { if (e.target === avModal) closeAviso(); });
+            document
+                .getElementById("avClose")
+                .addEventListener("click", closeAviso);
+            avModal.addEventListener("click", (e) => {
+                if (e.target === avModal) closeAviso();
+            });
 
             /* ── FIREBASE (ponte site ↔ app) ─────────────────────────────
                Quando você me passar o firebaseConfig do projeto do app
@@ -1128,20 +2420,31 @@
                 const rc = smMain.getBoundingClientRect();
                 const ri = smImg.getBoundingClientRect();
                 // fora da imagem (faixas de letterbox)? esconde
-                if (e.clientX < ri.left || e.clientX > ri.right || e.clientY < ri.top || e.clientY > ri.bottom) {
+                if (
+                    e.clientX < ri.left ||
+                    e.clientX > ri.right ||
+                    e.clientY < ri.top ||
+                    e.clientY > ri.bottom
+                ) {
                     smLens.style.display = "none";
                     return;
                 }
-                const ix = e.clientX - ri.left, iy = e.clientY - ri.top;   // posição na imagem
-                const cx = e.clientX - rc.left, cy = e.clientY - rc.top;   // posição no container
+                const ix = e.clientX - ri.left,
+                    iy = e.clientY - ri.top; // posição na imagem
+                const cx = e.clientX - rc.left,
+                    cy = e.clientY - rc.top; // posição no container
                 smLens.style.display = "block";
                 smLens.style.left = cx - 85 + "px";
                 smLens.style.top = cy - 85 + "px";
                 smLens.style.backgroundImage = `url(${smImg.src})`;
-                smLens.style.backgroundSize = ri.width * ZOOM + "px " + ri.height * ZOOM + "px";
-                smLens.style.backgroundPosition = -(ix * ZOOM - 85) + "px " + -(iy * ZOOM - 85) + "px";
+                smLens.style.backgroundSize =
+                    ri.width * ZOOM + "px " + ri.height * ZOOM + "px";
+                smLens.style.backgroundPosition =
+                    -(ix * ZOOM - 85) + "px " + -(iy * ZOOM - 85) + "px";
             });
-            smMain.addEventListener("mouseleave", () => { smLens.style.display = "none"; });
+            smMain.addEventListener("mouseleave", () => {
+                smLens.style.display = "none";
+            });
 
             /* ══════════ CHECKOUT PIX ══════════ */
             const PIX_CHAVE = "6de9c366-609b-4cc5-9dd4-9476ad0493d1";
@@ -1157,7 +2460,10 @@
                 for (let i = 0; i < str.length; i++) {
                     crc ^= str.charCodeAt(i) << 8;
                     for (let j = 0; j < 8; j++) {
-                        crc = crc & 0x8000 ? ((crc << 1) ^ 0x1021) & 0xffff : (crc << 1) & 0xffff;
+                        crc =
+                            crc & 0x8000
+                                ? ((crc << 1) ^ 0x1021) & 0xffff
+                                : (crc << 1) & 0xffff;
                     }
                 }
                 return crc.toString(16).toUpperCase().padStart(4, "0");
@@ -1181,23 +2487,52 @@
             /* frete por região, saindo de Araras-SP: SP grátis */
             const FRETE_REGIAO = {
                 SP: 0,
-                RJ: 20, MG: 20, ES: 20, PR: 20, SC: 20, RS: 20,
-                DF: 30, GO: 30, MS: 30, MT: 30,
-                BA: 30, SE: 30, AL: 30, PE: 30, PB: 30, RN: 30, CE: 30, PI: 30, MA: 30, TO: 30,
-                PA: 40, AP: 40, AM: 40, RR: 40, RO: 40, AC: 40,
+                RJ: 20,
+                MG: 20,
+                ES: 20,
+                PR: 20,
+                SC: 20,
+                RS: 20,
+                DF: 30,
+                GO: 30,
+                MS: 30,
+                MT: 30,
+                BA: 30,
+                SE: 30,
+                AL: 30,
+                PE: 30,
+                PB: 30,
+                RN: 30,
+                CE: 30,
+                PI: 30,
+                MA: 30,
+                TO: 30,
+                PA: 40,
+                AP: 40,
+                AM: 40,
+                RR: 40,
+                RO: 40,
+                AC: 40,
             };
 
-            let ckProd = null, ckVar = null, ckQtd = 1, ckEscolhas = {};
-            let ckUF = null, ckFreteVal = 0;
+            let ckProd = null,
+                ckVar = null,
+                ckQtd = 1,
+                ckEscolhas = {};
+            let ckUF = null,
+                ckFreteVal = 0;
             const ckModal = document.getElementById("ckModal");
             const fmtBRL = (v) => "R$ " + v.toFixed(2).replace(".", ",");
-            const totalPedido = () => ckVar.valor + (ckVar.endereco ? ckFreteVal : 0);
+            const totalPedido = () =>
+                ckVar.valor + (ckVar.endereco ? ckFreteVal : 0);
             function atualizaTotalUI() {
-                document.getElementById("ckValor").textContent = fmtBRL(totalPedido());
+                document.getElementById("ckValor").textContent =
+                    fmtBRL(totalPedido());
                 const info = document.getElementById("ckFreteInfo");
                 if (!ckVar.endereco) return;
                 if (ckUF === null) {
-                    info.textContent = "📦 Frete GRÁTIS pra São Paulo · demais estados: calculado pelo CEP e somado no PIX.";
+                    info.textContent =
+                        "📦 Frete GRÁTIS pra São Paulo · demais estados: calculado pelo CEP e somado no PIX.";
                 } else if (ckFreteVal === 0) {
                     info.textContent = "📦 São Paulo: FRETE GRÁTIS ✓";
                 } else {
@@ -1210,56 +2545,88 @@
                 document.getElementById("ckProduto").textContent = p.nome;
                 const vs = document.getElementById("ckVariantes");
                 vs.innerHTML = "";
-                document.getElementById("ckLabelVar").textContent = p.venda ? "1 · MONTE O SEU" : "1 · ESCOLHA A VERSÃO";
+                document.getElementById("ckLabelVar").textContent = p.venda
+                    ? "1 · MONTE O SEU"
+                    : "1 · ESCOLHA A VERSÃO";
                 if (p.compra) {
-                    const pre = vid ? p.compra.findIndex((v) => v.vid === vid) : 0;
+                    const pre = vid
+                        ? p.compra.findIndex((v) => v.vid === vid)
+                        : 0;
                     p.compra.forEach((v, i) => {
                         const el = document.createElement("label");
                         el.className = "ck-var" + (i === pre ? " on" : "");
                         el.innerHTML = `<input type="radio" name="vsel" value="${v.vid}" ${i === pre ? "checked" : ""} style="accent-color:var(--orange)"/><span>${v.rotulo}</span><b>R$ ${v.valor.toFixed(2).replace(".", ",")}</b>`;
-                        el.addEventListener("change", () => selecionaVar(v, el));
+                        el.addEventListener("change", () =>
+                            selecionaVar(v, el),
+                        );
                         vs.appendChild(el);
                     });
                     selecionaVar(p.compra[pre], vs.children[pre]);
                 } else if (p.venda) {
-                    ckEscolhas = {}; ckQtd = 1;
-                    Object.entries(p.venda.escolhas).forEach(([grupo, vals]) => {
-                        ckEscolhas[grupo] = vals[0];
-                        const lbl = document.createElement("div");
-                        lbl.className = "ck-sub"; lbl.textContent = grupo;
-                        vs.appendChild(lbl);
-                        const box = document.createElement("div");
-                        box.className = "ck-chips";
-                        vals.forEach((val, i) => {
-                            const ch = document.createElement("button");
-                            ch.type = "button";
-                            ch.className = "ck-chip" + (i === 0 ? " on" : "");
-                            ch.textContent = val;
-                            ch.onclick = () => {
-                                ckEscolhas[grupo] = val;
-                                box.querySelectorAll(".ck-chip").forEach((x) => x.classList.remove("on"));
-                                ch.classList.add("on");
-                                atualizaVenda();
-                            };
-                            box.appendChild(ch);
-                        });
-                        vs.appendChild(box);
-                    });
+                    ckEscolhas = {};
+                    ckQtd = 1;
+                    Object.entries(p.venda.escolhas).forEach(
+                        ([grupo, vals]) => {
+                            ckEscolhas[grupo] = vals[0];
+                            const lbl = document.createElement("div");
+                            lbl.className = "ck-sub";
+                            lbl.textContent = grupo;
+                            vs.appendChild(lbl);
+                            const box = document.createElement("div");
+                            box.className = "ck-chips";
+                            vals.forEach((val, i) => {
+                                const ch = document.createElement("button");
+                                ch.type = "button";
+                                ch.className =
+                                    "ck-chip" + (i === 0 ? " on" : "");
+                                ch.textContent = val;
+                                ch.onclick = () => {
+                                    ckEscolhas[grupo] = val;
+                                    box.querySelectorAll(".ck-chip").forEach(
+                                        (x) => x.classList.remove("on"),
+                                    );
+                                    ch.classList.add("on");
+                                    atualizaVenda();
+                                };
+                                box.appendChild(ch);
+                            });
+                            vs.appendChild(box);
+                        },
+                    );
                     const lblQ = document.createElement("div");
-                    lblQ.className = "ck-sub"; lblQ.textContent = "Quantidade";
+                    lblQ.className = "ck-sub";
+                    lblQ.textContent = "Quantidade";
                     vs.appendChild(lblQ);
                     const q = document.createElement("div");
                     q.className = "ck-qty";
-                    q.innerHTML = '<button type="button" class="q-btn" id="qMenos">−</button><b id="qNum">1</b><button type="button" class="q-btn" id="qMais">+</button><span class="ck-qty-tot" id="qTot"></span>';
+                    q.innerHTML =
+                        '<button type="button" class="q-btn" id="qMenos">−</button><b id="qNum">1</b><button type="button" class="q-btn" id="qMais">+</button><span class="ck-qty-tot" id="qTot"></span>';
                     vs.appendChild(q);
-                    q.querySelector("#qMenos").onclick = () => { if (ckQtd > 1) { ckQtd--; atualizaVenda(); } };
-                    q.querySelector("#qMais").onclick = () => { if (ckQtd < 10) { ckQtd++; atualizaVenda(); } };
-                    ckVar = { vid: p.id, rotulo: "", valor: p.venda.valor, endereco: true };
-                    document.getElementById("ckEndereco").style.display = "block";
+                    q.querySelector("#qMenos").onclick = () => {
+                        if (ckQtd > 1) {
+                            ckQtd--;
+                            atualizaVenda();
+                        }
+                    };
+                    q.querySelector("#qMais").onclick = () => {
+                        if (ckQtd < 10) {
+                            ckQtd++;
+                            atualizaVenda();
+                        }
+                    };
+                    ckVar = {
+                        vid: p.id,
+                        rotulo: "",
+                        valor: p.venda.valor,
+                        endereco: true,
+                    };
+                    document.getElementById("ckEndereco").style.display =
+                        "block";
                     atualizaVenda();
                 }
                 document.getElementById("ckPixArea").style.display = "none";
-                document.getElementById("ckSecComprovante").style.display = "none";
+                document.getElementById("ckSecComprovante").style.display =
+                    "none";
                 document.getElementById("ckNext").value =
                     location.origin + location.pathname + "?pedido=ok";
                 ckModal.classList.add("open");
@@ -1269,23 +2636,37 @@
                 const tot = ckProd.venda.valor * ckQtd;
                 document.getElementById("qNum").textContent = ckQtd;
                 document.getElementById("qTot").textContent =
-                    ckQtd > 1 ? ckQtd + " × " + fmtBRL(ckProd.venda.valor) + " = " + fmtBRL(tot) : "";
+                    ckQtd > 1
+                        ? ckQtd +
+                          " × " +
+                          fmtBRL(ckProd.venda.valor) +
+                          " = " +
+                          fmtBRL(tot)
+                        : "";
                 ckVar.valor = tot;
                 atualizaTotalUI();
-                const partes = Object.entries(ckEscolhas).map(([g, v]) => g + ": " + v);
+                const partes = Object.entries(ckEscolhas).map(
+                    ([g, v]) => g + ": " + v,
+                );
                 partes.push("Qtd: " + ckQtd);
                 ckVar.rotulo = partes.join(" · ");
                 document.getElementById("ckPixArea").style.display = "none";
-                document.getElementById("ckSecComprovante").style.display = "none";
+                document.getElementById("ckSecComprovante").style.display =
+                    "none";
             }
             function selecionaVar(v, el) {
                 ckVar = v;
-                document.querySelectorAll(".ck-var").forEach((x) => x.classList.remove("on"));
+                document
+                    .querySelectorAll(".ck-var")
+                    .forEach((x) => x.classList.remove("on"));
                 if (el) el.classList.add("on");
                 atualizaTotalUI();
-                document.getElementById("ckEndereco").style.display = v.endereco ? "block" : "none";
+                document.getElementById("ckEndereco").style.display = v.endereco
+                    ? "block"
+                    : "none";
                 document.getElementById("ckPixArea").style.display = "none";
-                document.getElementById("ckSecComprovante").style.display = "none";
+                document.getElementById("ckSecComprovante").style.display =
+                    "none";
             }
             document.getElementById("ckClose").addEventListener("click", () => {
                 ckModal.classList.remove("open");
@@ -1304,65 +2685,113 @@
                 const cep = ckCep.value.replace(/\D/g, "");
                 if (cep.length !== 8) return;
                 try {
-                    const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                    const r = await fetch(
+                        `https://viacep.com.br/ws/${cep}/json/`,
+                    );
                     const d = await r.json();
                     if (d.erro) return;
                     document.getElementById("ckRua").value = d.logradouro || "";
                     document.getElementById("ckBairro").value = d.bairro || "";
-                    document.getElementById("ckCidadeUf").value = (d.localidade || "") + " / " + (d.uf || "");
+                    document.getElementById("ckCidadeUf").value =
+                        (d.localidade || "") + " / " + (d.uf || "");
                     ckUF = d.uf || null;
                     ckFreteVal = ckUF in FRETE_REGIAO ? FRETE_REGIAO[ckUF] : 40;
-                    document.getElementById("hFrete").value = ckFreteVal === 0 ? "GRÁTIS (SP)" : fmtBRL(ckFreteVal) + " (" + ckUF + ")";
+                    document.getElementById("hFrete").value =
+                        ckFreteVal === 0
+                            ? "GRÁTIS (SP)"
+                            : fmtBRL(ckFreteVal) + " (" + ckUF + ")";
                     atualizaTotalUI();
                 } catch (e) {}
             }
             ckCep.addEventListener("blur", consultaCep);
 
             /* Gerar PIX */
-            document.getElementById("ckGerarPix").addEventListener("click", () => {
-                const nome = document.getElementById("ckNome").value.trim();
-                const email = document.getElementById("ckEmail").value.trim();
-                if (!nome || !email.includes("@")) {
-                    alert("Preencha seu nome e um email válido primeiro — é por ele que você recebe as atualizações do pedido.");
-                    return;
-                }
-                if (ckVar.endereco) {
-                    if (ckCep.value.replace(/\D/g, "").length !== 8 || !document.getElementById("ckNumero").value.trim()) {
-                        alert("Preencha o CEP e o número do endereço pra entrega.");
+            document
+                .getElementById("ckGerarPix")
+                .addEventListener("click", () => {
+                    const nome = document.getElementById("ckNome").value.trim();
+                    const email = document
+                        .getElementById("ckEmail")
+                        .value.trim();
+                    if (!nome || !email.includes("@")) {
+                        alert(
+                            "Preencha seu nome e um email válido primeiro — é por ele que você recebe as atualizações do pedido.",
+                        );
                         return;
                     }
-                }
-                const txid = "TAG" + Date.now().toString(36).toUpperCase();
-                const code = gerarPixCode(ckVar.valor, txid);
-                document.getElementById("ckPixCode").value = code;
-                document.getElementById("hPix").value = code;
-                const qrDiv = document.getElementById("ckQr");
-                qrDiv.innerHTML = "";
-                new QRCode(qrDiv, { text: code, width: 220, height: 220, correctLevel: QRCode.CorrectLevel.M });
-                document.getElementById("ckPixArea").style.display = "block";
-                document.getElementById("ckSecComprovante").style.display = "block";
+                    if (ckVar.endereco) {
+                        if (
+                            ckCep.value.replace(/\D/g, "").length !== 8 ||
+                            !document.getElementById("ckNumero").value.trim()
+                        ) {
+                            alert(
+                                "Preencha o CEP e o número do endereço pra entrega.",
+                            );
+                            return;
+                        }
+                    }
+                    const txid = "TAG" + Date.now().toString(36).toUpperCase();
+                    const code = gerarPixCode(ckVar.valor, txid);
+                    document.getElementById("ckPixCode").value = code;
+                    document.getElementById("hPix").value = code;
+                    const qrDiv = document.getElementById("ckQr");
+                    qrDiv.innerHTML = "";
+                    new QRCode(qrDiv, {
+                        text: code,
+                        width: 220,
+                        height: 220,
+                        correctLevel: QRCode.CorrectLevel.M,
+                    });
+                    document.getElementById("ckPixArea").style.display =
+                        "block";
+                    document.getElementById("ckSecComprovante").style.display =
+                        "block";
 
-                /* campos do email */
-                document.getElementById("hProduto").value = ckProd.nome;
-                document.getElementById("hVersao").value = ckVar.rotulo + " — R$ " + ckVar.valor.toFixed(2).replace(".", ",");
-                document.getElementById("hValor").value = "R$ " + ckVar.valor.toFixed(2).replace(".", ",");
-                document.getElementById("ckSubject").value = `🎯 PEDIDO ${txid} — ${ckProd.nome} (${ckVar.vid.toUpperCase()}) — ${nome}`;
-                const assuntoC = encodeURIComponent(`✅ Pagamento confirmado — seu ${ckProd.nome} [${txid}]`);
-                const corpoC = encodeURIComponent(`Olá, ${nome}!\n\nSeu pagamento foi confirmado. 🎯\n${ckVar.endereco ? "Seu pedido entra agora na fila de envio — em breve você recebe o código de rastreio." : "Seu PDF está anexado neste email. Boa leitura — e bem-vindo ao clã!"}\n\nCada tag tem peso.\nTagged · apptagged.com`);
-                document.getElementById("hMailConfirma").value = `mailto:${email}?subject=${assuntoC}&body=${corpoC}`;
-                const assuntoE = encodeURIComponent(`📦 Seu ${ckProd.nome} foi postado! [${txid}]`);
-                const corpoE = encodeURIComponent(`Olá, ${nome}!\n\nSeu pedido (${ckProd.nome}) foi postado hoje. 🎯\nCódigo de rastreio: COLE_AQUI\nAcompanhe em: https://rastreamento.correios.com.br\n\nFaça algo. Use Tagged.\napptagged.com`);
-                document.getElementById("hMailEnvio").value = `mailto:${email}?subject=${assuntoE}&body=${corpoE}`;
-            });
-
-            document.getElementById("ckCopiar").addEventListener("click", () => {
-                const t = document.getElementById("ckPixCode");
-                t.select();
-                navigator.clipboard.writeText(t.value).then(() => {
-                    document.getElementById("ckCopiar").textContent = "✓ Copiado!";
-                    setTimeout(() => (document.getElementById("ckCopiar").textContent = "Copiar código PIX"), 2000);
+                    /* campos do email */
+                    document.getElementById("hProduto").value = ckProd.nome;
+                    document.getElementById("hVersao").value =
+                        ckVar.rotulo +
+                        " — R$ " +
+                        ckVar.valor.toFixed(2).replace(".", ",");
+                    document.getElementById("hValor").value =
+                        "R$ " + ckVar.valor.toFixed(2).replace(".", ",");
+                    document.getElementById("ckSubject").value =
+                        `🎯 PEDIDO ${txid} — ${ckProd.nome} (${ckVar.vid.toUpperCase()}) — ${nome}`;
+                    const assuntoC = encodeURIComponent(
+                        `✅ Pagamento confirmado — seu ${ckProd.nome} [${txid}]`,
+                    );
+                    const corpoC = encodeURIComponent(
+                        `Olá, ${nome}!\n\nSeu pagamento foi confirmado. 🎯\n${ckVar.endereco ? "Seu pedido entra agora na fila de envio — em breve você recebe o código de rastreio." : "Seu PDF está anexado neste email. Boa leitura — e bem-vindo ao clã!"}\n\nCada tag tem peso.\nTagged · apptagged.com`,
+                    );
+                    document.getElementById("hMailConfirma").value =
+                        `mailto:${email}?subject=${assuntoC}&body=${corpoC}`;
+                    const assuntoE = encodeURIComponent(
+                        `📦 Seu ${ckProd.nome} foi postado! [${txid}]`,
+                    );
+                    const corpoE = encodeURIComponent(
+                        `Olá, ${nome}!\n\nSeu pedido (${ckProd.nome}) foi postado hoje. 🎯\nCódigo de rastreio: COLE_AQUI\nAcompanhe em: https://rastreamento.correios.com.br\n\nFaça algo. Use Tagged.\napptagged.com`,
+                    );
+                    document.getElementById("hMailEnvio").value =
+                        `mailto:${email}?subject=${assuntoE}&body=${corpoE}`;
                 });
-            });
+
+            document
+                .getElementById("ckCopiar")
+                .addEventListener("click", () => {
+                    const t = document.getElementById("ckPixCode");
+                    t.select();
+                    navigator.clipboard.writeText(t.value).then(() => {
+                        document.getElementById("ckCopiar").textContent =
+                            "✓ Copiado!";
+                        setTimeout(
+                            () =>
+                                (document.getElementById(
+                                    "ckCopiar",
+                                ).textContent = "Copiar código PIX"),
+                            2000,
+                        );
+                    });
+                });
 
             /* volta do FormSubmit com sucesso */
             const qs = new URLSearchParams(location.search);
@@ -1370,7 +2799,8 @@
                 document.getElementById("ckSucesso").style.display = "flex";
                 history.replaceState(null, "", location.pathname);
             } else if (qs.get("aviso") === "ok") {
-                document.getElementById("ckSucTitulo").textContent = "Você tá na lista!";
+                document.getElementById("ckSucTitulo").textContent =
+                    "Você tá na lista!";
                 document.getElementById("ckSucMsg").textContent =
                     "Quando lançar, você é o primeiro a saber — por email e, se deixou seu @, pela Tagged. Enquanto isso: faça algo.";
                 document.getElementById("ckSucesso").style.display = "flex";
@@ -1379,54 +2809,96 @@
 
             /* ── REVEAL ON SCROLL (padrão landing) ── */
             const obs = new IntersectionObserver(
-                (es) => es.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
-                { threshold: 0.12 }
+                (es) =>
+                    es.forEach((e) => {
+                        if (e.isIntersecting) e.target.classList.add("visible");
+                    }),
+                { threshold: 0.12 },
             );
-            document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
+            document
+                .querySelectorAll(".reveal")
+                .forEach((el) => obs.observe(el));
 
             /* ── COLUNAS VIVAS (mesmo motor da landing) ── */
             (function () {
                 var POOL = [];
-                for (var n = 1; n <= 15; n++) POOL.push("../assets/col-" + String(n).padStart(2, "0") + ".jpg");
+                for (var n = 1; n <= 15; n++)
+                    POOL.push(
+                        "../assets/col-" + String(n).padStart(2, "0") + ".jpg",
+                    );
                 var wrap = document.getElementById("pqCols");
                 if (!wrap) return;
                 var cols = wrap.querySelectorAll(".pq-col");
                 var N = cols.length;
-                var current = [5, 6, 7, 8, 9], active = [0,0,0,0,0], busy = [false,false,false,false,false], lastCol = -1;
-                var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                var current = [5, 6, 7, 8, 9],
+                    active = [0, 0, 0, 0, 0],
+                    busy = [false, false, false, false, false],
+                    lastCol = -1;
+                var reduce =
+                    window.matchMedia &&
+                    window.matchMedia("(prefers-reduced-motion: reduce)")
+                        .matches;
                 function setBg(layer, src, cb) {
                     var im = new Image();
-                    im.onload = function () { layer.style.backgroundImage = "url(" + src + ")"; if (cb) cb(); };
+                    im.onload = function () {
+                        layer.style.backgroundImage = "url(" + src + ")";
+                        if (cb) cb();
+                    };
                     im.src = src;
                 }
                 cols.forEach(function (col, c) {
                     var layers = col.querySelectorAll(".pq-col-layer");
-                    setBg(layers[0], POOL[current[c]], function () { layers[0].classList.add("on"); });
+                    setBg(layers[0], POOL[current[c]], function () {
+                        layers[0].classList.add("on");
+                    });
                 });
                 if (reduce) return;
                 var visible = false;
-                new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; }, { threshold: 0.15 }).observe(wrap.parentElement);
-                function rand(a, b) { return a + Math.random() * (b - a); }
+                new IntersectionObserver(
+                    function (entries) {
+                        visible = entries[0].isIntersecting;
+                    },
+                    { threshold: 0.15 },
+                ).observe(wrap.parentElement);
+                function rand(a, b) {
+                    return a + Math.random() * (b - a);
+                }
                 function pickCol() {
                     var opts = [];
-                    for (var c = 0; c < N; c++) if (cols[c].offsetParent !== null && !busy[c] && c !== lastCol) opts.push(c);
-                    return opts.length ? opts[Math.floor(Math.random() * opts.length)] : -1;
+                    for (var c = 0; c < N; c++)
+                        if (
+                            cols[c].offsetParent !== null &&
+                            !busy[c] &&
+                            c !== lastCol
+                        )
+                            opts.push(c);
+                    return opts.length
+                        ? opts[Math.floor(Math.random() * opts.length)]
+                        : -1;
                 }
                 function pickImg(c) {
                     var opts = [];
-                    for (var i = 0; i < POOL.length; i++) if (current.indexOf(i) === -1) opts.push(i);
-                    return opts.length ? opts[Math.floor(Math.random() * opts.length)] : current[c];
+                    for (var i = 0; i < POOL.length; i++)
+                        if (current.indexOf(i) === -1) opts.push(i);
+                    return opts.length
+                        ? opts[Math.floor(Math.random() * opts.length)]
+                        : current[c];
                 }
                 function swap(c) {
                     var layers = cols[c].querySelectorAll(".pq-col-layer");
-                    var cur = layers[active[c]], nxt = layers[1 - active[c]];
+                    var cur = layers[active[c]],
+                        nxt = layers[1 - active[c]];
                     var img = pickImg(c);
                     busy[c] = true;
                     setBg(nxt, POOL[img], function () {
                         void nxt.offsetWidth;
-                        nxt.classList.add("on"); cur.classList.remove("on");
-                        active[c] = 1 - active[c]; current[c] = img;
-                        setTimeout(function () { busy[c] = false; }, 850);
+                        nxt.classList.add("on");
+                        cur.classList.remove("on");
+                        active[c] = 1 - active[c];
+                        current[c] = img;
+                        setTimeout(function () {
+                            busy[c] = false;
+                        }, 850);
                     });
                     lastCol = c;
                 }
@@ -1434,7 +2906,14 @@
                     if (visible) {
                         var c = pickCol();
                         if (c !== -1) swap(c);
-                        if (Math.random() < 0.35) setTimeout(function () { var c2 = pickCol(); if (c2 !== -1) swap(c2); }, rand(180, 420));
+                        if (Math.random() < 0.35)
+                            setTimeout(
+                                function () {
+                                    var c2 = pickCol();
+                                    if (c2 !== -1) swap(c2);
+                                },
+                                rand(180, 420),
+                            );
                     }
                     setTimeout(tick, rand(700, 2200));
                 }
