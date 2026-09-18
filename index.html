@@ -2619,6 +2619,23 @@
                     }
                 }
             }
+            /* 🔜 chegando logo — features prontas por dentro, atrás de portas que abrem em ondas */
+            .soon {
+                display: inline-flex; align-items: center; gap: 6px;
+                font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10.5px;
+                letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;
+                color: var(--orange-deep); background: rgba(244, 81, 30, 0.08);
+                border: 1px solid rgba(244, 81, 30, 0.45); border-radius: 999px;
+                padding: 3px 9px; vertical-align: middle; white-space: nowrap;
+            }
+            .soon::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); }
+            .bhead .soon { margin-left: 10px; }
+            .pcard .soon { margin-top: 12px; }
+            .soon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+            @media (max-width: 900px) { .soon-grid { grid-template-columns: 1fr 1fr; } }
+            @media (max-width: 600px) { .soon-grid { grid-template-columns: 1fr; } }
+            .soon-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 30px; padding: 14px 22px; border-radius: 999px; background: var(--ink); color: var(--creme); text-decoration: none; font-weight: 600; font-size: 14px; }
+            .soon-cta:hover { background: var(--orange); }
         </style>
     </head>
     <body>
@@ -2633,7 +2650,7 @@
             <div class="navlinks">
                 <a href="#filosofia">Filosofia</a><a href="#comercial">Vídeo</a
                 ><a href="#anonimato">Anonimato</a><a href="#pro">PRO</a
-                ><a href="#selos">Selos</a><a href="#manifesto">Manifesto</a><a href="movimento/" style="color: var(--orange); font-weight: 600">Shop</a>
+                ><a href="#selos">Selos</a><a href="#manifesto">Manifesto</a><a href="em-breve" style="color: var(--orange-deep)">Em breve</a><a href="movimento/" style="color: var(--orange); font-weight: 600">Shop</a>
                 <div class="langsel" id="langsel">
                     <button class="langsel-btn" id="langselBtn">
                         <span class="flag"
@@ -2856,7 +2873,7 @@
                     </div>
                 </div>
                 <a
-                    href="https://firebasestorage.googleapis.com/v0/b/taggedapp-12645.firebasestorage.app/o/apk%2Ftagged-latest.apk?alt=media&token=912d450a-40aa-4dc1-aebb-fd523ed4d38c"
+                    href="https://github.com/Erlingsjunior/tagged-releases/releases/latest/download/tagged-latest.apk"
                     class="navcta"
                     download
                     >Baixar App</a
@@ -2944,7 +2961,7 @@
             </div>
             <div class="hactions">
                 <a
-                    href="https://firebasestorage.googleapis.com/v0/b/taggedapp-12645.firebasestorage.app/o/apk%2Ftagged-latest.apk?alt=media&token=912d450a-40aa-4dc1-aebb-fd523ed4d38c"
+                    href="https://github.com/Erlingsjunior/tagged-releases/releases/latest/download/tagged-latest.apk"
                     class="btn-dl"
                     download
                     ><svg
@@ -3683,7 +3700,7 @@
                 <div>
                     <span class="dot">●</span>BOARD 07 OF 16 — JORNALISMO REAL
                 </div>
-                <div>NOTÍCIA DE GENTE, PARA GENTE</div>
+                <div>NOTÍCIA DE GENTE, PARA GENTE <span class="soon">chegando logo · onda 2</span></div>
             </div>
             <div class="btitle-row reveal">
                 <h2 class="btitle">
@@ -3694,7 +3711,8 @@
                 <p class="bdesc">
                     Gente que se formou e vive aquilo intensamente, não um
                     apanhado fútil de quem nunca esteve lá. De quem entende,
-                    para quem vive. Você.
+                    para quem vive. Você. <strong>Ler matérias já dá; produzir
+                    abre com os primeiros profissionais verificados.</strong>
                 </p>
             </div>
             <div class="prof-row" style="margin-top: 40px">
@@ -3797,7 +3815,7 @@
                     <span class="dot">●</span>BOARD 08 OF 16 — MODELOS DE
                     POSTAGEM
                 </div>
-                <div>CADA VOZ TEM SEU FORMATO</div>
+                <div>CADA VOZ TEM SEU FORMATO <span class="soon">formatos PRO chegando logo</span></div>
             </div>
             <div class="btitle-row reveal">
                 <h2 class="btitle">
@@ -3860,7 +3878,7 @@
                             <path d="M8 7h8M8 11h8M8 15h5" />
                         </svg>
                     </div>
-                    <h3>PRO · Jornalismo</h3>
+                    <h3>PRO · Jornalismo <span class="soon">em breve</span></h3>
                     <div class="big" style="font-size: 21px">Matéria</div>
                     <p>Manchetes com título, lead, corpo e fontes.</p>
                     <p
@@ -3893,7 +3911,7 @@
                             <path d="M8 7h8M8 11h8M8 15h5" />
                         </svg>
                     </div>
-                    <h3>PRO · Mídia</h3>
+                    <h3>PRO · Mídia <span class="soon">em breve</span></h3>
                     <div class="big" style="font-size: 21px">Podcast</div>
                     <p>Player de áudio e vídeo nativo no feed.</p>
                     <p
@@ -3926,7 +3944,7 @@
                             <path d="M8 7h8M8 11h8M8 15h5" />
                         </svg>
                     </div>
-                    <h3>PRO · Ciência</h3>
+                    <h3>PRO · Ciência <span class="soon">em breve</span></h3>
                     <div class="big" style="font-size: 21px">Artigo</div>
                     <p>Pesquisa com metodologia e credencial.</p>
                     <p
@@ -3959,7 +3977,7 @@
                             <path d="M8 7h8M8 11h8M8 15h5" />
                         </svg>
                     </div>
-                    <h3>PRO · Verificação</h3>
+                    <h3>PRO · Verificação <span class="soon">em breve</span></h3>
                     <div class="big" style="font-size: 21px">
                         Contesta Fake News
                     </div>
@@ -3994,7 +4012,7 @@
                             <path d="M8 7h8M8 11h8M8 15h5" />
                         </svg>
                     </div>
-                    <h3>PRO · Consulta</h3>
+                    <h3>PRO · Consulta <span class="soon">em breve</span></h3>
                     <div class="big" style="font-size: 21px">Enquete</div>
                     <p>Consulta em tempo real, só verificados.</p>
                     <p
@@ -4162,7 +4180,7 @@
         <section class="section section-alt board" id="chat">
             <div class="bhead reveal">
                 <div><span class="dot">●</span>BOARD 10 OF 16 — CHAT</div>
-                <div>CONVERSA QUE MOBILIZA</div>
+                <div>CONVERSA QUE MOBILIZA <span class="soon">chat na denúncia · chegando logo</span></div>
             </div>
             <div class="btitle-row reveal">
                 <h2 class="btitle">
@@ -4270,7 +4288,7 @@
                 <div>
                     <span class="dot">●</span>BOARD 11 OF 16 — ORGANIZAÇÕES
                 </div>
-                <div>A PONTE · PESSOA ↔ ORGANIZAÇÃO</div>
+                <div>A PONTE · PESSOA ↔ ORGANIZAÇÃO <span class="soon">eventos e painel · chegando logo</span></div>
             </div>
             <div class="btitle-row reveal">
                 <h2 class="btitle">
@@ -4605,6 +4623,87 @@
                 ><span>13 / 16</span>
             </div>
         </section>
+        <section class="section section-alt board" id="em-breve">
+            <div class="bhead reveal">
+                <div>
+                    <span class="dot">●</span>BOARD 13½ OF 16 — CHEGANDO LOGO
+                </div>
+                <div>PRONTO POR DENTRO · ABRE EM ONDAS</div>
+            </div>
+            <div class="btitle-row reveal">
+                <h2 class="btitle">
+                    O que vem<br /><span class="serif">por aí.</span>
+                </h2>
+                <p class="bdesc">
+                    A Tagged já nasceu grande por dentro. Cada ferramenta abre quando
+                    a comunidade que vai usá-la já existe. Tudo abaixo está construído,
+                    testado e esperando a hora certa.
+                </p>
+            </div>
+            <div class="soon-grid">
+                <div class="pcard reveal" style="text-align: left; border-top: 3px solid #1d4ed8">
+                    <div class="ic" style="background: #1d4ed8"><span style="font-size: 20px">🏛️</span></div>
+                    <div class="big" style="font-size: 20px">Transparência</div>
+                    <p>Ficha dos políticos, gastos e votações traduzidas do juridiquês. Cite um político na denúncia.</p>
+                    <span class="soon">onda 1</span>
+                </div>
+                <div class="pcard reveal" style="text-align: left; border-top: 3px solid #0f766e">
+                    <div class="ic" style="background: #0f766e"><span style="font-size: 20px">💬</span></div>
+                    <div class="big" style="font-size: 20px">Chat dentro da denúncia</div>
+                    <p>Quem assinou conversa no mesmo lugar e articula a próxima ação sem sair do caso.</p>
+                    <span class="soon">onda 1</span>
+                </div>
+                <div class="pcard reveal" style="text-align: left; border-top: 3px solid #0891b2">
+                    <div class="ic" style="background: #0891b2"><span style="font-size: 20px">🏢</span></div>
+                    <div class="big" style="font-size: 20px">Postar como organização</div>
+                    <p>ONGs e empresas publicam com a própria voz e ligam a denúncia a uma campanha.</p>
+                    <span class="soon">onda 1</span>
+                </div>
+                <div class="pcard reveal" style="text-align: left; border-top: 3px solid #2563eb">
+                    <div class="ic" style="background: #2563eb"><span style="font-size: 20px">📰</span></div>
+                    <div class="big" style="font-size: 20px">TagStudio e Podcasts</div>
+                    <p>Manchete, reportagem, entrevista, fact-check e enquete. Mesa de podcast com transcrição.</p>
+                    <span class="soon">onda 2</span>
+                </div>
+                <div class="pcard reveal" style="text-align: left; border-top: 3px solid #f4511e">
+                    <div class="ic" style="background: #f4511e"><span style="font-size: 20px">🎟️</span></div>
+                    <div class="big" style="font-size: 20px">Eventos e ingressos</div>
+                    <p>Evento na organização, ingresso por PIX e check-in por QR. Mobilização com data marcada.</p>
+                    <span class="soon">onda 2</span>
+                </div>
+                <div class="pcard reveal" style="text-align: left; border-top: 3px solid #0f766e">
+                    <div class="ic" style="background: #0f766e"><span style="font-size: 20px">🧰</span></div>
+                    <div class="big" style="font-size: 20px">Serviços e agenda</div>
+                    <p>Divulgue o serviço, receba agendamentos, cobre por PIX e cuide das finanças no app.</p>
+                    <span class="soon">onda 3</span>
+                </div>
+                <div class="pcard reveal" style="text-align: left; border-top: 3px solid #d63e12">
+                    <div class="ic" style="background: #d63e12"><span style="font-size: 20px">🚀</span></div>
+                    <div class="big" style="font-size: 20px">Turbinar</div>
+                    <p>Alcance para denúncia, taggy, matéria ou evento. Quem paga aparece marcado.</p>
+                    <span class="soon">onda 3</span>
+                </div>
+                <div class="pcard reveal" style="text-align: left; border-top: 3px solid #7c3aed">
+                    <div class="ic" style="background: #7c3aed"><span style="font-size: 20px">💎</span></div>
+                    <div class="big" style="font-size: 20px">Tagged Premium</div>
+                    <p>IA sem limite, TagStudio, leque de selos, taggys longos e chat profundo na denúncia.</p>
+                    <span class="soon">onda 3</span>
+                </div>
+                <div class="pcard reveal" style="text-align: left; border-top: 3px solid #1a1614">
+                    <div class="ic" style="background: #1a1614"><span style="font-size: 20px">📊</span></div>
+                    <div class="big" style="font-size: 20px">Letreiro e Intelligence</div>
+                    <p>Anuncie no letreiro do feed e veja o impacto real da sua organização na cidade.</p>
+                    <span class="soon">onda 4</span>
+                </div>
+            </div>
+            <div class="reveal" style="text-align: center">
+                <a class="soon-cta" href="em-breve">Ver o roteiro completo do que vem por aí →</a>
+            </div>
+            <div class="bfoot reveal">
+                <span>● 13½ · CHEGANDO LOGO</span><span>UMA PORTA POR VEZ</span
+                ><span>13½ / 16</span>
+            </div>
+        </section>
         <section
             class="human-sec"
             style="
@@ -4806,7 +4905,7 @@
             </div>
             <div class="hactions" style="justify-content: center">
                 <a
-                    href="https://firebasestorage.googleapis.com/v0/b/taggedapp-12645.firebasestorage.app/o/apk%2Ftagged-latest.apk?alt=media&token=912d450a-40aa-4dc1-aebb-fd523ed4d38c"
+                    href="https://github.com/Erlingsjunior/tagged-releases/releases/latest/download/tagged-latest.apk"
                     class="btn-dl"
                     download
                     ><svg
